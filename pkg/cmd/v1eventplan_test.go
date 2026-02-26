@@ -58,6 +58,42 @@ func TestV1EventsPlansRetrieve(t *testing.T) {
 	)
 }
 
+func TestV1EventsPlansUpdate(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:events:plans", "update",
+		"--id", "x",
+		"--billing-id", "billingId",
+		"--compatible-addon-id", "[string]",
+		"--default-trial-config", "{duration: 0, units: DAY, budget: {hasSoftLimit: true, limit: 0}, trialEndBehavior: CONVERT_TO_PAID}",
+		"--description", "description",
+		"--display-name", "displayName",
+		"--metadata", "{foo: string}",
+		"--parent-plan-id", "parentPlanId",
+	)
+
+	// Check that inner flags have been set up correctly
+	requestflag.CheckInnerFlags(v1EventsPlansUpdate)
+
+	// Alternative argument passing style using inner flags
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:events:plans", "update",
+		"--id", "x",
+		"--billing-id", "billingId",
+		"--compatible-addon-id", "[string]",
+		"--default-trial-config.duration", "0",
+		"--default-trial-config.units", "DAY",
+		"--default-trial-config.budget", "{hasSoftLimit: true, limit: 0}",
+		"--default-trial-config.trial-end-behavior", "CONVERT_TO_PAID",
+		"--description", "description",
+		"--display-name", "displayName",
+		"--metadata", "{foo: string}",
+		"--parent-plan-id", "parentPlanId",
+	)
+}
+
 func TestV1EventsPlansList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
@@ -87,5 +123,72 @@ func TestV1EventsPlansList(t *testing.T) {
 		"--limit", "1",
 		"--product-id", "productId",
 		"--status", "status",
+	)
+}
+
+func TestV1EventsPlansArchive(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:events:plans", "archive",
+		"--id", "x",
+	)
+}
+
+func TestV1EventsPlansPublish(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:events:plans", "publish",
+		"--id", "x",
+		"--migration-type", "NEW_CUSTOMERS",
+	)
+}
+
+func TestV1EventsPlansSetPricing(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:events:plans", "set-pricing",
+		"--id", "x",
+		"--pricing-type", "FREE",
+		"--billing-id", "billingId",
+		"--minimum-spend", "[{billingPeriod: MONTHLY, minimum: {amount: 0, currency: usd}}]",
+		"--overage-billing-period", "ON_SUBSCRIPTION_RENEWAL",
+		"--overage-pricing-model", "{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, entitlement: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}, featureId: featureId, topUpCustomCurrencyId: topUpCustomCurrencyId}",
+		"--pricing-model", "{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, featureId: featureId, maxUnitQuantity: 1, minUnitQuantity: 1, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, tiersMode: VOLUME, topUpCustomCurrencyId: topUpCustomCurrencyId, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
+	)
+
+	// Check that inner flags have been set up correctly
+	requestflag.CheckInnerFlags(v1EventsPlansSetPricing)
+
+	// Alternative argument passing style using inner flags
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:events:plans", "set-pricing",
+		"--id", "x",
+		"--pricing-type", "FREE",
+		"--billing-id", "billingId",
+		"--minimum-spend.billing-period", "MONTHLY",
+		"--minimum-spend.minimum", "{amount: 0, currency: usd}",
+		"--overage-billing-period", "ON_SUBSCRIPTION_RENEWAL",
+		"--overage-pricing-model.billing-model", "FLAT_FEE",
+		"--overage-pricing-model.price-periods", "[{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}]",
+		"--overage-pricing-model.billing-cadence", "RECURRING",
+		"--overage-pricing-model.entitlement", "{featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
+		"--overage-pricing-model.feature-id", "featureId",
+		"--overage-pricing-model.top-up-custom-currency-id", "topUpCustomCurrencyId",
+		"--pricing-model.billing-model", "FLAT_FEE",
+		"--pricing-model.price-periods", "[{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}]",
+		"--pricing-model.billing-cadence", "RECURRING",
+		"--pricing-model.feature-id", "featureId",
+		"--pricing-model.max-unit-quantity", "1",
+		"--pricing-model.min-unit-quantity", "1",
+		"--pricing-model.monthly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
+		"--pricing-model.reset-period", "YEAR",
+		"--pricing-model.tiers-mode", "VOLUME",
+		"--pricing-model.top-up-custom-currency-id", "topUpCustomCurrencyId",
+		"--pricing-model.weekly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
+		"--pricing-model.yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
 	)
 }
