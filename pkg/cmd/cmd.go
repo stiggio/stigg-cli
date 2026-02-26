@@ -188,6 +188,7 @@ func init() {
 					&v1EventsAddonsListAddons,
 					&v1EventsAddonsPublishAddon,
 					&v1EventsAddonsRetrieveAddon,
+					&v1EventsAddonsSetPricing,
 					&v1EventsAddonsUpdateAddon,
 				},
 			},
@@ -201,13 +202,48 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:events:addons:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsAddonsEntitlementsCreate,
+					&v1EventsAddonsEntitlementsUpdate,
+					&v1EventsAddonsEntitlementsList,
+					&v1EventsAddonsEntitlementsDelete,
+				},
+			},
+			{
 				Name:     "v1:events:plans",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1EventsPlansCreate,
 					&v1EventsPlansRetrieve,
+					&v1EventsPlansUpdate,
 					&v1EventsPlansList,
+					&v1EventsPlansArchive,
+					&v1EventsPlansPublish,
+					&v1EventsPlansSetPricing,
+				},
+			},
+			{
+				Name:     "v1:events:plans:draft",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsPlansDraftCreate,
+					&v1EventsPlansDraftRemove,
+				},
+			},
+			{
+				Name:     "v1:events:plans:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsPlansEntitlementsCreate,
+					&v1EventsPlansEntitlementsUpdate,
+					&v1EventsPlansEntitlementsList,
+					&v1EventsPlansEntitlementsDelete,
 				},
 			},
 			{
