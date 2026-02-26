@@ -9,36 +9,42 @@ import (
 
 	"github.com/stainless-sdks/stigg-cli/internal/apiquery"
 	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
-	"github.com/stainless-sdks/stigg-go"
-	"github.com/stainless-sdks/stigg-go/option"
+	"github.com/stiggio/stigg-go"
+	"github.com/stiggio/stigg-go/option"
 	"github.com/tidwall/gjson"
 	"github.com/urfave/cli/v3"
 )
 
 var v1CustomersPaymentMethodAttach = cli.Command{
-	Name:  "attach",
-	Usage: "Perform payment-method attachment on a Customer",
+	Name:    "attach",
+	Usage:   "Attaches a payment method to a customer for billing. Required for paid\nsubscriptions when integrated with a billing provider.",
+	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name: "id",
+			Name:     "id",
+			Required: true,
 		},
 		&requestflag.Flag[string]{
 			Name:     "integration-id",
 			Usage:    "Integration details",
+			Required: true,
 			BodyPath: "integrationId",
 		},
 		&requestflag.Flag[string]{
 			Name:     "payment-method-id",
 			Usage:    "Billing provider payment method id",
+			Required: true,
 			BodyPath: "paymentMethodId",
 		},
 		&requestflag.Flag[string]{
 			Name:     "vendor-identifier",
 			Usage:    "The vendor identifier of integration",
+			Required: true,
 			BodyPath: "vendorIdentifier",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[any]{
 			Name:     "billing-currency",
+			Usage:    "Customers selected currency",
 			BodyPath: "billingCurrency",
 		},
 	},
@@ -47,11 +53,13 @@ var v1CustomersPaymentMethodAttach = cli.Command{
 }
 
 var v1CustomersPaymentMethodDetach = cli.Command{
-	Name:  "detach",
-	Usage: "Perform payment-method detachment on a Customer",
+	Name:    "detach",
+	Usage:   "Removes the payment method from a customer. Ensure active paid subscriptions\nhave an alternative payment method.",
+	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name: "id",
+			Name:     "id",
+			Required: true,
 		},
 	},
 	Action:          handleV1CustomersPaymentMethodDetach,

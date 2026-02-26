@@ -494,6 +494,65 @@ func TestYamlHandling(t *testing.T) {
 		}
 	})
 
+	t.Run("Parse @file.txt as YAML", func(t *testing.T) {
+		flag := &Flag[any]{
+			Name:    "file-flag",
+			Default: nil,
+		}
+		assert.NoError(t, flag.PreParse())
+		assert.NoError(t, flag.Set("file-flag", "@file.txt"))
+
+		val := flag.Get()
+		assert.Equal(t, "@file.txt", val)
+	})
+
+	t.Run("Parse @file.txt list as YAML", func(t *testing.T) {
+		flag := &Flag[[]any]{
+			Name:    "file-flag",
+			Default: nil,
+		}
+		assert.NoError(t, flag.PreParse())
+		assert.NoError(t, flag.Set("file-flag", "@file1.txt"))
+		assert.NoError(t, flag.Set("file-flag", "@file2.txt"))
+
+		val := flag.Get()
+		assert.Equal(t, []any{"@file1.txt", "@file2.txt"}, val)
+	})
+
+	t.Run("Parse identifiers as YAML", func(t *testing.T) {
+		tests := []string{
+			"hello",
+			"e4e355fa-b03b-4c57-a73d-25c9733eec79",
+			"foo_bar",
+			"Color.Red",
+			"aGVsbG8=",
+		}
+		for _, test := range tests {
+			flag := &Flag[any]{
+				Name:    "flag",
+				Default: nil,
+			}
+			assert.NoError(t, flag.PreParse())
+			assert.NoError(t, flag.Set("flag", test))
+
+			val := flag.Get()
+			assert.Equal(t, test, val)
+		}
+
+		for _, test := range tests {
+			flag := &Flag[[]any]{
+				Name:    "identifier",
+				Default: nil,
+			}
+			assert.NoError(t, flag.PreParse())
+			assert.NoError(t, flag.Set("identifier", test))
+			assert.NoError(t, flag.Set("identifier", test))
+
+			val := flag.Get()
+			assert.Equal(t, []any{test, test}, val)
+		}
+	})
+
 	// Test with invalid YAML
 	t.Run("Parse invalid YAML", func(t *testing.T) {
 		invalidYaml := `[not closed`
@@ -501,4 +560,31 @@ func TestYamlHandling(t *testing.T) {
 		err := cv.Set(invalidYaml)
 		assert.Error(t, err)
 	})
+}
+
+func TestFlagTypeNames(t *testing.T) {
+	tests := []struct {
+		name     string
+		flag     cli.DocGenerationFlag
+		expected string
+	}{
+		{"string", &Flag[string]{}, "string"},
+		{"int64", &Flag[int64]{}, "int"},
+		{"float64", &Flag[float64]{}, "float"},
+		{"bool", &Flag[bool]{}, "boolean"},
+		{"string slice", &Flag[[]string]{}, "string"},
+		{"date", &Flag[DateValue]{}, "date"},
+		{"datetime", &Flag[DateTimeValue]{}, "datetime"},
+		{"time", &Flag[TimeValue]{}, "time"},
+		{"date slice", &Flag[[]DateValue]{}, "date"},
+		{"datetime slice", &Flag[[]DateTimeValue]{}, "datetime"},
+		{"time slice", &Flag[[]TimeValue]{}, "time"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			typeName := tt.flag.TypeName()
+			assert.Equal(t, tt.expected, typeName, "Expected type name %q, got %q", tt.expected, typeName)
+		})
+	}
 }

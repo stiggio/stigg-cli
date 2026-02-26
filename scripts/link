@@ -13,4 +13,4 @@ fi
 
 echo "==> Linking with local directory"
 go mod tidy -e
-go mod edit -replace github.com/stainless-sdks/stigg-go="$LOCAL_GO"
+go mod edit -replace github.com/stiggio/stigg-go="$LOCAL_GO"
