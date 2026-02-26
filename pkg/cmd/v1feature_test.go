@@ -9,20 +9,20 @@ import (
 	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
 )
 
-func TestV1EventsFeaturesArchiveFeature(t *testing.T) {
+func TestV1FeaturesArchiveFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "archive-feature",
+		"v1:features", "archive-feature",
 		"--id", "x",
 	)
 }
 
-func TestV1EventsFeaturesCreateFeature(t *testing.T) {
+func TestV1FeaturesCreateFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "create-feature",
+		"v1:features", "create-feature",
 		"--id", "id",
 		"--display-name", "displayName",
 		"--feature-type", "BOOLEAN",
@@ -37,12 +37,12 @@ func TestV1EventsFeaturesCreateFeature(t *testing.T) {
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsFeaturesCreateFeature)
+	requestflag.CheckInnerFlags(v1FeaturesCreateFeature)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "create-feature",
+		"v1:features", "create-feature",
 		"--id", "id",
 		"--display-name", "displayName",
 		"--feature-type", "BOOLEAN",
@@ -61,11 +61,11 @@ func TestV1EventsFeaturesCreateFeature(t *testing.T) {
 	)
 }
 
-func TestV1EventsFeaturesListFeatures(t *testing.T) {
+func TestV1FeaturesListFeatures(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "list-features",
+		"v1:features", "list-features",
 		"--id", "id",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -77,12 +77,12 @@ func TestV1EventsFeaturesListFeatures(t *testing.T) {
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsFeaturesListFeatures)
+	requestflag.CheckInnerFlags(v1FeaturesListFeatures)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "list-features",
+		"v1:features", "list-features",
 		"--id", "id",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -97,29 +97,29 @@ func TestV1EventsFeaturesListFeatures(t *testing.T) {
 	)
 }
 
-func TestV1EventsFeaturesRetrieveFeature(t *testing.T) {
+func TestV1FeaturesRetrieveFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "retrieve-feature",
+		"v1:features", "retrieve-feature",
 		"--id", "x",
 	)
 }
 
-func TestV1EventsFeaturesUnarchiveFeature(t *testing.T) {
+func TestV1FeaturesUnarchiveFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "unarchive-feature",
+		"v1:features", "unarchive-feature",
 		"--id", "x",
 	)
 }
 
-func TestV1EventsFeaturesUpdateFeature(t *testing.T) {
+func TestV1FeaturesUpdateFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "update-feature",
+		"v1:features", "update-feature",
 		"--id", "x",
 		"--description", "description",
 		"--display-name", "displayName",
@@ -132,12 +132,12 @@ func TestV1EventsFeaturesUpdateFeature(t *testing.T) {
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsFeaturesUpdateFeature)
+	requestflag.CheckInnerFlags(v1FeaturesUpdateFeature)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:features", "update-feature",
+		"v1:features", "update-feature",
 		"--id", "x",
 		"--description", "description",
 		"--display-name", "displayName",

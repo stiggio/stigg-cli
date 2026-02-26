@@ -15,22 +15,8 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsAddonsArchiveAddon = cli.Command{
-	Name:    "archive-addon",
-	Usage:   "Archives an addon, preventing it from being used in new subscriptions.",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
-		},
-	},
-	Action:          handleV1EventsAddonsArchiveAddon,
-	HideHelpCommand: true,
-}
-
-var v1EventsAddonsCreateAddon = cli.Command{
-	Name:    "create-addon",
+var v1AddonsCreate = cli.Command{
+	Name:    "create",
 	Usage:   "Creates a new addon in draft status, associated with a specific product.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -83,12 +69,70 @@ var v1EventsAddonsCreateAddon = cli.Command{
 			BodyPath: "status",
 		},
 	},
-	Action:          handleV1EventsAddonsCreateAddon,
+	Action:          handleV1AddonsCreate,
 	HideHelpCommand: true,
 }
 
-var v1EventsAddonsListAddons = requestflag.WithInnerFlags(cli.Command{
-	Name:    "list-addons",
+var v1AddonsRetrieve = cli.Command{
+	Name:    "retrieve",
+	Usage:   "Retrieves an addon by its unique identifier, including entitlements and pricing\ndetails.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "id",
+			Required: true,
+		},
+	},
+	Action:          handleV1AddonsRetrieve,
+	HideHelpCommand: true,
+}
+
+var v1AddonsUpdate = cli.Command{
+	Name:    "update",
+	Usage:   "Updates an existing addon's properties such as display name, description, and\nmetadata.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "id",
+			Required: true,
+		},
+		&requestflag.Flag[any]{
+			Name:     "billing-id",
+			Usage:    "The unique identifier for the entity in the billing provider",
+			BodyPath: "billingId",
+		},
+		&requestflag.Flag[any]{
+			Name:     "dependency",
+			Usage:    "List of addons the addon is dependant on",
+			BodyPath: "dependencies",
+		},
+		&requestflag.Flag[any]{
+			Name:     "description",
+			Usage:    "The description of the package",
+			BodyPath: "description",
+		},
+		&requestflag.Flag[string]{
+			Name:     "display-name",
+			Usage:    "The display name of the package",
+			BodyPath: "displayName",
+		},
+		&requestflag.Flag[any]{
+			Name:     "max-quantity",
+			Usage:    "The maximum quantity of this addon that can be added to a subscription",
+			BodyPath: "maxQuantity",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "metadata",
+			Usage:    "Metadata associated with the entity",
+			BodyPath: "metadata",
+		},
+	},
+	Action:          handleV1AddonsUpdate,
+	HideHelpCommand: true,
+}
+
+var v1AddonsList = requestflag.WithInnerFlags(cli.Command{
+	Name:    "list",
 	Usage:   "Retrieves a paginated list of addons in the environment.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -124,7 +168,7 @@ var v1EventsAddonsListAddons = requestflag.WithInnerFlags(cli.Command{
 			QueryPath: "status",
 		},
 	},
-	Action:          handleV1EventsAddonsListAddons,
+	Action:          handleV1AddonsList,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"created-at": {
@@ -151,8 +195,36 @@ var v1EventsAddonsListAddons = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsAddonsPublishAddon = cli.Command{
-	Name:    "publish-addon",
+var v1AddonsArchive = cli.Command{
+	Name:    "archive",
+	Usage:   "Archives an addon, preventing it from being used in new subscriptions.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "id",
+			Required: true,
+		},
+	},
+	Action:          handleV1AddonsArchive,
+	HideHelpCommand: true,
+}
+
+var v1AddonsCreateDraft = cli.Command{
+	Name:    "create-draft",
+	Usage:   "Creates a draft version of an existing addon for modification before publishing.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "id",
+			Required: true,
+		},
+	},
+	Action:          handleV1AddonsCreateDraft,
+	HideHelpCommand: true,
+}
+
+var v1AddonsPublish = cli.Command{
+	Name:    "publish",
 	Usage:   "Publishes a draft addon, making it available for use in subscriptions.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -167,13 +239,13 @@ var v1EventsAddonsPublishAddon = cli.Command{
 			BodyPath: "migrationType",
 		},
 	},
-	Action:          handleV1EventsAddonsPublishAddon,
+	Action:          handleV1AddonsPublish,
 	HideHelpCommand: true,
 }
 
-var v1EventsAddonsRetrieveAddon = cli.Command{
-	Name:    "retrieve-addon",
-	Usage:   "Retrieves an addon by its unique identifier, including entitlements and pricing\ndetails.",
+var v1AddonsRemoveDraft = cli.Command{
+	Name:    "remove-draft",
+	Usage:   "Removes a draft version of an addon.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -181,11 +253,11 @@ var v1EventsAddonsRetrieveAddon = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsAddonsRetrieveAddon,
+	Action:          handleV1AddonsRemoveDraft,
 	HideHelpCommand: true,
 }
 
-var v1EventsAddonsSetPricing = requestflag.WithInnerFlags(cli.Command{
+var v1AddonsSetPricing = requestflag.WithInnerFlags(cli.Command{
 	Name:    "set-pricing",
 	Usage:   "Sets the pricing configuration for an addon.",
 	Suggest: true,
@@ -226,7 +298,7 @@ var v1EventsAddonsSetPricing = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "pricingModels",
 		},
 	},
-	Action:          handleV1EventsAddonsSetPricing,
+	Action:          handleV1AddonsSetPricing,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"minimum-spend": {
@@ -337,51 +409,41 @@ var v1EventsAddonsSetPricing = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsAddonsUpdateAddon = cli.Command{
-	Name:    "update-addon",
-	Usage:   "Updates an existing addon's properties such as display name, description, and\nmetadata.",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
-		},
-		&requestflag.Flag[any]{
-			Name:     "billing-id",
-			Usage:    "The unique identifier for the entity in the billing provider",
-			BodyPath: "billingId",
-		},
-		&requestflag.Flag[any]{
-			Name:     "dependency",
-			Usage:    "List of addons the addon is dependant on",
-			BodyPath: "dependencies",
-		},
-		&requestflag.Flag[any]{
-			Name:     "description",
-			Usage:    "The description of the package",
-			BodyPath: "description",
-		},
-		&requestflag.Flag[string]{
-			Name:     "display-name",
-			Usage:    "The display name of the package",
-			BodyPath: "displayName",
-		},
-		&requestflag.Flag[any]{
-			Name:     "max-quantity",
-			Usage:    "The maximum quantity of this addon that can be added to a subscription",
-			BodyPath: "maxQuantity",
-		},
-		&requestflag.Flag[map[string]any]{
-			Name:     "metadata",
-			Usage:    "Metadata associated with the entity",
-			BodyPath: "metadata",
-		},
-	},
-	Action:          handleV1EventsAddonsUpdateAddon,
-	HideHelpCommand: true,
+func handleV1AddonsCreate(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := stigg.V1AddonNewParams{}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Addons.New(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(os.Stdout, "v1:addons create", obj, format, transform)
 }
 
-func handleV1EventsAddonsArchiveAddon(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsRetrieve(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -405,7 +467,7 @@ func handleV1EventsAddonsArchiveAddon(ctx context.Context, cmd *cli.Command) err
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Addons.ArchiveAddon(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Addons.Get(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -413,18 +475,21 @@ func handleV1EventsAddonsArchiveAddon(ctx context.Context, cmd *cli.Command) err
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:addons archive-addon", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons retrieve", obj, format, transform)
 }
 
-func handleV1EventsAddonsCreateAddon(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsUpdate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventAddonNewAddonParams{}
+	params := stigg.V1AddonUpdateParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -439,7 +504,12 @@ func handleV1EventsAddonsCreateAddon(ctx context.Context, cmd *cli.Command) erro
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Addons.NewAddon(ctx, params, options...)
+	_, err = client.V1.Addons.Update(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -447,10 +517,10 @@ func handleV1EventsAddonsCreateAddon(ctx context.Context, cmd *cli.Command) erro
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:addons create-addon", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons update", obj, format, transform)
 }
 
-func handleV1EventsAddonsListAddons(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -458,7 +528,7 @@ func handleV1EventsAddonsListAddons(ctx context.Context, cmd *cli.Command) error
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventAddonListAddonsParams{}
+	params := stigg.V1AddonListParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -476,61 +546,19 @@ func handleV1EventsAddonsListAddons(ctx context.Context, cmd *cli.Command) error
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Addons.ListAddons(ctx, params, options...)
+		_, err = client.V1.Addons.List(ctx, params, options...)
 		if err != nil {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:events:addons list-addons", obj, format, transform)
+		return ShowJSON(os.Stdout, "v1:addons list", obj, format, transform)
 	} else {
-		iter := client.V1.Events.Addons.ListAddonsAutoPaging(ctx, params, options...)
-		return ShowJSONIterator(os.Stdout, "v1:events:addons list-addons", iter, format, transform)
+		iter := client.V1.Addons.ListAutoPaging(ctx, params, options...)
+		return ShowJSONIterator(os.Stdout, "v1:addons list", iter, format, transform)
 	}
 }
 
-func handleV1EventsAddonsPublishAddon(ctx context.Context, cmd *cli.Command) error {
-	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
-		cmd.Set("id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	params := stigg.V1EventAddonPublishAddonParams{}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatComma,
-		ApplicationJSON,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Addons.PublishAddon(
-		ctx,
-		cmd.Value("id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:addons publish-addon", obj, format, transform)
-}
-
-func handleV1EventsAddonsRetrieveAddon(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsArchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -554,7 +582,7 @@ func handleV1EventsAddonsRetrieveAddon(ctx context.Context, cmd *cli.Command) er
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Addons.GetAddon(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Addons.Archive(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -562,10 +590,10 @@ func handleV1EventsAddonsRetrieveAddon(ctx context.Context, cmd *cli.Command) er
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:addons retrieve-addon", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons archive", obj, format, transform)
 }
 
-func handleV1EventsAddonsSetPricing(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsCreateDraft(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -576,7 +604,42 @@ func handleV1EventsAddonsSetPricing(ctx context.Context, cmd *cli.Command) error
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventAddonSetPricingParams{}
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Addons.NewDraft(ctx, cmd.Value("id").(string), options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(os.Stdout, "v1:addons create-draft", obj, format, transform)
+}
+
+func handleV1AddonsPublish(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := stigg.V1AddonPublishParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -591,7 +654,7 @@ func handleV1EventsAddonsSetPricing(ctx context.Context, cmd *cli.Command) error
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Addons.SetPricing(
+	_, err = client.V1.Addons.Publish(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -604,10 +667,10 @@ func handleV1EventsAddonsSetPricing(ctx context.Context, cmd *cli.Command) error
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:addons set-pricing", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons publish", obj, format, transform)
 }
 
-func handleV1EventsAddonsUpdateAddon(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -618,7 +681,42 @@ func handleV1EventsAddonsUpdateAddon(ctx context.Context, cmd *cli.Command) erro
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventAddonUpdateAddonParams{}
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Addons.RemoveDraft(ctx, cmd.Value("id").(string), options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(os.Stdout, "v1:addons remove-draft", obj, format, transform)
+}
+
+func handleV1AddonsSetPricing(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := stigg.V1AddonSetPricingParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -633,7 +731,7 @@ func handleV1EventsAddonsUpdateAddon(ctx context.Context, cmd *cli.Command) erro
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Addons.UpdateAddon(
+	_, err = client.V1.Addons.SetPricing(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -646,5 +744,5 @@ func handleV1EventsAddonsUpdateAddon(ctx context.Context, cmd *cli.Command) erro
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:addons update-addon", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons set-pricing", obj, format, transform)
 }

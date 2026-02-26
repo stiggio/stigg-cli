@@ -9,11 +9,11 @@ import (
 	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
 )
 
-func TestV1EventsPlansCreate(t *testing.T) {
+func TestV1PlansCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "create",
+		"v1:plans", "create",
 		"--id", "id",
 		"--display-name", "displayName",
 		"--product-id", "productId",
@@ -27,12 +27,12 @@ func TestV1EventsPlansCreate(t *testing.T) {
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsPlansCreate)
+	requestflag.CheckInnerFlags(v1PlansCreate)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "create",
+		"v1:plans", "create",
 		"--id", "id",
 		"--display-name", "displayName",
 		"--product-id", "productId",
@@ -49,20 +49,20 @@ func TestV1EventsPlansCreate(t *testing.T) {
 	)
 }
 
-func TestV1EventsPlansRetrieve(t *testing.T) {
+func TestV1PlansRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "retrieve",
+		"v1:plans", "retrieve",
 		"--id", "x",
 	)
 }
 
-func TestV1EventsPlansUpdate(t *testing.T) {
+func TestV1PlansUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "update",
+		"v1:plans", "update",
 		"--id", "x",
 		"--billing-id", "billingId",
 		"--compatible-addon-id", "[string]",
@@ -74,12 +74,12 @@ func TestV1EventsPlansUpdate(t *testing.T) {
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsPlansUpdate)
+	requestflag.CheckInnerFlags(v1PlansUpdate)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "update",
+		"v1:plans", "update",
 		"--id", "x",
 		"--billing-id", "billingId",
 		"--compatible-addon-id", "[string]",
@@ -94,11 +94,11 @@ func TestV1EventsPlansUpdate(t *testing.T) {
 	)
 }
 
-func TestV1EventsPlansList(t *testing.T) {
+func TestV1PlansList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "list",
+		"v1:plans", "list",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
@@ -108,12 +108,12 @@ func TestV1EventsPlansList(t *testing.T) {
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsPlansList)
+	requestflag.CheckInnerFlags(v1PlansList)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "list",
+		"v1:plans", "list",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at.gt", "2019-12-27T18:11:19.117Z",
@@ -126,30 +126,48 @@ func TestV1EventsPlansList(t *testing.T) {
 	)
 }
 
-func TestV1EventsPlansArchive(t *testing.T) {
+func TestV1PlansArchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "archive",
+		"v1:plans", "archive",
 		"--id", "x",
 	)
 }
 
-func TestV1EventsPlansPublish(t *testing.T) {
+func TestV1PlansCreateDraft(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "publish",
+		"v1:plans", "create-draft",
+		"--id", "x",
+	)
+}
+
+func TestV1PlansPublish(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:plans", "publish",
 		"--id", "x",
 		"--migration-type", "NEW_CUSTOMERS",
 	)
 }
 
-func TestV1EventsPlansSetPricing(t *testing.T) {
+func TestV1PlansRemoveDraft(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "set-pricing",
+		"v1:plans", "remove-draft",
+		"--id", "x",
+	)
+}
+
+func TestV1PlansSetPricing(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	mocktest.TestRunMockTestWithFlags(
+		t,
+		"v1:plans", "set-pricing",
 		"--id", "x",
 		"--pricing-type", "FREE",
 		"--billing-id", "billingId",
@@ -160,12 +178,12 @@ func TestV1EventsPlansSetPricing(t *testing.T) {
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsPlansSetPricing)
+	requestflag.CheckInnerFlags(v1PlansSetPricing)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans", "set-pricing",
+		"v1:plans", "set-pricing",
 		"--id", "x",
 		"--pricing-type", "FREE",
 		"--billing-id", "billingId",
