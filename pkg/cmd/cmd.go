@@ -11,6 +11,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/stainless-sdks/stigg-cli/internal/autocomplete"
 	docs "github.com/urfave/cli-docs/v3"
 	"github.com/urfave/cli/v3"
 )
@@ -70,21 +71,165 @@ func init() {
 			{
 				Name:     "v1:customers",
 				Category: "API RESOURCE",
+				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1CustomersCreate,
 					&v1CustomersRetrieve,
 					&v1CustomersUpdate,
 					&v1CustomersList,
 					&v1CustomersArchive,
+					&v1CustomersImport,
+					&v1CustomersListResources,
+					&v1CustomersProvision,
 					&v1CustomersUnarchive,
 				},
 			},
 			{
 				Name:     "v1:customers:payment-method",
 				Category: "API RESOURCE",
+				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1CustomersPaymentMethodAttach,
 					&v1CustomersPaymentMethodDetach,
+				},
+			},
+			{
+				Name:     "v1:customers:promotional-entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CustomersPromotionalEntitlementsCreate,
+					&v1CustomersPromotionalEntitlementsList,
+					&v1CustomersPromotionalEntitlementsRevoke,
+				},
+			},
+			{
+				Name:     "v1:subscriptions",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1SubscriptionsRetrieve,
+					&v1SubscriptionsUpdate,
+					&v1SubscriptionsList,
+					&v1SubscriptionsCancel,
+					&v1SubscriptionsDelegate,
+					&v1SubscriptionsImport,
+					&v1SubscriptionsMigrate,
+					&v1SubscriptionsPreview,
+					&v1SubscriptionsProvision,
+					&v1SubscriptionsTransfer,
+				},
+			},
+			{
+				Name:     "v1:subscriptions:future-update",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1SubscriptionsFutureUpdateCancelPendingPayment,
+					&v1SubscriptionsFutureUpdateCancelSchedule,
+				},
+			},
+			{
+				Name:     "v1:subscriptions:usage",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1SubscriptionsUsageChargeUsage,
+					&v1SubscriptionsUsageSync,
+				},
+			},
+			{
+				Name:     "v1:subscriptions:invoice",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1SubscriptionsInvoiceMarkAsPaid,
+				},
+			},
+			{
+				Name:     "v1:coupons",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CouponsCreate,
+					&v1CouponsRetrieve,
+					&v1CouponsList,
+					&v1CouponsArchiveCoupon,
+					&v1CouponsUpdateCoupon,
+				},
+			},
+			{
+				Name:     "v1:events",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsReport,
+				},
+			},
+			{
+				Name:     "v1:events:features",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsFeaturesArchiveFeature,
+					&v1EventsFeaturesCreateFeature,
+					&v1EventsFeaturesListFeatures,
+					&v1EventsFeaturesRetrieveFeature,
+					&v1EventsFeaturesUnarchiveFeature,
+					&v1EventsFeaturesUpdateFeature,
+				},
+			},
+			{
+				Name:     "v1:events:addons",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsAddonsArchiveAddon,
+					&v1EventsAddonsCreateAddon,
+					&v1EventsAddonsListAddons,
+					&v1EventsAddonsPublishAddon,
+					&v1EventsAddonsRetrieveAddon,
+					&v1EventsAddonsUpdateAddon,
+				},
+			},
+			{
+				Name:     "v1:events:addons:draft",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsAddonsDraftCreateAddonDraft,
+					&v1EventsAddonsDraftRemoveAddonDraft,
+				},
+			},
+			{
+				Name:     "v1:events:plans",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsPlansCreate,
+					&v1EventsPlansRetrieve,
+					&v1EventsPlansList,
+				},
+			},
+			{
+				Name:     "v1:usage",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1UsageHistory,
+					&v1UsageReport,
+				},
+			},
+			{
+				Name:     "v1:products",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1ProductsArchiveProduct,
+					&v1ProductsCreateProduct,
+					&v1ProductsDuplicateProduct,
+					&v1ProductsListProducts,
+					&v1ProductsUnarchiveProduct,
+					&v1ProductsUpdateProduct,
 				},
 			},
 			{
@@ -115,10 +260,20 @@ func init() {
 					},
 				},
 			},
+			{
+				Name:            "__complete",
+				Hidden:          true,
+				HideHelpCommand: true,
+				Action:          autocomplete.ExecuteShellCompletion,
+			},
+			{
+				Name:            "@completion",
+				Hidden:          true,
+				HideHelpCommand: true,
+				Action:          autocomplete.OutputCompletionScript,
+			},
 		},
-		EnableShellCompletion:      true,
-		ShellCompletionCommandName: "@completion",
-		HideHelpCommand:            true,
+		HideHelpCommand: true,
 	}
 }
 
