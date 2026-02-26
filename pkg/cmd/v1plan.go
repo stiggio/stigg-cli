@@ -15,7 +15,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsPlansCreate = requestflag.WithInnerFlags(cli.Command{
+var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create",
 	Usage:   "Creates a new plan in draft status.",
 	Suggest: true,
@@ -74,7 +74,7 @@ var v1EventsPlansCreate = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "status",
 		},
 	},
-	Action:          handleV1EventsPlansCreate,
+	Action:          handleV1PlansCreate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"default-trial-config": {
@@ -101,7 +101,7 @@ var v1EventsPlansCreate = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsPlansRetrieve = cli.Command{
+var v1PlansRetrieve = cli.Command{
 	Name:    "retrieve",
 	Usage:   "Retrieves a plan by its unique identifier, including entitlements and pricing\ndetails.",
 	Suggest: true,
@@ -111,11 +111,11 @@ var v1EventsPlansRetrieve = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsPlansRetrieve,
+	Action:          handleV1PlansRetrieve,
 	HideHelpCommand: true,
 }
 
-var v1EventsPlansUpdate = requestflag.WithInnerFlags(cli.Command{
+var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update",
 	Usage:   "Updates an existing plan's properties such as display name, description, and\nmetadata.",
 	Suggest: true,
@@ -159,7 +159,7 @@ var v1EventsPlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "parentPlanId",
 		},
 	},
-	Action:          handleV1EventsPlansUpdate,
+	Action:          handleV1PlansUpdate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"default-trial-config": {
@@ -186,7 +186,7 @@ var v1EventsPlansUpdate = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsPlansList = requestflag.WithInnerFlags(cli.Command{
+var v1PlansList = requestflag.WithInnerFlags(cli.Command{
 	Name:    "list",
 	Usage:   "Retrieves a paginated list of plans in the environment.",
 	Suggest: true,
@@ -223,7 +223,7 @@ var v1EventsPlansList = requestflag.WithInnerFlags(cli.Command{
 			QueryPath: "status",
 		},
 	},
-	Action:          handleV1EventsPlansList,
+	Action:          handleV1PlansList,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"created-at": {
@@ -250,7 +250,7 @@ var v1EventsPlansList = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsPlansArchive = cli.Command{
+var v1PlansArchive = cli.Command{
 	Name:    "archive",
 	Usage:   "Archives a plan, preventing it from being used in new subscriptions.",
 	Suggest: true,
@@ -260,11 +260,25 @@ var v1EventsPlansArchive = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsPlansArchive,
+	Action:          handleV1PlansArchive,
 	HideHelpCommand: true,
 }
 
-var v1EventsPlansPublish = cli.Command{
+var v1PlansCreateDraft = cli.Command{
+	Name:    "create-draft",
+	Usage:   "Creates a draft version of an existing plan for modification before publishing.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "id",
+			Required: true,
+		},
+	},
+	Action:          handleV1PlansCreateDraft,
+	HideHelpCommand: true,
+}
+
+var v1PlansPublish = cli.Command{
 	Name:    "publish",
 	Usage:   "Publishes a draft plan, making it available for use in subscriptions.",
 	Suggest: true,
@@ -280,11 +294,25 @@ var v1EventsPlansPublish = cli.Command{
 			BodyPath: "migrationType",
 		},
 	},
-	Action:          handleV1EventsPlansPublish,
+	Action:          handleV1PlansPublish,
 	HideHelpCommand: true,
 }
 
-var v1EventsPlansSetPricing = requestflag.WithInnerFlags(cli.Command{
+var v1PlansRemoveDraft = cli.Command{
+	Name:    "remove-draft",
+	Usage:   "Removes a draft version of a plan.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "id",
+			Required: true,
+		},
+	},
+	Action:          handleV1PlansRemoveDraft,
+	HideHelpCommand: true,
+}
+
+var v1PlansSetPricing = requestflag.WithInnerFlags(cli.Command{
 	Name:    "set-pricing",
 	Usage:   "Sets the pricing configuration for a plan, including pricing models, overage\npricing, and minimum spend.",
 	Suggest: true,
@@ -325,7 +353,7 @@ var v1EventsPlansSetPricing = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "pricingModels",
 		},
 	},
-	Action:          handleV1EventsPlansSetPricing,
+	Action:          handleV1PlansSetPricing,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"minimum-spend": {
@@ -436,7 +464,7 @@ var v1EventsPlansSetPricing = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-func handleV1EventsPlansCreate(ctx context.Context, cmd *cli.Command) error {
+func handleV1PlansCreate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -444,7 +472,7 @@ func handleV1EventsPlansCreate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanNewParams{}
+	params := stigg.V1PlanNewParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -459,7 +487,7 @@ func handleV1EventsPlansCreate(ctx context.Context, cmd *cli.Command) error {
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.New(ctx, params, options...)
+	_, err = client.V1.Plans.New(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -467,10 +495,10 @@ func handleV1EventsPlansCreate(ctx context.Context, cmd *cli.Command) error {
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans create", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:plans create", obj, format, transform)
 }
 
-func handleV1EventsPlansRetrieve(ctx context.Context, cmd *cli.Command) error {
+func handleV1PlansRetrieve(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -494,7 +522,7 @@ func handleV1EventsPlansRetrieve(ctx context.Context, cmd *cli.Command) error {
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Get(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Plans.Get(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -502,10 +530,10 @@ func handleV1EventsPlansRetrieve(ctx context.Context, cmd *cli.Command) error {
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans retrieve", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:plans retrieve", obj, format, transform)
 }
 
-func handleV1EventsPlansUpdate(ctx context.Context, cmd *cli.Command) error {
+func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -516,7 +544,7 @@ func handleV1EventsPlansUpdate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanUpdateParams{}
+	params := stigg.V1PlanUpdateParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -531,7 +559,7 @@ func handleV1EventsPlansUpdate(ctx context.Context, cmd *cli.Command) error {
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Update(
+	_, err = client.V1.Plans.Update(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -544,10 +572,10 @@ func handleV1EventsPlansUpdate(ctx context.Context, cmd *cli.Command) error {
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans update", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:plans update", obj, format, transform)
 }
 
-func handleV1EventsPlansList(ctx context.Context, cmd *cli.Command) error {
+func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -555,7 +583,7 @@ func handleV1EventsPlansList(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanListParams{}
+	params := stigg.V1PlanListParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -573,19 +601,19 @@ func handleV1EventsPlansList(ctx context.Context, cmd *cli.Command) error {
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Plans.List(ctx, params, options...)
+		_, err = client.V1.Plans.List(ctx, params, options...)
 		if err != nil {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:events:plans list", obj, format, transform)
+		return ShowJSON(os.Stdout, "v1:plans list", obj, format, transform)
 	} else {
-		iter := client.V1.Events.Plans.ListAutoPaging(ctx, params, options...)
-		return ShowJSONIterator(os.Stdout, "v1:events:plans list", iter, format, transform)
+		iter := client.V1.Plans.ListAutoPaging(ctx, params, options...)
+		return ShowJSONIterator(os.Stdout, "v1:plans list", iter, format, transform)
 	}
 }
 
-func handleV1EventsPlansArchive(ctx context.Context, cmd *cli.Command) error {
+func handleV1PlansArchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -609,7 +637,7 @@ func handleV1EventsPlansArchive(ctx context.Context, cmd *cli.Command) error {
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Archive(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Plans.Archive(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -617,10 +645,10 @@ func handleV1EventsPlansArchive(ctx context.Context, cmd *cli.Command) error {
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans archive", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:plans archive", obj, format, transform)
 }
 
-func handleV1EventsPlansPublish(ctx context.Context, cmd *cli.Command) error {
+func handleV1PlansCreateDraft(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -631,7 +659,42 @@ func handleV1EventsPlansPublish(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanPublishParams{}
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Plans.NewDraft(ctx, cmd.Value("id").(string), options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(os.Stdout, "v1:plans create-draft", obj, format, transform)
+}
+
+func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := stigg.V1PlanPublishParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -646,7 +709,7 @@ func handleV1EventsPlansPublish(ctx context.Context, cmd *cli.Command) error {
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Publish(
+	_, err = client.V1.Plans.Publish(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -659,10 +722,10 @@ func handleV1EventsPlansPublish(ctx context.Context, cmd *cli.Command) error {
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans publish", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:plans publish", obj, format, transform)
 }
 
-func handleV1EventsPlansSetPricing(ctx context.Context, cmd *cli.Command) error {
+func handleV1PlansRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -673,7 +736,42 @@ func handleV1EventsPlansSetPricing(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanSetPricingParams{}
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Plans.RemoveDraft(ctx, cmd.Value("id").(string), options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(os.Stdout, "v1:plans remove-draft", obj, format, transform)
+}
+
+func handleV1PlansSetPricing(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := stigg.V1PlanSetPricingParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -688,7 +786,7 @@ func handleV1EventsPlansSetPricing(ctx context.Context, cmd *cli.Command) error 
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.SetPricing(
+	_, err = client.V1.Plans.SetPricing(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -701,5 +799,5 @@ func handleV1EventsPlansSetPricing(ctx context.Context, cmd *cli.Command) error 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans set-pricing", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:plans set-pricing", obj, format, transform)
 }

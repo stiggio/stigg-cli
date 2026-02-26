@@ -9,47 +9,47 @@ import (
 	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
 )
 
-func TestV1EventsPlansEntitlementsCreate(t *testing.T) {
+func TestV1AddonsEntitlementsCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans:entitlements", "create",
-		"--plan-id", "planId",
+		"v1:addons:entitlements", "create",
+		"--addon-id", "addonId",
 		"--entitlement", "{credit: {amount: 1, cadence: MONTH, customCurrencyId: customCurrencyId, behavior: Increment, description: description, displayNameOverride: displayNameOverride, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, order: 0}, feature: {featureId: featureId, behavior: Increment, description: description, displayNameOverride: displayNameOverride, enumValues: [string], hasSoftLimit: true, hasUnlimitedUsage: true, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, order: 0, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}}",
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsPlansEntitlementsCreate)
+	requestflag.CheckInnerFlags(v1AddonsEntitlementsCreate)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans:entitlements", "create",
-		"--plan-id", "planId",
+		"v1:addons:entitlements", "create",
+		"--addon-id", "addonId",
 		"--entitlement.credit", "{amount: 1, cadence: MONTH, customCurrencyId: customCurrencyId, behavior: Increment, description: description, displayNameOverride: displayNameOverride, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, order: 0}",
 		"--entitlement.feature", "{featureId: featureId, behavior: Increment, description: description, displayNameOverride: displayNameOverride, enumValues: [string], hasSoftLimit: true, hasUnlimitedUsage: true, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, order: 0, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 	)
 }
 
-func TestV1EventsPlansEntitlementsUpdate(t *testing.T) {
+func TestV1AddonsEntitlementsUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans:entitlements", "update",
-		"--plan-id", "planId",
+		"v1:addons:entitlements", "update",
+		"--addon-id", "addonId",
 		"--id", "id",
 		"--credit", "{amount: 1, behavior: Increment, cadence: MONTH, description: description, displayNameOverride: displayNameOverride, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, order: 0}",
 		"--feature", "{behavior: Increment, description: description, displayNameOverride: displayNameOverride, enumValues: [string], hasSoftLimit: true, hasUnlimitedUsage: true, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, order: 0, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 	)
 
 	// Check that inner flags have been set up correctly
-	requestflag.CheckInnerFlags(v1EventsPlansEntitlementsUpdate)
+	requestflag.CheckInnerFlags(v1AddonsEntitlementsUpdate)
 
 	// Alternative argument passing style using inner flags
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans:entitlements", "update",
-		"--plan-id", "planId",
+		"v1:addons:entitlements", "update",
+		"--addon-id", "addonId",
 		"--id", "id",
 		"--credit.amount", "1",
 		"--credit.behavior", "Increment",
@@ -78,21 +78,21 @@ func TestV1EventsPlansEntitlementsUpdate(t *testing.T) {
 	)
 }
 
-func TestV1EventsPlansEntitlementsList(t *testing.T) {
+func TestV1AddonsEntitlementsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans:entitlements", "list",
-		"--plan-id", "planId",
+		"v1:addons:entitlements", "list",
+		"--addon-id", "addonId",
 	)
 }
 
-func TestV1EventsPlansEntitlementsDelete(t *testing.T) {
+func TestV1AddonsEntitlementsDelete(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	mocktest.TestRunMockTestWithFlags(
 		t,
-		"v1:events:plans:entitlements", "delete",
-		"--plan-id", "planId",
+		"v1:addons:entitlements", "delete",
+		"--addon-id", "addonId",
 		"--id", "id",
 	)
 }

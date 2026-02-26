@@ -15,7 +15,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsFeaturesArchiveFeature = cli.Command{
+var v1FeaturesArchiveFeature = cli.Command{
 	Name:    "archive-feature",
 	Usage:   "Archives a feature, preventing it from being used in new entitlements.",
 	Suggest: true,
@@ -25,11 +25,11 @@ var v1EventsFeaturesArchiveFeature = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsFeaturesArchiveFeature,
+	Action:          handleV1FeaturesArchiveFeature,
 	HideHelpCommand: true,
 }
 
-var v1EventsFeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
+var v1FeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create-feature",
 	Usage:   "Creates a new feature with the specified type, metering, and configuration.",
 	Suggest: true,
@@ -94,7 +94,7 @@ var v1EventsFeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "unitTransformation",
 		},
 	},
-	Action:          handleV1EventsFeaturesCreateFeature,
+	Action:          handleV1FeaturesCreateFeature,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"enum-configuration": {
@@ -133,7 +133,7 @@ var v1EventsFeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsFeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
+var v1FeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 	Name:    "list-features",
 	Usage:   "Retrieves a paginated list of features in the environment.",
 	Suggest: true,
@@ -180,7 +180,7 @@ var v1EventsFeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 			QueryPath: "status",
 		},
 	},
-	Action:          handleV1EventsFeaturesListFeatures,
+	Action:          handleV1FeaturesListFeatures,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"created-at": {
@@ -207,7 +207,7 @@ var v1EventsFeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsFeaturesRetrieveFeature = cli.Command{
+var v1FeaturesRetrieveFeature = cli.Command{
 	Name:    "retrieve-feature",
 	Usage:   "Retrieves a feature by its unique identifier.",
 	Suggest: true,
@@ -217,11 +217,11 @@ var v1EventsFeaturesRetrieveFeature = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsFeaturesRetrieveFeature,
+	Action:          handleV1FeaturesRetrieveFeature,
 	HideHelpCommand: true,
 }
 
-var v1EventsFeaturesUnarchiveFeature = cli.Command{
+var v1FeaturesUnarchiveFeature = cli.Command{
 	Name:    "unarchive-feature",
 	Usage:   "Restores an archived feature, allowing it to be used in entitlements again.",
 	Suggest: true,
@@ -231,11 +231,11 @@ var v1EventsFeaturesUnarchiveFeature = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsFeaturesUnarchiveFeature,
+	Action:          handleV1FeaturesUnarchiveFeature,
 	HideHelpCommand: true,
 }
 
-var v1EventsFeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
+var v1FeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update-feature",
 	Usage:   "Updates an existing feature's properties such as display name, description, and\nconfiguration.",
 	Suggest: true,
@@ -284,7 +284,7 @@ var v1EventsFeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "unitTransformation",
 		},
 	},
-	Action:          handleV1EventsFeaturesUpdateFeature,
+	Action:          handleV1FeaturesUpdateFeature,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"enum-configuration": {
@@ -333,7 +333,7 @@ var v1EventsFeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-func handleV1EventsFeaturesArchiveFeature(ctx context.Context, cmd *cli.Command) error {
+func handleV1FeaturesArchiveFeature(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -357,7 +357,7 @@ func handleV1EventsFeaturesArchiveFeature(ctx context.Context, cmd *cli.Command)
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Features.ArchiveFeature(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Features.ArchiveFeature(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -365,10 +365,10 @@ func handleV1EventsFeaturesArchiveFeature(ctx context.Context, cmd *cli.Command)
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:features archive-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:features archive-feature", obj, format, transform)
 }
 
-func handleV1EventsFeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error {
+func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -376,7 +376,7 @@ func handleV1EventsFeaturesCreateFeature(ctx context.Context, cmd *cli.Command) 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventFeatureNewFeatureParams{}
+	params := stigg.V1FeatureNewFeatureParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -391,7 +391,7 @@ func handleV1EventsFeaturesCreateFeature(ctx context.Context, cmd *cli.Command) 
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Features.NewFeature(ctx, params, options...)
+	_, err = client.V1.Features.NewFeature(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -399,10 +399,10 @@ func handleV1EventsFeaturesCreateFeature(ctx context.Context, cmd *cli.Command) 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:features create-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:features create-feature", obj, format, transform)
 }
 
-func handleV1EventsFeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
+func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -410,7 +410,7 @@ func handleV1EventsFeaturesListFeatures(ctx context.Context, cmd *cli.Command) e
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventFeatureListFeaturesParams{}
+	params := stigg.V1FeatureListFeaturesParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -428,19 +428,19 @@ func handleV1EventsFeaturesListFeatures(ctx context.Context, cmd *cli.Command) e
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Features.ListFeatures(ctx, params, options...)
+		_, err = client.V1.Features.ListFeatures(ctx, params, options...)
 		if err != nil {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:events:features list-features", obj, format, transform)
+		return ShowJSON(os.Stdout, "v1:features list-features", obj, format, transform)
 	} else {
-		iter := client.V1.Events.Features.ListFeaturesAutoPaging(ctx, params, options...)
-		return ShowJSONIterator(os.Stdout, "v1:events:features list-features", iter, format, transform)
+		iter := client.V1.Features.ListFeaturesAutoPaging(ctx, params, options...)
+		return ShowJSONIterator(os.Stdout, "v1:features list-features", iter, format, transform)
 	}
 }
 
-func handleV1EventsFeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command) error {
+func handleV1FeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -464,7 +464,7 @@ func handleV1EventsFeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Features.GetFeature(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Features.GetFeature(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -472,10 +472,10 @@ func handleV1EventsFeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:features retrieve-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:features retrieve-feature", obj, format, transform)
 }
 
-func handleV1EventsFeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) error {
+func handleV1FeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -499,7 +499,7 @@ func handleV1EventsFeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Comman
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Features.UnarchiveFeature(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Features.UnarchiveFeature(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -507,10 +507,10 @@ func handleV1EventsFeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Comman
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:features unarchive-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:features unarchive-feature", obj, format, transform)
 }
 
-func handleV1EventsFeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error {
+func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -521,7 +521,7 @@ func handleV1EventsFeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventFeatureUpdateFeatureParams{}
+	params := stigg.V1FeatureUpdateFeatureParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -536,7 +536,7 @@ func handleV1EventsFeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) 
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Features.UpdateFeature(
+	_, err = client.V1.Features.UpdateFeature(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -549,5 +549,5 @@ func handleV1EventsFeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:features update-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:features update-feature", obj, format, transform)
 }

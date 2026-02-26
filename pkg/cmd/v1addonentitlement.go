@@ -15,13 +15,13 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsPlansEntitlementsCreate = requestflag.WithInnerFlags(cli.Command{
+var v1AddonsEntitlementsCreate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create",
-	Usage:   "Creates one or more entitlements (feature or credit) on a draft plan.",
+	Usage:   "Creates one or more entitlements (feature or credit) on a draft addon.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
+			Name:     "addon-id",
 			Required: true,
 		},
 		&requestflag.Flag[[]map[string]any]{
@@ -31,7 +31,7 @@ var v1EventsPlansEntitlementsCreate = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "entitlements",
 		},
 	},
-	Action:          handleV1EventsPlansEntitlementsCreate,
+	Action:          handleV1AddonsEntitlementsCreate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"entitlement": {
@@ -48,13 +48,13 @@ var v1EventsPlansEntitlementsCreate = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsPlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
+var v1AddonsEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update",
-	Usage:   "Updates an existing entitlement on a draft plan.",
+	Usage:   "Updates an existing entitlement on a draft addon.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
+			Name:     "addon-id",
 			Required: true,
 		},
 		&requestflag.Flag[string]{
@@ -72,7 +72,7 @@ var v1EventsPlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "feature",
 		},
 	},
-	Action:          handleV1EventsPlansEntitlementsUpdate,
+	Action:          handleV1AddonsEntitlementsUpdate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"credit": {
@@ -201,27 +201,27 @@ var v1EventsPlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsPlansEntitlementsList = cli.Command{
+var v1AddonsEntitlementsList = cli.Command{
 	Name:    "list",
-	Usage:   "Retrieves a list of entitlements for a plan.",
+	Usage:   "Retrieves a list of entitlements for an addon.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
+			Name:     "addon-id",
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsPlansEntitlementsList,
+	Action:          handleV1AddonsEntitlementsList,
 	HideHelpCommand: true,
 }
 
-var v1EventsPlansEntitlementsDelete = cli.Command{
+var v1AddonsEntitlementsDelete = cli.Command{
 	Name:    "delete",
-	Usage:   "Deletes an entitlement from a draft plan.",
+	Usage:   "Deletes an entitlement from a draft addon.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
+			Name:     "addon-id",
 			Required: true,
 		},
 		&requestflag.Flag[string]{
@@ -229,22 +229,22 @@ var v1EventsPlansEntitlementsDelete = cli.Command{
 			Required: true,
 		},
 	},
-	Action:          handleV1EventsPlansEntitlementsDelete,
+	Action:          handleV1AddonsEntitlementsDelete,
 	HideHelpCommand: true,
 }
 
-func handleV1EventsPlansEntitlementsCreate(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsEntitlementsCreate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("plan-id") && len(unusedArgs) > 0 {
-		cmd.Set("plan-id", unusedArgs[0])
+	if !cmd.IsSet("addon-id") && len(unusedArgs) > 0 {
+		cmd.Set("addon-id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanEntitlementNewParams{}
+	params := stigg.V1AddonEntitlementNewParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -259,9 +259,9 @@ func handleV1EventsPlansEntitlementsCreate(ctx context.Context, cmd *cli.Command
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Entitlements.New(
+	_, err = client.V1.Addons.Entitlements.New(
 		ctx,
-		cmd.Value("plan-id").(string),
+		cmd.Value("addon-id").(string),
 		params,
 		options...,
 	)
@@ -272,10 +272,10 @@ func handleV1EventsPlansEntitlementsCreate(ctx context.Context, cmd *cli.Command
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans:entitlements create", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons:entitlements create", obj, format, transform)
 }
 
-func handleV1EventsPlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsEntitlementsUpdate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -286,8 +286,8 @@ func handleV1EventsPlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanEntitlementUpdateParams{
-		PlanID: cmd.Value("plan-id").(string),
+	params := stigg.V1AddonEntitlementUpdateParams{
+		AddonID: cmd.Value("addon-id").(string),
 	}
 
 	options, err := flagOptions(
@@ -303,7 +303,7 @@ func handleV1EventsPlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Entitlements.Update(
+	_, err = client.V1.Addons.Entitlements.Update(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -316,14 +316,14 @@ func handleV1EventsPlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans:entitlements update", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons:entitlements update", obj, format, transform)
 }
 
-func handleV1EventsPlansEntitlementsList(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsEntitlementsList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("plan-id") && len(unusedArgs) > 0 {
-		cmd.Set("plan-id", unusedArgs[0])
+	if !cmd.IsSet("addon-id") && len(unusedArgs) > 0 {
+		cmd.Set("addon-id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
@@ -343,7 +343,7 @@ func handleV1EventsPlansEntitlementsList(ctx context.Context, cmd *cli.Command) 
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Entitlements.List(ctx, cmd.Value("plan-id").(string), options...)
+	_, err = client.V1.Addons.Entitlements.List(ctx, cmd.Value("addon-id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -351,10 +351,10 @@ func handleV1EventsPlansEntitlementsList(ctx context.Context, cmd *cli.Command) 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans:entitlements list", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons:entitlements list", obj, format, transform)
 }
 
-func handleV1EventsPlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) error {
+func handleV1AddonsEntitlementsDelete(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -365,8 +365,8 @@ func handleV1EventsPlansEntitlementsDelete(ctx context.Context, cmd *cli.Command
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventPlanEntitlementDeleteParams{
-		PlanID: cmd.Value("plan-id").(string),
+	params := stigg.V1AddonEntitlementDeleteParams{
+		AddonID: cmd.Value("addon-id").(string),
 	}
 
 	options, err := flagOptions(
@@ -382,7 +382,7 @@ func handleV1EventsPlansEntitlementsDelete(ctx context.Context, cmd *cli.Command
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Plans.Entitlements.Delete(
+	_, err = client.V1.Addons.Entitlements.Delete(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -395,5 +395,5 @@ func handleV1EventsPlansEntitlementsDelete(ctx context.Context, cmd *cli.Command
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:plans:entitlements delete", obj, format, transform)
+	return ShowJSON(os.Stdout, "v1:addons:entitlements delete", obj, format, transform)
 }
