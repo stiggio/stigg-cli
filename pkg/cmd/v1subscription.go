@@ -50,6 +50,10 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "await-payment-confirmation",
 			BodyPath: "awaitPaymentConfirmation",
 		},
+		&requestflag.Flag[string]{
+			Name:     "billing-cycle-anchor",
+			BodyPath: "billingCycleAnchor",
+		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "billing-information",
 			BodyPath: "billingInformation",
@@ -549,6 +553,11 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "ISO 3166-1 country code for localization",
 			BodyPath: "billingCountryCode",
 		},
+		&requestflag.Flag[string]{
+			Name:     "billing-cycle-anchor",
+			Usage:    "Billing cycle anchor behavior for the subscription",
+			BodyPath: "billingCycleAnchor",
+		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "billing-information",
 			Usage:    "Billing and tax configuration",
@@ -783,6 +792,11 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "billing-country-code",
 			Usage:    "The ISO 3166-1 alpha-2 country code for billing",
 			BodyPath: "billingCountryCode",
+		},
+		&requestflag.Flag[string]{
+			Name:     "billing-cycle-anchor",
+			Usage:    "Billing cycle anchor behavior for the subscription",
+			BodyPath: "billingCycleAnchor",
 		},
 		&requestflag.Flag[any]{
 			Name:     "billing-id",
