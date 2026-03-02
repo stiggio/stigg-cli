@@ -102,12 +102,13 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 }, map[string][]requestflag.HasOuterFlag{
 	"addon": {
 		&requestflag.InnerFlag[string]{
-			Name:       "addon.addon-id",
+			Name:       "addon.id",
 			Usage:      "Addon ID",
-			InnerField: "addonId",
+			InnerField: "id",
 		},
-		&requestflag.InnerFlag[float64]{
+		&requestflag.InnerFlag[int64]{
 			Name:       "addon.quantity",
+			Usage:      "Number of addon instances",
 			InnerField: "quantity",
 		},
 	},
@@ -451,10 +452,23 @@ var v1SubscriptionsImport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Plan ID",
 			InnerField: "planId",
 		},
+		&requestflag.InnerFlag[[]map[string]any]{
+			Name:       "subscription.addons",
+			InnerField: "addons",
+		},
 		&requestflag.InnerFlag[any]{
 			Name:       "subscription.billing-id",
 			Usage:      "Billing ID",
 			InnerField: "billingId",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "subscription.billing-period",
+			Usage:      "Billing period (MONTHLY or ANNUALLY)",
+			InnerField: "billingPeriod",
+		},
+		&requestflag.InnerFlag[[]map[string]any]{
+			Name:       "subscription.charges",
+			InnerField: "charges",
 		},
 		&requestflag.InnerFlag[any]{
 			Name:       "subscription.end-date",
@@ -586,9 +600,9 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 }, map[string][]requestflag.HasOuterFlag{
 	"addon": {
 		&requestflag.InnerFlag[string]{
-			Name:       "addon.addon-id",
+			Name:       "addon.id",
 			Usage:      "Addon ID",
-			InnerField: "addonId",
+			InnerField: "id",
 		},
 		&requestflag.InnerFlag[int64]{
 			Name:       "addon.quantity",
@@ -860,13 +874,13 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 }, map[string][]requestflag.HasOuterFlag{
 	"addon": {
 		&requestflag.InnerFlag[string]{
-			Name:       "addon.addon-id",
-			Usage:      "Addon identifier",
-			InnerField: "addonId",
+			Name:       "addon.id",
+			Usage:      "Addon ID",
+			InnerField: "id",
 		},
 		&requestflag.InnerFlag[int64]{
 			Name:       "addon.quantity",
-			Usage:      "Number of addon units",
+			Usage:      "Number of addon instances",
 			InnerField: "quantity",
 		},
 	},
