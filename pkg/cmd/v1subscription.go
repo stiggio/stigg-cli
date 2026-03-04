@@ -77,6 +77,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[any]{
 			Name:     "minimum-spend",
+			Usage:    "Minimum spend amount",
 			BodyPath: "minimumSpend",
 		},
 		&requestflag.Flag[[]map[string]any]{
@@ -193,10 +194,12 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 	"budget": {
 		&requestflag.InnerFlag[bool]{
 			Name:       "budget.has-soft-limit",
+			Usage:      "Whether the budget is a soft limit",
 			InnerField: "hasSoftLimit",
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "budget.limit",
+			Usage:      "Maximum spending limit",
 			InnerField: "limit",
 		},
 	},
@@ -216,9 +219,15 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 	},
 	"minimum-spend": {
-		&requestflag.InnerFlag[any]{
-			Name:       "minimum-spend.minimum",
-			InnerField: "minimum",
+		&requestflag.InnerFlag[float64]{
+			Name:       "minimum-spend.amount",
+			Usage:      "The price amount",
+			InnerField: "amount",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "minimum-spend.currency",
+			Usage:      "The price currency",
+			InnerField: "currency",
 		},
 	},
 	"price-override": {
@@ -227,10 +236,20 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Addon ID",
 			InnerField: "addonId",
 		},
+		&requestflag.InnerFlag[float64]{
+			Name:       "price-override.amount",
+			Usage:      "The price amount",
+			InnerField: "amount",
+		},
 		&requestflag.InnerFlag[bool]{
 			Name:       "price-override.base-charge",
 			Usage:      "Whether this is a base charge override",
 			InnerField: "baseCharge",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "price-override.currency",
+			Usage:      "The price currency",
+			InnerField: "currency",
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "price-override.currency-id",
@@ -241,10 +260,6 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:       "price-override.feature-id",
 			Usage:      "Feature ID",
 			InnerField: "featureId",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "price-override.price",
-			InnerField: "price",
 		},
 	},
 	"subscription-entitlement": {
@@ -832,6 +847,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[any]{
 			Name:     "minimum-spend",
+			Usage:    "Minimum spend amount",
 			BodyPath: "minimumSpend",
 		},
 		&requestflag.Flag[any]{
@@ -1049,10 +1065,15 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 	},
 	"minimum-spend": {
-		&requestflag.InnerFlag[any]{
-			Name:       "minimum-spend.minimum",
-			Usage:      "Minimum spend amount",
-			InnerField: "minimum",
+		&requestflag.InnerFlag[float64]{
+			Name:       "minimum-spend.amount",
+			Usage:      "The price amount",
+			InnerField: "amount",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "minimum-spend.currency",
+			Usage:      "The price currency",
+			InnerField: "currency",
 		},
 	},
 	"price-override": {
@@ -1061,10 +1082,20 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Addon identifier for the price override",
 			InnerField: "addonId",
 		},
+		&requestflag.InnerFlag[float64]{
+			Name:       "price-override.amount",
+			Usage:      "The price amount",
+			InnerField: "amount",
+		},
 		&requestflag.InnerFlag[bool]{
 			Name:       "price-override.base-charge",
 			Usage:      "Whether this is a base charge override",
 			InnerField: "baseCharge",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "price-override.billing-country-code",
+			Usage:      "The billing country code of the price",
+			InnerField: "billingCountryCode",
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "price-override.block-size",
@@ -1079,15 +1110,15 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:       "price-override.credit-rate",
 			InnerField: "creditRate",
 		},
+		&requestflag.InnerFlag[string]{
+			Name:       "price-override.currency",
+			Usage:      "The price currency",
+			InnerField: "currency",
+		},
 		&requestflag.InnerFlag[any]{
 			Name:       "price-override.feature-id",
 			Usage:      "Feature identifier for the price override",
 			InnerField: "featureId",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "price-override.price",
-			Usage:      "Override price amount",
-			InnerField: "price",
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
 			Name:       "price-override.tiers",
