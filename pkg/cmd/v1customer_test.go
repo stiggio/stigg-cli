@@ -14,6 +14,7 @@ func TestV1CustomersRetrieve(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "retrieve",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -23,6 +24,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "update",
+		"--api-key", "string",
 		"--id", "x",
 		"--coupon-id", "couponId",
 		"--email", "dev@stainless.com",
@@ -54,6 +56,7 @@ func TestV1CustomersList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "list",
+		"--api-key", "string",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
@@ -86,6 +89,7 @@ func TestV1CustomersArchive(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "archive",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -95,6 +99,7 @@ func TestV1CustomersImport(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "import",
+		"--api-key", "string",
 		"--customer", "{id: id, email: dev@stainless.com, name: name, metadata: {foo: string}, paymentMethodId: paymentMethodId, updatedAt: '2019-12-27T18:11:19.117Z'}",
 	)
 
@@ -119,6 +124,7 @@ func TestV1CustomersListResources(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "list-resources",
+		"--api-key", "string",
 		"--id", "x",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -131,6 +137,7 @@ func TestV1CustomersProvision(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "provision",
+		"--api-key", "string",
 		"--id", "id",
 		"--coupon-id", "couponId",
 		"--default-payment-method", "{billingId: billingId, cardExpiryMonth: 0, cardExpiryYear: 0, cardLast4Digits: cardLast4Digits, type: CARD}",
@@ -168,6 +175,7 @@ func TestV1CustomersUnarchive(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "unarchive",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }

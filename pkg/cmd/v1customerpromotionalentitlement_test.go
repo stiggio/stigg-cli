@@ -14,6 +14,7 @@ func TestV1CustomersPromotionalEntitlementsCreate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers:promotional-entitlements", "create",
+		"--api-key", "string",
 		"--id", "x",
 		"--promotional-entitlement", "{customEndDate: '2019-12-27T18:11:19.117Z', enumValues: [string], featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, isVisible: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, period: 1 week, resetPeriod: YEAR, usageLimit: -9007199254740991, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 	)
@@ -46,6 +47,7 @@ func TestV1CustomersPromotionalEntitlementsList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers:promotional-entitlements", "list",
+		"--api-key", "string",
 		"--id", "x",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -78,6 +80,7 @@ func TestV1CustomersPromotionalEntitlementsRevoke(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers:promotional-entitlements", "revoke",
+		"--api-key", "string",
 		"--id", "id",
 		"--feature-id", "featureId",
 	)

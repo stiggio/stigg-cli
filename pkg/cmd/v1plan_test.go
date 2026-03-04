@@ -14,6 +14,7 @@ func TestV1PlansCreate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "create",
+		"--api-key", "string",
 		"--id", "id",
 		"--display-name", "displayName",
 		"--product-id", "productId",
@@ -54,6 +55,7 @@ func TestV1PlansRetrieve(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "retrieve",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -63,6 +65,7 @@ func TestV1PlansUpdate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "update",
+		"--api-key", "string",
 		"--id", "x",
 		"--billing-id", "billingId",
 		"--compatible-addon-id", "[string]",
@@ -99,6 +102,7 @@ func TestV1PlansList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "list",
+		"--api-key", "string",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
@@ -131,6 +135,7 @@ func TestV1PlansArchive(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "archive",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -140,6 +145,7 @@ func TestV1PlansCreateDraft(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "create-draft",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -149,6 +155,7 @@ func TestV1PlansPublish(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "publish",
+		"--api-key", "string",
 		"--id", "x",
 		"--migration-type", "NEW_CUSTOMERS",
 	)
@@ -159,6 +166,7 @@ func TestV1PlansRemoveDraft(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "remove-draft",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -168,6 +176,7 @@ func TestV1PlansSetPricing(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans", "set-pricing",
+		"--api-key", "string",
 		"--id", "x",
 		"--pricing-type", "FREE",
 		"--billing-id", "billingId",

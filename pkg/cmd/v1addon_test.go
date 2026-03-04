@@ -14,6 +14,7 @@ func TestV1AddonsCreate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "create",
+		"--api-key", "string",
 		"--id", "id",
 		"--display-name", "displayName",
 		"--product-id", "productId",
@@ -31,6 +32,7 @@ func TestV1AddonsRetrieve(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "retrieve",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -40,6 +42,7 @@ func TestV1AddonsUpdate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "update",
+		"--api-key", "string",
 		"--id", "x",
 		"--billing-id", "billingId",
 		"--dependency", "[string]",
@@ -55,6 +58,7 @@ func TestV1AddonsList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "list",
+		"--api-key", "string",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
@@ -87,6 +91,7 @@ func TestV1AddonsArchive(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "archive",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -96,6 +101,7 @@ func TestV1AddonsCreateDraft(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "create-draft",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -105,6 +111,7 @@ func TestV1AddonsPublish(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "publish",
+		"--api-key", "string",
 		"--id", "x",
 		"--migration-type", "NEW_CUSTOMERS",
 	)
@@ -115,6 +122,7 @@ func TestV1AddonsRemoveDraft(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "remove-draft",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -124,6 +132,7 @@ func TestV1AddonsSetPricing(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "set-pricing",
+		"--api-key", "string",
 		"--id", "x",
 		"--pricing-type", "FREE",
 		"--billing-id", "billingId",

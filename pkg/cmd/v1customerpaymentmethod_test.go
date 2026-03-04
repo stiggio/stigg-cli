@@ -13,6 +13,7 @@ func TestV1CustomersPaymentMethodAttach(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers:payment-method", "attach",
+		"--api-key", "string",
 		"--id", "x",
 		"--integration-id", "integrationId",
 		"--payment-method-id", "paymentMethodId",
@@ -26,6 +27,7 @@ func TestV1CustomersPaymentMethodDetach(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers:payment-method", "detach",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }

@@ -45,13 +45,21 @@ stigg [resource] <command> [flags...]
 
 ```sh
 stigg v1:customers retrieve \
+  --api-key 'My API Key' \
   --id REPLACE_ME
 ```
 
 For details about specific commands, use the `--help` flag.
 
-### Global Flags
+### Environment variables
 
+| Environment variable | Required |
+| -------------------- | -------- |
+| `STIGG_API_KEY`      | yes      |
+
+### Global flags
+
+- `--api-key` (can also be set with `STIGG_API_KEY` env var)
 - `--help` - Show command line usage
 - `--debug` - Enable debug logging (includes HTTP request/response details)
 - `--version`, `-v` - Show the CLI version

@@ -13,6 +13,7 @@ func TestV1SubscriptionsInvoiceMarkAsPaid(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions:invoice", "mark-as-paid",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
