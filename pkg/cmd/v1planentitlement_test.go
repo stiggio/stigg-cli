@@ -14,6 +14,7 @@ func TestV1PlansEntitlementsCreate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans:entitlements", "create",
+		"--api-key", "string",
 		"--plan-id", "planId",
 		"--entitlement", "{credit: {amount: 1, cadence: MONTH, customCurrencyId: customCurrencyId, behavior: Increment, description: description, displayNameOverride: displayNameOverride, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, order: 0}, feature: {featureId: featureId, behavior: Increment, description: description, displayNameOverride: displayNameOverride, enumValues: [string], hasSoftLimit: true, hasUnlimitedUsage: true, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, order: 0, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}}",
 	)
@@ -36,6 +37,7 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans:entitlements", "update",
+		"--api-key", "string",
 		"--plan-id", "planId",
 		"--id", "id",
 		"--credit", "{amount: 1, behavior: Increment, cadence: MONTH, description: description, displayNameOverride: displayNameOverride, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, order: 0}",
@@ -83,6 +85,7 @@ func TestV1PlansEntitlementsList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans:entitlements", "list",
+		"--api-key", "string",
 		"--plan-id", "planId",
 	)
 }
@@ -92,6 +95,7 @@ func TestV1PlansEntitlementsDelete(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:plans:entitlements", "delete",
+		"--api-key", "string",
 		"--plan-id", "planId",
 		"--id", "id",
 	)

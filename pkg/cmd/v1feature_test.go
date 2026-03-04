@@ -14,6 +14,7 @@ func TestV1FeaturesArchiveFeature(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:features", "archive-feature",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -23,6 +24,7 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:features", "create-feature",
+		"--api-key", "string",
 		"--id", "id",
 		"--display-name", "displayName",
 		"--feature-type", "BOOLEAN",
@@ -66,6 +68,7 @@ func TestV1FeaturesListFeatures(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:features", "list-features",
+		"--api-key", "string",
 		"--id", "id",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -102,6 +105,7 @@ func TestV1FeaturesRetrieveFeature(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:features", "retrieve-feature",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -111,6 +115,7 @@ func TestV1FeaturesUnarchiveFeature(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:features", "unarchive-feature",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -120,6 +125,7 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:features", "update-feature",
+		"--api-key", "string",
 		"--id", "x",
 		"--description", "description",
 		"--display-name", "displayName",

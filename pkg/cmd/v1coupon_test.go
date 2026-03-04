@@ -14,6 +14,7 @@ func TestV1CouponsCreate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:coupons", "create",
+		"--api-key", "string",
 		"--id", "id",
 		"--amounts-off", "[{amount: 0, currency: usd}]",
 		"--description", "description",
@@ -46,6 +47,7 @@ func TestV1CouponsRetrieve(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:coupons", "retrieve",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -55,6 +57,7 @@ func TestV1CouponsList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:coupons", "list",
+		"--api-key", "string",
 		"--id", "id",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -89,6 +92,7 @@ func TestV1CouponsArchiveCoupon(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:coupons", "archive-coupon",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -98,6 +102,7 @@ func TestV1CouponsUpdateCoupon(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:coupons", "update-coupon",
+		"--api-key", "string",
 		"--id", "x",
 		"--description", "description",
 		"--metadata", "{foo: string}",

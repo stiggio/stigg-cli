@@ -14,6 +14,7 @@ func TestV1SubscriptionsRetrieve(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "retrieve",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
@@ -23,6 +24,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "update",
+		"--api-key", "string",
 		"--id", "x",
 		"--addon", "{id: id, quantity: 0}",
 		"--applied-coupon", "{billingCouponId: billingCouponId, configuration: {startDate: '2019-12-27T18:11:19.117Z'}, couponId: couponId, discount: {amountsOff: [{amount: 0, currency: usd}], description: description, durationInMonths: 1, name: name, percentOff: 1}, promotionCode: promotionCode}",
@@ -38,7 +40,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 		"--promotion-code", "promotionCode",
 		"--schedule-strategy", "END_OF_BILLING_PERIOD",
 		"--subscription-entitlement", "{id: id, featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
-		"--trial-end-date", "2019-12-27T18:11:19.117Z",
+		"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
 	)
 
 	// Check that inner flags have been set up correctly
@@ -94,7 +96,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 		"--subscription-entitlement.usage-limit", "0",
 		"--subscription-entitlement.weekly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
 		"--subscription-entitlement.yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
-		"--trial-end-date", "2019-12-27T18:11:19.117Z",
+		"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
 	)
 }
 
@@ -103,6 +105,7 @@ func TestV1SubscriptionsList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "list",
+		"--api-key", "string",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
@@ -141,10 +144,11 @@ func TestV1SubscriptionsCancel(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "cancel",
+		"--api-key", "string",
 		"--id", "x",
 		"--cancellation-action", "DEFAULT",
 		"--cancellation-time", "END_OF_BILLING_PERIOD",
-		"--end-date", "2019-12-27T18:11:19.117Z",
+		"--end-date", "'2019-12-27T18:11:19.117Z'",
 		"--prorate=true",
 	)
 }
@@ -154,6 +158,7 @@ func TestV1SubscriptionsDelegate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "delegate",
+		"--api-key", "string",
 		"--id", "x",
 		"--target-customer-id", "targetCustomerId",
 	)
@@ -164,6 +169,7 @@ func TestV1SubscriptionsImport(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "import",
+		"--api-key", "string",
 		"--subscription", "{id: id, customerId: customerId, planId: planId, addons: [{id: id, quantity: 0}], billingId: billingId, billingPeriod: MONTHLY, charges: [{id: id, quantity: 1, type: FEATURE}], endDate: '2019-12-27T18:11:19.117Z', metadata: {foo: string}, resourceId: resourceId, startDate: '2019-12-27T18:11:19.117Z'}",
 		"--integration-id", "integrationId",
 	)
@@ -195,6 +201,7 @@ func TestV1SubscriptionsMigrate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "migrate",
+		"--api-key", "string",
 		"--id", "x",
 		"--subscription-migration-time", "END_OF_BILLING_PERIOD",
 	)
@@ -205,6 +212,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "preview",
+		"--api-key", "string",
 		"--customer-id", "customerId",
 		"--plan-id", "planId",
 		"--addon", "{id: id, quantity: 0}",
@@ -218,7 +226,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 		"--paying-customer-id", "payingCustomerId",
 		"--resource-id", "resourceId",
 		"--schedule-strategy", "END_OF_BILLING_PERIOD",
-		"--start-date", "2019-12-27T18:11:19.117Z",
+		"--start-date", "'2019-12-27T18:11:19.117Z'",
 		"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
 		"--unit-quantity", "1",
 	)
@@ -261,7 +269,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 		"--paying-customer-id", "payingCustomerId",
 		"--resource-id", "resourceId",
 		"--schedule-strategy", "END_OF_BILLING_PERIOD",
-		"--start-date", "2019-12-27T18:11:19.117Z",
+		"--start-date", "'2019-12-27T18:11:19.117Z'",
 		"--trial-override-configuration.is-trial=true",
 		"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 		"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
@@ -274,6 +282,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "provision",
+		"--api-key", "string",
 		"--customer-id", "customerId",
 		"--plan-id", "planId",
 		"--id", "id",
@@ -296,7 +305,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 		"--resource-id", "resourceId",
 		"--salesforce-id", "salesforceId",
 		"--schedule-strategy", "END_OF_BILLING_PERIOD",
-		"--start-date", "2019-12-27T18:11:19.117Z",
+		"--start-date", "'2019-12-27T18:11:19.117Z'",
 		"--subscription-entitlement", "{featureId: featureId, usageLimit: 0, isGranted: true}",
 		"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
 		"--unit-quantity", "1",
@@ -362,7 +371,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 		"--resource-id", "resourceId",
 		"--salesforce-id", "salesforceId",
 		"--schedule-strategy", "END_OF_BILLING_PERIOD",
-		"--start-date", "2019-12-27T18:11:19.117Z",
+		"--start-date", "'2019-12-27T18:11:19.117Z'",
 		"--subscription-entitlement.feature-id", "featureId",
 		"--subscription-entitlement.usage-limit", "0",
 		"--subscription-entitlement.is-granted=true",
@@ -378,6 +387,7 @@ func TestV1SubscriptionsTransfer(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "transfer",
+		"--api-key", "string",
 		"--id", "x",
 		"--destination-resource-id", "destinationResourceId",
 	)

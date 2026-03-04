@@ -13,8 +13,9 @@ func TestV1SubscriptionsUsageChargeUsage(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions:usage", "charge-usage",
+		"--api-key", "string",
 		"--id", "x",
-		"--until-date", "2019-12-27T18:11:19.117Z",
+		"--until-date", "'2019-12-27T18:11:19.117Z'",
 	)
 }
 
@@ -23,6 +24,7 @@ func TestV1SubscriptionsUsageSync(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions:usage", "sync",
+		"--api-key", "string",
 		"--id", "x",
 	)
 }
