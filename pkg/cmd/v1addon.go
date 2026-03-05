@@ -126,6 +126,11 @@ var v1AddonsUpdate = cli.Command{
 			Usage:    "Metadata associated with the entity",
 			BodyPath: "metadata",
 		},
+		&requestflag.Flag[string]{
+			Name:     "status",
+			Usage:    "The status of the package",
+			BodyPath: "status",
+		},
 	},
 	Action:          handleV1AddonsUpdate,
 	HideHelpCommand: true,

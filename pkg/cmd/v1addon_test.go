@@ -50,6 +50,7 @@ func TestV1AddonsUpdate(t *testing.T) {
 		"--display-name", "displayName",
 		"--max-quantity", "0",
 		"--metadata", "{foo: string}",
+		"--status", "DRAFT",
 	)
 }
 
