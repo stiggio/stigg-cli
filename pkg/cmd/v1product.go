@@ -132,6 +132,10 @@ var v1ProductsListProducts = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by product status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
 	},
 	Action:          handleV1ProductsListProducts,
 	HideHelpCommand: true,
@@ -401,7 +405,11 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(os.Stdout, "v1:products list-products", obj, format, transform)
 	} else {
 		iter := client.V1.Products.ListProductsAutoPaging(ctx, params, options...)
-		return ShowJSONIterator(os.Stdout, "v1:products list-products", iter, format, transform)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(os.Stdout, "v1:products list-products", iter, format, transform, maxItems)
 	}
 }
 

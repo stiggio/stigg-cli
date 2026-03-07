@@ -122,6 +122,10 @@ var v1CustomersList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by exact customer name",
 			QueryPath: "name",
 		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
 	},
 	Action:          handleV1CustomersList,
 	HideHelpCommand: true,
@@ -237,6 +241,10 @@ var v1CustomersListResources = cli.Command{
 			Usage:     "Maximum number of items to return",
 			Default:   20,
 			QueryPath: "limit",
+		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
 	Action:          handleV1CustomersListResources,
@@ -459,7 +467,11 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(os.Stdout, "v1:customers list", obj, format, transform)
 	} else {
 		iter := client.V1.Customers.ListAutoPaging(ctx, params, options...)
-		return ShowJSONIterator(os.Stdout, "v1:customers list", iter, format, transform)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(os.Stdout, "v1:customers list", iter, format, transform, maxItems)
 	}
 }
 
@@ -579,7 +591,11 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 			params,
 			options...,
 		)
-		return ShowJSONIterator(os.Stdout, "v1:customers list-resources", iter, format, transform)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(os.Stdout, "v1:customers list-resources", iter, format, transform, maxItems)
 	}
 }
 

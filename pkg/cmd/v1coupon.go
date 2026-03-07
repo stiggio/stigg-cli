@@ -135,6 +135,10 @@ var v1CouponsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by coupon type (FIXED or PERCENTAGE)",
 			QueryPath: "type",
 		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
 	},
 	Action:          handleV1CouponsList,
 	HideHelpCommand: true,
@@ -309,7 +313,11 @@ func handleV1CouponsList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(os.Stdout, "v1:coupons list", obj, format, transform)
 	} else {
 		iter := client.V1.Coupons.ListAutoPaging(ctx, params, options...)
-		return ShowJSONIterator(os.Stdout, "v1:coupons list", iter, format, transform)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(os.Stdout, "v1:coupons list", iter, format, transform, maxItems)
 	}
 }
 
