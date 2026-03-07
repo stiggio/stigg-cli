@@ -25,6 +25,7 @@ func TestV1EventsReport(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:events", "report",
+		"--api-key", "string",
 		"--event.customer-id", "customerId",
 		"--event.event-name", "x",
 		"--event.idempotency-key", "x",

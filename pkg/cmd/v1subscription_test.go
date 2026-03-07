@@ -50,6 +50,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "update",
+		"--api-key", "string",
 		"--id", "x",
 		"--addon.id", "id",
 		"--addon.quantity", "0",
@@ -126,6 +127,7 @@ func TestV1SubscriptionsList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "list",
+		"--api-key", "string",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at.gt", "2019-12-27T18:11:19.117Z",
@@ -183,6 +185,7 @@ func TestV1SubscriptionsImport(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "import",
+		"--api-key", "string",
 		"--subscription.id", "id",
 		"--subscription.customer-id", "customerId",
 		"--subscription.plan-id", "planId",
@@ -240,6 +243,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "preview",
+		"--api-key", "string",
 		"--customer-id", "customerId",
 		"--plan-id", "planId",
 		"--addon.id", "id",
@@ -320,6 +324,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:subscriptions", "provision",
+		"--api-key", "string",
 		"--customer-id", "customerId",
 		"--plan-id", "planId",
 		"--id", "id",

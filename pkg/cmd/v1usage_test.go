@@ -41,6 +41,7 @@ func TestV1UsageReport(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:usage", "report",
+		"--api-key", "string",
 		"--usage.customer-id", "customerId",
 		"--usage.feature-id", "featureId",
 		"--usage.value", "-9007199254740991",

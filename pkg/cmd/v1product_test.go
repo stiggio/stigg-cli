@@ -67,6 +67,7 @@ func TestV1ProductsListProducts(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:products", "list-products",
+		"--api-key", "string",
 		"--id", "id",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -111,6 +112,7 @@ func TestV1ProductsUpdateProduct(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:products", "update-product",
+		"--api-key", "string",
 		"--id", "x",
 		"--description", "description",
 		"--display-name", "displayName",
