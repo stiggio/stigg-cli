@@ -75,6 +75,7 @@ func TestV1AddonsList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "list",
+		"--api-key", "string",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at.gt", "2019-12-27T18:11:19.117Z",
@@ -150,6 +151,7 @@ func TestV1AddonsSetPricing(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:addons", "set-pricing",
+		"--api-key", "string",
 		"--id", "x",
 		"--pricing-type", "FREE",
 		"--billing-id", "billingId",

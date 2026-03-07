@@ -40,6 +40,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "update",
+		"--api-key", "string",
 		"--id", "x",
 		"--coupon-id", "couponId",
 		"--email", "dev@stainless.com",
@@ -72,6 +73,7 @@ func TestV1CustomersList(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "list",
+		"--api-key", "string",
 		"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"--created-at.gt", "2019-12-27T18:11:19.117Z",
@@ -110,6 +112,7 @@ func TestV1CustomersImport(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "import",
+		"--api-key", "string",
 		"--customer.id", "id",
 		"--customer.email", "dev@stainless.com",
 		"--customer.name", "name",
@@ -154,6 +157,7 @@ func TestV1CustomersProvision(t *testing.T) {
 	mocktest.TestRunMockTestWithFlags(
 		t,
 		"v1:customers", "provision",
+		"--api-key", "string",
 		"--id", "id",
 		"--coupon-id", "couponId",
 		"--default-payment-method.billing-id", "billingId",
