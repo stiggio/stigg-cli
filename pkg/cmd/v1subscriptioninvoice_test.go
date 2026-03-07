@@ -10,10 +10,11 @@ import (
 
 func TestV1SubscriptionsInvoiceMarkAsPaid(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
-	mocktest.TestRunMockTestWithFlags(
-		t,
-		"v1:subscriptions:invoice", "mark-as-paid",
-		"--api-key", "string",
-		"--id", "x",
-	)
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t, "v1:subscriptions:invoice", "mark-as-paid",
+			"--api-key", "string",
+			"--id", "x",
+		)
+	})
 }

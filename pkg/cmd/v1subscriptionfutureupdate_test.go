@@ -10,20 +10,22 @@ import (
 
 func TestV1SubscriptionsFutureUpdateCancelPendingPayment(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
-	mocktest.TestRunMockTestWithFlags(
-		t,
-		"v1:subscriptions:future-update", "cancel-pending-payment",
-		"--api-key", "string",
-		"--id", "x",
-	)
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t, "v1:subscriptions:future-update", "cancel-pending-payment",
+			"--api-key", "string",
+			"--id", "x",
+		)
+	})
 }
 
 func TestV1SubscriptionsFutureUpdateCancelSchedule(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
-	mocktest.TestRunMockTestWithFlags(
-		t,
-		"v1:subscriptions:future-update", "cancel-schedule",
-		"--api-key", "string",
-		"--id", "x",
-	)
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t, "v1:subscriptions:future-update", "cancel-schedule",
+			"--api-key", "string",
+			"--id", "x",
+		)
+	})
 }
