@@ -161,6 +161,7 @@ func TestV1PlansList(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t, "v1:plans", "list",
 			"--api-key", "string",
+			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
@@ -178,6 +179,7 @@ func TestV1PlansList(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t, "v1:plans", "list",
 			"--api-key", "string",
+			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--created-at.gt", "2019-12-27T18:11:19.117Z",
