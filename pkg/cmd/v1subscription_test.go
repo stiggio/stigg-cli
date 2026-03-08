@@ -35,12 +35,12 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
 			"--charge", "{id: id, quantity: 1, type: FEATURE}",
+			"--entitlement", "{credit: {amount: 1, cadence: MONTH, currencyId: currencyId}, feature: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend", "{amount: 0, currency: usd}",
 			"--price-override", "{addonId: addonId, amount: 0, baseCharge: true, currency: usd, currencyId: currencyId, featureId: featureId}",
 			"--promotion-code", "promotionCode",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
-			"--subscription-entitlement", "{id: id, featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
 		)
 	})
@@ -81,6 +81,8 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--charge.id", "id",
 			"--charge.quantity", "1",
 			"--charge.type", "FEATURE",
+			"--entitlement.credit", "{amount: 1, cadence: MONTH, currencyId: currencyId}",
+			"--entitlement.feature", "{featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend.amount", "0",
 			"--minimum-spend.currency", "usd",
@@ -92,15 +94,6 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--price-override.feature-id", "featureId",
 			"--promotion-code", "promotionCode",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
-			"--subscription-entitlement.id", "id",
-			"--subscription-entitlement.feature-id", "featureId",
-			"--subscription-entitlement.has-soft-limit=true",
-			"--subscription-entitlement.has-unlimited-usage=true",
-			"--subscription-entitlement.monthly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
-			"--subscription-entitlement.reset-period", "YEAR",
-			"--subscription-entitlement.usage-limit", "0",
-			"--subscription-entitlement.weekly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
-			"--subscription-entitlement.yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
 		)
 	})
@@ -158,6 +151,23 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"  - id: id\n" +
 			"    quantity: 1\n" +
 			"    type: FEATURE\n" +
+			"entitlements:\n" +
+			"  - credit:\n" +
+			"      amount: 1\n" +
+			"      cadence: MONTH\n" +
+			"      currencyId: currencyId\n" +
+			"    feature:\n" +
+			"      featureId: featureId\n" +
+			"      hasSoftLimit: true\n" +
+			"      hasUnlimitedUsage: true\n" +
+			"      monthlyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
+			"      resetPeriod: YEAR\n" +
+			"      usageLimit: 0\n" +
+			"      weeklyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
+			"      yearlyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
 			"minimumSpend:\n" +
@@ -172,19 +182,6 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"    featureId: featureId\n" +
 			"promotionCode: promotionCode\n" +
 			"scheduleStrategy: END_OF_BILLING_PERIOD\n" +
-			"subscriptionEntitlements:\n" +
-			"  - id: id\n" +
-			"    featureId: featureId\n" +
-			"    hasSoftLimit: true\n" +
-			"    hasUnlimitedUsage: true\n" +
-			"    monthlyResetPeriodConfiguration:\n" +
-			"      accordingTo: SubscriptionStart\n" +
-			"    resetPeriod: YEAR\n" +
-			"    usageLimit: 0\n" +
-			"    weeklyResetPeriodConfiguration:\n" +
-			"      accordingTo: SubscriptionStart\n" +
-			"    yearlyResetPeriodConfiguration:\n" +
-			"      accordingTo: SubscriptionStart\n" +
 			"trialEndDate: '2019-12-27T18:11:19.117Z'\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData, "v1:subscriptions", "update",
@@ -535,6 +532,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--budget", "{hasSoftLimit: true, limit: 0}",
 			"--charge", "{id: id, quantity: 1, type: FEATURE}",
 			"--checkout-options", "{cancelUrl: https://example.com, successUrl: https://example.com, allowPromoCodes: true, allowTaxIdCollection: true, collectBillingAddress: true, collectPhoneNumber: true, referenceId: referenceId}",
+			"--entitlement", "{credit: {amount: 1, cadence: MONTH, currencyId: currencyId}, feature: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend", "{amount: 0, currency: usd}",
 			"--paying-customer-id", "payingCustomerId",
@@ -544,7 +542,6 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--salesforce-id", "salesforceId",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
-			"--subscription-entitlement", "{featureId: featureId, usageLimit: 0, isGranted: true}",
 			"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
 			"--unit-quantity", "1",
 		)
@@ -596,6 +593,8 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--checkout-options.collect-billing-address=true",
 			"--checkout-options.collect-phone-number=true",
 			"--checkout-options.reference-id", "referenceId",
+			"--entitlement.credit", "{amount: 1, cadence: MONTH, currencyId: currencyId}",
+			"--entitlement.feature", "{featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend.amount", "0",
 			"--minimum-spend.currency", "usd",
@@ -615,9 +614,6 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--salesforce-id", "salesforceId",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
-			"--subscription-entitlement.feature-id", "featureId",
-			"--subscription-entitlement.usage-limit", "0",
-			"--subscription-entitlement.is-granted=true",
 			"--trial-override-configuration.is-trial=true",
 			"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 			"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
@@ -690,6 +686,23 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"  collectBillingAddress: true\n" +
 			"  collectPhoneNumber: true\n" +
 			"  referenceId: referenceId\n" +
+			"entitlements:\n" +
+			"  - credit:\n" +
+			"      amount: 1\n" +
+			"      cadence: MONTH\n" +
+			"      currencyId: currencyId\n" +
+			"    feature:\n" +
+			"      featureId: featureId\n" +
+			"      hasSoftLimit: true\n" +
+			"      hasUnlimitedUsage: true\n" +
+			"      monthlyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
+			"      resetPeriod: YEAR\n" +
+			"      usageLimit: 0\n" +
+			"      weeklyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
+			"      yearlyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
 			"minimumSpend:\n" +
@@ -722,10 +735,6 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"salesforceId: salesforceId\n" +
 			"scheduleStrategy: END_OF_BILLING_PERIOD\n" +
 			"startDate: '2019-12-27T18:11:19.117Z'\n" +
-			"subscriptionEntitlements:\n" +
-			"  - featureId: featureId\n" +
-			"    usageLimit: 0\n" +
-			"    isGranted: true\n" +
 			"trialOverrideConfiguration:\n" +
 			"  isTrial: true\n" +
 			"  trialEndBehavior: CONVERT_TO_PAID\n" +

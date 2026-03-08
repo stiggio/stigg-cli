@@ -70,6 +70,10 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "charge",
 			BodyPath: "charges",
 		},
+		&requestflag.Flag[[]map[string]any]{
+			Name:     "entitlement",
+			BodyPath: "entitlements",
+		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Additional metadata for the subscription",
@@ -91,10 +95,6 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		&requestflag.Flag[string]{
 			Name:     "schedule-strategy",
 			BodyPath: "scheduleStrategy",
-		},
-		&requestflag.Flag[[]map[string]any]{
-			Name:     "subscription-entitlement",
-			BodyPath: "subscriptionEntitlements",
 		},
 		&requestflag.Flag[any]{
 			Name:     "trial-end-date",
@@ -218,6 +218,18 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			InnerField: "type",
 		},
 	},
+	"entitlement": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "entitlement.credit",
+			Usage:      "Credit entitlement configuration",
+			InnerField: "credit",
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "entitlement.feature",
+			Usage:      "Feature entitlement configuration",
+			InnerField: "feature",
+		},
+	},
 	"minimum-spend": {
 		&requestflag.InnerFlag[float64]{
 			Name:       "minimum-spend.amount",
@@ -260,44 +272,6 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:       "price-override.feature-id",
 			Usage:      "Feature ID",
 			InnerField: "featureId",
-		},
-	},
-	"subscription-entitlement": {
-		&requestflag.InnerFlag[string]{
-			Name:       "subscription-entitlement.id",
-			InnerField: "id",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "subscription-entitlement.feature-id",
-			InnerField: "featureId",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "subscription-entitlement.has-soft-limit",
-			InnerField: "hasSoftLimit",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "subscription-entitlement.has-unlimited-usage",
-			InnerField: "hasUnlimitedUsage",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "subscription-entitlement.monthly-reset-period-configuration",
-			InnerField: "monthlyResetPeriodConfiguration",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "subscription-entitlement.reset-period",
-			InnerField: "resetPeriod",
-		},
-		&requestflag.InnerFlag[float64]{
-			Name:       "subscription-entitlement.usage-limit",
-			InnerField: "usageLimit",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "subscription-entitlement.weekly-reset-period-configuration",
-			InnerField: "weeklyResetPeriodConfiguration",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "subscription-entitlement.yearly-reset-period-configuration",
-			InnerField: "yearlyResetPeriodConfiguration",
 		},
 	},
 })
@@ -844,6 +818,10 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Checkout page configuration for payment collection",
 			BodyPath: "checkoutOptions",
 		},
+		&requestflag.Flag[[]map[string]any]{
+			Name:     "entitlement",
+			BodyPath: "entitlements",
+		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Additional metadata for the subscription",
@@ -888,10 +866,6 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "start-date",
 			Usage:    "Subscription start date",
 			BodyPath: "startDate",
-		},
-		&requestflag.Flag[[]map[string]any]{
-			Name:     "subscription-entitlement",
-			BodyPath: "subscriptionEntitlements",
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "trial-override-configuration",
@@ -1068,6 +1042,18 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			InnerField: "referenceId",
 		},
 	},
+	"entitlement": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "entitlement.credit",
+			Usage:      "Credit entitlement configuration",
+			InnerField: "credit",
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "entitlement.feature",
+			Usage:      "Feature entitlement configuration",
+			InnerField: "feature",
+		},
+	},
 	"minimum-spend": {
 		&requestflag.InnerFlag[float64]{
 			Name:       "minimum-spend.amount",
@@ -1128,21 +1114,6 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:       "price-override.tiers",
 			Usage:      "Pricing tiers configuration",
 			InnerField: "tiers",
-		},
-	},
-	"subscription-entitlement": {
-		&requestflag.InnerFlag[string]{
-			Name:       "subscription-entitlement.feature-id",
-			Usage:      "Feature ID",
-			InnerField: "featureId",
-		},
-		&requestflag.InnerFlag[float64]{
-			Name:       "subscription-entitlement.usage-limit",
-			InnerField: "usageLimit",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "subscription-entitlement.is-granted",
-			InnerField: "isGranted",
 		},
 	},
 	"trial-override-configuration": {
