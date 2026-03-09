@@ -35,7 +35,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
 			"--charge", "{id: id, quantity: 1, type: FEATURE}",
-			"--entitlement", "{credit: {amount: 1, cadence: MONTH, currencyId: currencyId}, feature: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}}",
+			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend", "{amount: 0, currency: usd}",
 			"--price-override", "{addonId: addonId, amount: 0, baseCharge: true, currency: usd, currencyId: currencyId, featureId: featureId}",
@@ -81,8 +81,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--charge.id", "id",
 			"--charge.quantity", "1",
 			"--charge.type", "FEATURE",
-			"--entitlement.credit", "{amount: 1, cadence: MONTH, currencyId: currencyId}",
-			"--entitlement.feature", "{featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
+			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend.amount", "0",
 			"--minimum-spend.currency", "usd",
@@ -152,22 +151,18 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"    quantity: 1\n" +
 			"    type: FEATURE\n" +
 			"entitlements:\n" +
-			"  - credit:\n" +
-			"      amount: 1\n" +
-			"      cadence: MONTH\n" +
-			"      currencyId: currencyId\n" +
-			"    feature:\n" +
-			"      featureId: featureId\n" +
-			"      hasSoftLimit: true\n" +
-			"      hasUnlimitedUsage: true\n" +
-			"      monthlyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
-			"      resetPeriod: YEAR\n" +
-			"      usageLimit: 0\n" +
-			"      weeklyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
-			"      yearlyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
+			"  - id: id\n" +
+			"    type: FEATURE\n" +
+			"    hasSoftLimit: true\n" +
+			"    hasUnlimitedUsage: true\n" +
+			"    monthlyResetPeriodConfiguration:\n" +
+			"      accordingTo: SubscriptionStart\n" +
+			"    resetPeriod: YEAR\n" +
+			"    usageLimit: 0\n" +
+			"    weeklyResetPeriodConfiguration:\n" +
+			"      accordingTo: SubscriptionStart\n" +
+			"    yearlyResetPeriodConfiguration:\n" +
+			"      accordingTo: SubscriptionStart\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
 			"minimumSpend:\n" +
@@ -532,7 +527,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--budget", "{hasSoftLimit: true, limit: 0}",
 			"--charge", "{id: id, quantity: 1, type: FEATURE}",
 			"--checkout-options", "{cancelUrl: https://example.com, successUrl: https://example.com, allowPromoCodes: true, allowTaxIdCollection: true, collectBillingAddress: true, collectPhoneNumber: true, referenceId: referenceId}",
-			"--entitlement", "{credit: {amount: 1, cadence: MONTH, currencyId: currencyId}, feature: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}}",
+			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend", "{amount: 0, currency: usd}",
 			"--paying-customer-id", "payingCustomerId",
@@ -593,8 +588,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--checkout-options.collect-billing-address=true",
 			"--checkout-options.collect-phone-number=true",
 			"--checkout-options.reference-id", "referenceId",
-			"--entitlement.credit", "{amount: 1, cadence: MONTH, currencyId: currencyId}",
-			"--entitlement.feature", "{featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
+			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend.amount", "0",
 			"--minimum-spend.currency", "usd",
@@ -687,22 +681,18 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"  collectPhoneNumber: true\n" +
 			"  referenceId: referenceId\n" +
 			"entitlements:\n" +
-			"  - credit:\n" +
-			"      amount: 1\n" +
-			"      cadence: MONTH\n" +
-			"      currencyId: currencyId\n" +
-			"    feature:\n" +
-			"      featureId: featureId\n" +
-			"      hasSoftLimit: true\n" +
-			"      hasUnlimitedUsage: true\n" +
-			"      monthlyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
-			"      resetPeriod: YEAR\n" +
-			"      usageLimit: 0\n" +
-			"      weeklyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
-			"      yearlyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
+			"  - id: id\n" +
+			"    type: FEATURE\n" +
+			"    hasSoftLimit: true\n" +
+			"    hasUnlimitedUsage: true\n" +
+			"    monthlyResetPeriodConfiguration:\n" +
+			"      accordingTo: SubscriptionStart\n" +
+			"    resetPeriod: YEAR\n" +
+			"    usageLimit: 0\n" +
+			"    weeklyResetPeriodConfiguration:\n" +
+			"      accordingTo: SubscriptionStart\n" +
+			"    yearlyResetPeriodConfiguration:\n" +
+			"      accordingTo: SubscriptionStart\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
 			"minimumSpend:\n" +

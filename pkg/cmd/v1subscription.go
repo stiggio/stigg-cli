@@ -218,18 +218,6 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			InnerField: "type",
 		},
 	},
-	"entitlement": {
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "entitlement.credit",
-			Usage:      "Credit entitlement configuration",
-			InnerField: "credit",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "entitlement.feature",
-			Usage:      "Feature entitlement configuration",
-			InnerField: "feature",
-		},
-	},
 	"minimum-spend": {
 		&requestflag.InnerFlag[float64]{
 			Name:       "minimum-spend.amount",
@@ -1040,18 +1028,6 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:       "checkout-options.reference-id",
 			Usage:      "Optional reference ID for the checkout session",
 			InnerField: "referenceId",
-		},
-	},
-	"entitlement": {
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "entitlement.credit",
-			Usage:      "Credit entitlement configuration",
-			InnerField: "credit",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "entitlement.feature",
-			Usage:      "Feature entitlement configuration",
-			InnerField: "feature",
 		},
 	},
 	"minimum-spend": {
