@@ -27,6 +27,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 			t, "v1:customers", "update",
 			"--api-key", "string",
 			"--id", "x",
+			"--billing-id", "billingId",
 			"--coupon-id", "couponId",
 			"--email", "dev@stainless.com",
 			"--integration", "{id: id, syncedEntityId: syncedEntityId, vendorIdentifier: AUTH0}",
@@ -44,6 +45,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 			t, "v1:customers", "update",
 			"--api-key", "string",
 			"--id", "x",
+			"--billing-id", "billingId",
 			"--coupon-id", "couponId",
 			"--email", "dev@stainless.com",
 			"--integration.id", "id",
@@ -57,6 +59,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
+			"billingId: billingId\n" +
 			"couponId: couponId\n" +
 			"email: dev@stainless.com\n" +
 			"integrations:\n" +
@@ -190,6 +193,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			t, "v1:customers", "provision",
 			"--api-key", "string",
 			"--id", "id",
+			"--billing-id", "billingId",
 			"--coupon-id", "couponId",
 			"--default-payment-method", "{billingId: billingId, cardExpiryMonth: 0, cardExpiryYear: 0, cardLast4Digits: cardLast4Digits, type: CARD}",
 			"--email", "dev@stainless.com",
@@ -208,6 +212,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			t, "v1:customers", "provision",
 			"--api-key", "string",
 			"--id", "id",
+			"--billing-id", "billingId",
 			"--coupon-id", "couponId",
 			"--default-payment-method.billing-id", "billingId",
 			"--default-payment-method.card-expiry-month", "0",
@@ -227,6 +232,7 @@ func TestV1CustomersProvision(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"id: id\n" +
+			"billingId: billingId\n" +
 			"couponId: couponId\n" +
 			"defaultPaymentMethod:\n" +
 			"  billingId: billingId\n" +
