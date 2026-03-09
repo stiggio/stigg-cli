@@ -174,6 +174,26 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:events:credits",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsCreditsGetAutoRecharge,
+					&v1EventsCreditsGetUsage,
+					&v1EventsCreditsListLedger,
+				},
+			},
+			{
+				Name:     "v1:events:credits:grants",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsCreditsGrantsCreate,
+					&v1EventsCreditsGrantsList,
+					&v1EventsCreditsGrantsVoid,
+				},
+			},
+			{
 				Name:     "v1:features",
 				Category: "API RESOURCE",
 				Suggest:  true,
