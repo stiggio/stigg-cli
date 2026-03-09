@@ -15,7 +15,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1PlansEntitlementsCreate = requestflag.WithInnerFlags(cli.Command{
+var v1PlansEntitlementsCreate = cli.Command{
 	Name:    "create",
 	Usage:   "Creates one or more entitlements (feature or credit) on a draft plan.",
 	Suggest: true,
@@ -33,20 +33,7 @@ var v1PlansEntitlementsCreate = requestflag.WithInnerFlags(cli.Command{
 	},
 	Action:          handleV1PlansEntitlementsCreate,
 	HideHelpCommand: true,
-}, map[string][]requestflag.HasOuterFlag{
-	"entitlement": {
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "entitlement.credit",
-			Usage:      "Credit entitlement to create",
-			InnerField: "credit",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "entitlement.feature",
-			Usage:      "Feature entitlement to create",
-			InnerField: "feature",
-		},
-	},
-})
+}
 
 var v1PlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update",
@@ -61,142 +48,120 @@ var v1PlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "id",
 			Required: true,
 		},
-		&requestflag.Flag[map[string]any]{
-			Name:     "credit",
-			Usage:    "Credit entitlement fields to update",
-			BodyPath: "credit",
+		&requestflag.Flag[string]{
+			Name:     "type",
+			Usage:    "UpdateFeatureEntitlementRequest",
+			Required: true,
+			BodyPath: "type",
 		},
-		&requestflag.Flag[map[string]any]{
-			Name:     "feature",
-			Usage:    "Feature entitlement fields to update",
-			BodyPath: "feature",
+		&requestflag.Flag[string]{
+			Name:     "behavior",
+			Usage:    "Entitlement behavior (Increment or Override)",
+			BodyPath: "behavior",
+		},
+		&requestflag.Flag[string]{
+			Name:     "description",
+			Usage:    "Description of the entitlement",
+			BodyPath: "description",
+		},
+		&requestflag.Flag[string]{
+			Name:     "display-name-override",
+			Usage:    "Override display name for the entitlement",
+			BodyPath: "displayNameOverride",
+		},
+		&requestflag.Flag[[]string]{
+			Name:     "enum-value",
+			Usage:    "Allowed enum values for the feature entitlement",
+			BodyPath: "enumValues",
+		},
+		&requestflag.Flag[bool]{
+			Name:     "has-soft-limit",
+			Usage:    "Whether the usage limit is a soft limit",
+			BodyPath: "hasSoftLimit",
+		},
+		&requestflag.Flag[bool]{
+			Name:     "has-unlimited-usage",
+			Usage:    "Whether usage is unlimited",
+			BodyPath: "hasUnlimitedUsage",
+		},
+		&requestflag.Flag[[]string]{
+			Name:     "hidden-from-widget",
+			Usage:    "Widget types where this entitlement is hidden",
+			BodyPath: "hiddenFromWidgets",
+		},
+		&requestflag.Flag[bool]{
+			Name:     "is-custom",
+			Usage:    "Whether this is a custom entitlement",
+			BodyPath: "isCustom",
+		},
+		&requestflag.Flag[bool]{
+			Name:     "is-granted",
+			Usage:    "Whether the entitlement is granted",
+			BodyPath: "isGranted",
+		},
+		&requestflag.Flag[any]{
+			Name:     "monthly-reset-period-configuration",
+			Usage:    "Configuration for monthly reset period",
+			BodyPath: "monthlyResetPeriodConfiguration",
+		},
+		&requestflag.Flag[float64]{
+			Name:     "order",
+			Usage:    "Display order of the entitlement",
+			BodyPath: "order",
+		},
+		&requestflag.Flag[string]{
+			Name:     "reset-period",
+			Usage:    "Period at which usage resets",
+			BodyPath: "resetPeriod",
+		},
+		&requestflag.Flag[any]{
+			Name:     "usage-limit",
+			Usage:    "Maximum allowed usage for the feature",
+			BodyPath: "usageLimit",
+		},
+		&requestflag.Flag[any]{
+			Name:     "weekly-reset-period-configuration",
+			Usage:    "Configuration for weekly reset period",
+			BodyPath: "weeklyResetPeriodConfiguration",
+		},
+		&requestflag.Flag[any]{
+			Name:     "yearly-reset-period-configuration",
+			Usage:    "Configuration for yearly reset period",
+			BodyPath: "yearlyResetPeriodConfiguration",
+		},
+		&requestflag.Flag[float64]{
+			Name:     "amount",
+			Usage:    "Credit grant amount",
+			BodyPath: "amount",
+		},
+		&requestflag.Flag[string]{
+			Name:     "cadence",
+			Usage:    "Credit grant cadence (MONTH or YEAR)",
+			BodyPath: "cadence",
 		},
 	},
 	Action:          handleV1PlansEntitlementsUpdate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
-	"credit": {
-		&requestflag.InnerFlag[float64]{
-			Name:       "credit.amount",
-			Usage:      "Credit grant amount",
-			InnerField: "amount",
-		},
+	"monthly-reset-period-configuration": {
 		&requestflag.InnerFlag[string]{
-			Name:       "credit.behavior",
-			Usage:      "Entitlement behavior (Increment or Override)",
-			InnerField: "behavior",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "credit.cadence",
-			Usage:      "Credit grant cadence (MONTH or YEAR)",
-			InnerField: "cadence",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "credit.description",
-			Usage:      "Description of the entitlement",
-			InnerField: "description",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "credit.display-name-override",
-			Usage:      "Override display name for the entitlement",
-			InnerField: "displayNameOverride",
-		},
-		&requestflag.InnerFlag[[]string]{
-			Name:       "credit.hidden-from-widgets",
-			Usage:      "Widget types where this entitlement is hidden",
-			InnerField: "hiddenFromWidgets",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "credit.is-custom",
-			Usage:      "Whether this is a custom entitlement",
-			InnerField: "isCustom",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "credit.is-granted",
-			Usage:      "Whether the entitlement is granted",
-			InnerField: "isGranted",
-		},
-		&requestflag.InnerFlag[float64]{
-			Name:       "credit.order",
-			Usage:      "Display order of the entitlement",
-			InnerField: "order",
+			Name:       "monthly-reset-period-configuration.according-to",
+			Usage:      "Reset anchor (SubscriptionStart or StartOfTheMonth)",
+			InnerField: "accordingTo",
 		},
 	},
-	"feature": {
+	"weekly-reset-period-configuration": {
 		&requestflag.InnerFlag[string]{
-			Name:       "feature.behavior",
-			Usage:      "Entitlement behavior (Increment or Override)",
-			InnerField: "behavior",
+			Name:       "weekly-reset-period-configuration.according-to",
+			Usage:      "Reset anchor (SubscriptionStart or specific day)",
+			InnerField: "accordingTo",
 		},
+	},
+	"yearly-reset-period-configuration": {
 		&requestflag.InnerFlag[string]{
-			Name:       "feature.description",
-			Usage:      "Description of the entitlement",
-			InnerField: "description",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "feature.display-name-override",
-			Usage:      "Override display name for the entitlement",
-			InnerField: "displayNameOverride",
-		},
-		&requestflag.InnerFlag[[]string]{
-			Name:       "feature.enum-values",
-			Usage:      "Allowed enum values for the feature entitlement",
-			InnerField: "enumValues",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "feature.has-soft-limit",
-			Usage:      "Whether the usage limit is a soft limit",
-			InnerField: "hasSoftLimit",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "feature.has-unlimited-usage",
-			Usage:      "Whether usage is unlimited",
-			InnerField: "hasUnlimitedUsage",
-		},
-		&requestflag.InnerFlag[[]string]{
-			Name:       "feature.hidden-from-widgets",
-			Usage:      "Widget types where this entitlement is hidden",
-			InnerField: "hiddenFromWidgets",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "feature.is-custom",
-			Usage:      "Whether this is a custom entitlement",
-			InnerField: "isCustom",
-		},
-		&requestflag.InnerFlag[bool]{
-			Name:       "feature.is-granted",
-			Usage:      "Whether the entitlement is granted",
-			InnerField: "isGranted",
-		},
-		&requestflag.InnerFlag[any]{
-			Name:       "feature.monthly-reset-period-configuration",
-			Usage:      "Configuration for monthly reset period",
-			InnerField: "monthlyResetPeriodConfiguration",
-		},
-		&requestflag.InnerFlag[float64]{
-			Name:       "feature.order",
-			Usage:      "Display order of the entitlement",
-			InnerField: "order",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "feature.reset-period",
-			Usage:      "Period at which usage resets",
-			InnerField: "resetPeriod",
-		},
-		&requestflag.InnerFlag[any]{
-			Name:       "feature.usage-limit",
-			Usage:      "Maximum allowed usage for the feature",
-			InnerField: "usageLimit",
-		},
-		&requestflag.InnerFlag[any]{
-			Name:       "feature.weekly-reset-period-configuration",
-			Usage:      "Configuration for weekly reset period",
-			InnerField: "weeklyResetPeriodConfiguration",
-		},
-		&requestflag.InnerFlag[any]{
-			Name:       "feature.yearly-reset-period-configuration",
-			Usage:      "Configuration for yearly reset period",
-			InnerField: "yearlyResetPeriodConfiguration",
+			Name:       "yearly-reset-period-configuration.according-to",
+			Usage:      "Reset anchor (SubscriptionStart)",
+			InnerField: "accordingTo",
 		},
 	},
 })
