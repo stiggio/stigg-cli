@@ -39,6 +39,11 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 		},
 		&requestflag.Flag[any]{
+			Name:     "billing-id",
+			Usage:    "The unique identifier for the entity in the billing provider",
+			BodyPath: "billingId",
+		},
+		&requestflag.Flag[any]{
 			Name:     "coupon-id",
 			Usage:    "Customer level coupon",
 			BodyPath: "couponId",
@@ -261,6 +266,11 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Customer slug",
 			Required: true,
 			BodyPath: "id",
+		},
+		&requestflag.Flag[any]{
+			Name:     "billing-id",
+			Usage:    "The unique identifier for the entity in the billing provider",
+			BodyPath: "billingId",
 		},
 		&requestflag.Flag[any]{
 			Name:     "coupon-id",
