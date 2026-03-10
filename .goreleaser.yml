@@ -78,3 +78,19 @@ nfpms:
     contents:
       - src: man/man1/*.1.gz
         dst: /usr/share/man/man1/
+homebrew_casks:
+  - name: stigg
+    repository:
+      owner: stiggio
+      name: homebrew-tools
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    homepage: https://stigg.io
+    description: The official CLI for Stigg.
+    license: Apache-2.0
+    binary: "stigg"
+    completions:
+      bash: "completions/stigg.bash"
+      zsh: "completions/stigg.zsh"
+      fish: "completions/stigg.fish"
+    manpages:
+    - man/man1/stigg.1.gz
