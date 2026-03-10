@@ -5,7 +5,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/stigg-cli/internal/mocktest"
+	"github.com/stiggio/stigg-cli/internal/mocktest"
 )
 
 func TestV1CustomersPaymentMethodAttach(t *testing.T) {

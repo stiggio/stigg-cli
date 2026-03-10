@@ -16,7 +16,7 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/stainless-sdks/stigg-cli/internal/jsonview"
+	"github.com/stiggio/stigg-cli/internal/jsonview"
 	"github.com/stiggio/stigg-go/option"
 
 	"github.com/charmbracelet/x/term"

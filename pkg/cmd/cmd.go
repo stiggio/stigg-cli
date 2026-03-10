@@ -12,8 +12,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/stainless-sdks/stigg-cli/internal/autocomplete"
-	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
+	"github.com/stiggio/stigg-cli/internal/autocomplete"
+	"github.com/stiggio/stigg-cli/internal/requestflag"
 	docs "github.com/urfave/cli-docs/v3"
 	"github.com/urfave/cli/v3"
 )
