@@ -10,7 +10,7 @@ import (
 	"os"
 	"slices"
 
-	"github.com/stainless-sdks/stigg-cli/pkg/cmd"
+	"github.com/stiggio/stigg-cli/pkg/cmd"
 	"github.com/stiggio/stigg-go"
 	"github.com/tidwall/gjson"
 	"github.com/urfave/cli/v3"
