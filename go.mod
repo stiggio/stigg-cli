@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/stigg-cli
+module github.com/stiggio/stigg-cli
 
 go 1.25
 

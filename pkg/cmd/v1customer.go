@@ -7,8 +7,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/stainless-sdks/stigg-cli/internal/apiquery"
-	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
+	"github.com/stiggio/stigg-cli/internal/apiquery"
+	"github.com/stiggio/stigg-cli/internal/requestflag"
 	"github.com/stiggio/stigg-go"
 	"github.com/stiggio/stigg-go/option"
 	"github.com/tidwall/gjson"

@@ -5,8 +5,8 @@ package cmd
 import (
 	"testing"
 
-	"github.com/stainless-sdks/stigg-cli/internal/mocktest"
-	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
+	"github.com/stiggio/stigg-cli/internal/mocktest"
+	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
 func TestV1CouponsCreate(t *testing.T) {

@@ -14,10 +14,10 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/stainless-sdks/stigg-cli/internal/apiform"
-	"github.com/stainless-sdks/stigg-cli/internal/apiquery"
-	"github.com/stainless-sdks/stigg-cli/internal/debugmiddleware"
-	"github.com/stainless-sdks/stigg-cli/internal/requestflag"
+	"github.com/stiggio/stigg-cli/internal/apiform"
+	"github.com/stiggio/stigg-cli/internal/apiquery"
+	"github.com/stiggio/stigg-cli/internal/debugmiddleware"
+	"github.com/stiggio/stigg-cli/internal/requestflag"
 	"github.com/stiggio/stigg-go/option"
 
 	"github.com/goccy/go-yaml"
