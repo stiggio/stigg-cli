@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1 (2026-03-12)
+
+Full Changelog: [v0.1.0...v0.1.1](https://github.com/stiggio/stigg-cli/compare/v0.1.0...v0.1.1)
+
+### Bug Fixes
+
+* fix for test cases with newlines in YAML and better error reporting ([44c8bc2](https://github.com/stiggio/stigg-cli/commit/44c8bc2b18181c9295920a3f9f45c9f27cbe8723))
+
 ## 0.1.0 (2026-03-10)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/stiggio/stigg-cli/compare/v0.0.1...v0.1.0)
