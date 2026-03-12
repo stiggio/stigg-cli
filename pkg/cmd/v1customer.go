@@ -184,6 +184,11 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "customers",
 		},
+		&requestflag.Flag[string]{
+			Name:     "integration-id",
+			Usage:    "Integration details",
+			BodyPath: "integrationId",
+		},
 	},
 	Action:          handleV1CustomersImport,
 	HideHelpCommand: true,
@@ -204,6 +209,11 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The name of the customer",
 			InnerField: "name",
 		},
+		&requestflag.InnerFlag[string]{
+			Name:       "customer.billing-id",
+			Usage:      "Id in the billing provider",
+			InnerField: "billingId",
+		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "customer.metadata",
 			Usage:      "Additional metadata",
@@ -213,6 +223,11 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 			Name:       "customer.payment-method-id",
 			Usage:      "Billing provider payment method id",
 			InnerField: "paymentMethodId",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "customer.salesforce-id",
+			Usage:      "The unique identifier for the customer in Salesforce integration",
+			InnerField: "salesforceId",
 		},
 		&requestflag.InnerFlag[any]{
 			Name:       "customer.updated-at",
