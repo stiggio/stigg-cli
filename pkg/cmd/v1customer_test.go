@@ -132,7 +132,8 @@ func TestV1CustomersImport(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t, "v1:customers", "import",
 			"--api-key", "string",
-			"--customer", "{id: id, email: dev@stainless.com, name: name, metadata: {foo: string}, paymentMethodId: paymentMethodId, updatedAt: '2019-12-27T18:11:19.117Z'}",
+			"--customer", "{id: id, email: dev@stainless.com, name: name, billingId: billingId, metadata: {foo: string}, paymentMethodId: paymentMethodId, salesforceId: salesforceId, updatedAt: '2019-12-27T18:11:19.117Z'}",
+			"--integration-id", "integrationId",
 		)
 	})
 
@@ -147,9 +148,12 @@ func TestV1CustomersImport(t *testing.T) {
 			"--customer.id", "id",
 			"--customer.email", "dev@stainless.com",
 			"--customer.name", "name",
+			"--customer.billing-id", "billingId",
 			"--customer.metadata", "{foo: string}",
 			"--customer.payment-method-id", "paymentMethodId",
+			"--customer.salesforce-id", "salesforceId",
 			"--customer.updated-at", "2019-12-27T18:11:19.117Z",
+			"--integration-id", "integrationId",
 		)
 	})
 
@@ -160,10 +164,13 @@ func TestV1CustomersImport(t *testing.T) {
 			"  - id: id\n" +
 			"    email: dev@stainless.com\n" +
 			"    name: name\n" +
+			"    billingId: billingId\n" +
 			"    metadata:\n" +
 			"      foo: string\n" +
 			"    paymentMethodId: paymentMethodId\n" +
-			"    updatedAt: '2019-12-27T18:11:19.117Z'\n")
+			"    salesforceId: salesforceId\n" +
+			"    updatedAt: '2019-12-27T18:11:19.117Z'\n" +
+			"integrationId: integrationId\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData, "v1:customers", "import",
 			"--api-key", "string",
