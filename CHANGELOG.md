@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 (2026-03-12)
+
+Full Changelog: [v0.1.1...v0.2.0](https://github.com/stiggio/stigg-cli/compare/v0.1.1...v0.2.0)
+
+### Features
+
+* **api:** api update ([b3e9558](https://github.com/stiggio/stigg-cli/commit/b3e95584b8632d7198f5e48f326a053352902f3d))
+
 ## 0.1.1 (2026-03-12)
 
 Full Changelog: [v0.1.0...v0.1.1](https://github.com/stiggio/stigg-cli/compare/v0.1.0...v0.1.1)
