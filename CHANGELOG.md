@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1 (2026-03-14)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/stiggio/stigg-cli/compare/v0.3.0...v0.3.1)
+
+### Bug Fixes
+
+* only set client options when the corresponding CLI flag or env var is explicitly set ([aff5757](https://github.com/stiggio/stigg-cli/commit/aff5757bbd00997b170ffc068aa69ad38c14d938))
+
 ## 0.3.0 (2026-03-12)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/stiggio/stigg-cli/compare/v0.2.0...v0.3.0)
