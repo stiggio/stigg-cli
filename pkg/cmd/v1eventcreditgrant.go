@@ -129,7 +129,7 @@ var v1EventsCreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "cost.currency",
-			Usage:      "The price currency",
+			Usage:      "ISO 4217 currency code",
 			InnerField: "currency",
 		},
 	},

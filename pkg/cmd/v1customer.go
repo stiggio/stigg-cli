@@ -39,6 +39,11 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 		},
 		&requestflag.Flag[any]{
+			Name:     "billing-currency",
+			Usage:    "The billing currency of the customer",
+			BodyPath: "billingCurrency",
+		},
+		&requestflag.Flag[any]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
@@ -281,6 +286,11 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Customer slug",
 			Required: true,
 			BodyPath: "id",
+		},
+		&requestflag.Flag[any]{
+			Name:     "billing-currency",
+			Usage:    "The billing currency of the customer",
+			BodyPath: "billingCurrency",
 		},
 		&requestflag.Flag[any]{
 			Name:     "billing-id",
