@@ -74,7 +74,7 @@ var v1CouponsCreate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "amounts-off.currency",
-			Usage:      "The price currency",
+			Usage:      "ISO 4217 currency code",
 			InnerField: "currency",
 		},
 	},
