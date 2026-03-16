@@ -29,7 +29,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--id", "x",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
-			"--coupon-id", "couponId",
+			"--coupon-id", "''",
 			"--email", "dev@stainless.com",
 			"--integration", "{id: id, syncedEntityId: syncedEntityId, vendorIdentifier: AUTH0}",
 			"--language", "language",
@@ -51,7 +51,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--id", "x",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
-			"--coupon-id", "couponId",
+			"--coupon-id", "''",
 			"--email", "dev@stainless.com",
 			"--integration.id", "id",
 			"--integration.synced-entity-id", "syncedEntityId",
@@ -70,7 +70,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 		pipeData := []byte("" +
 			"billingCurrency: usd\n" +
 			"billingId: billingId\n" +
-			"couponId: couponId\n" +
+			"couponId: ''\n" +
 			"email: dev@stainless.com\n" +
 			"integrations:\n" +
 			"  - id: id\n" +
@@ -251,7 +251,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--id", "id",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
-			"--coupon-id", "couponId",
+			"--coupon-id", "''",
 			"--default-payment-method", "{billingId: billingId, cardExpiryMonth: 0, cardExpiryYear: 0, cardLast4Digits: cardLast4Digits, type: CARD}",
 			"--email", "dev@stainless.com",
 			"--integration", "{id: id, syncedEntityId: syncedEntityId, vendorIdentifier: AUTH0}",
@@ -274,7 +274,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--id", "id",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
-			"--coupon-id", "couponId",
+			"--coupon-id", "''",
 			"--default-payment-method.billing-id", "billingId",
 			"--default-payment-method.card-expiry-month", "0",
 			"--default-payment-method.card-expiry-year", "0",
@@ -299,7 +299,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			"id: id\n" +
 			"billingCurrency: usd\n" +
 			"billingId: billingId\n" +
-			"couponId: couponId\n" +
+			"couponId: ''\n" +
 			"defaultPaymentMethod:\n" +
 			"  billingId: billingId\n" +
 			"  cardExpiryMonth: 0\n" +
