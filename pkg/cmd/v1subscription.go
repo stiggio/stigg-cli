@@ -128,6 +128,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "applied-coupon.coupon-id",
+			Usage:      "Stigg coupon ID",
 			InnerField: "couponId",
 		},
 		&requestflag.InnerFlag[map[string]any]{
