@@ -32,8 +32,11 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--coupon-id", "couponId",
 			"--email", "dev@stainless.com",
 			"--integration", "{id: id, syncedEntityId: syncedEntityId, vendorIdentifier: AUTH0}",
+			"--language", "language",
 			"--metadata", "{foo: string}",
 			"--name", "name",
+			"--passthrough", "{stripe: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}, zuora: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}}",
+			"--timezone", "timezone",
 		)
 	})
 
@@ -53,8 +56,12 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--integration.id", "id",
 			"--integration.synced-entity-id", "syncedEntityId",
 			"--integration.vendor-identifier", "AUTH0",
+			"--language", "language",
 			"--metadata", "{foo: string}",
 			"--name", "name",
+			"--passthrough.stripe", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}",
+			"--passthrough.zuora", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}",
+			"--timezone", "timezone",
 		)
 	})
 
@@ -69,9 +76,48 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"  - id: id\n" +
 			"    syncedEntityId: syncedEntityId\n" +
 			"    vendorIdentifier: AUTH0\n" +
+			"language: language\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
-			"name: name\n")
+			"name: name\n" +
+			"passthrough:\n" +
+			"  stripe:\n" +
+			"    billingAddress:\n" +
+			"      city: city\n" +
+			"      country: country\n" +
+			"      line1: line1\n" +
+			"      line2: line2\n" +
+			"      postalCode: postalCode\n" +
+			"      state: state\n" +
+			"    customerName: customerName\n" +
+			"    invoiceCustomFields:\n" +
+			"      foo: string\n" +
+			"    metadata:\n" +
+			"      foo: string\n" +
+			"    paymentMethodId: paymentMethodId\n" +
+			"    shippingAddress:\n" +
+			"      city: city\n" +
+			"      country: country\n" +
+			"      line1: line1\n" +
+			"      line2: line2\n" +
+			"      postalCode: postalCode\n" +
+			"      state: state\n" +
+			"    taxIds:\n" +
+			"      - type: type\n" +
+			"        value: value\n" +
+			"  zuora:\n" +
+			"    billingAddress:\n" +
+			"      city: city\n" +
+			"      country: country\n" +
+			"      line1: line1\n" +
+			"      line2: line2\n" +
+			"      postalCode: postalCode\n" +
+			"      state: state\n" +
+			"    currency: usd\n" +
+			"    metadata:\n" +
+			"      foo: string\n" +
+			"    paymentMethodId: paymentMethodId\n" +
+			"timezone: timezone\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData, "v1:customers", "update",
 			"--api-key", "string",
@@ -209,8 +255,11 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--default-payment-method", "{billingId: billingId, cardExpiryMonth: 0, cardExpiryYear: 0, cardLast4Digits: cardLast4Digits, type: CARD}",
 			"--email", "dev@stainless.com",
 			"--integration", "{id: id, syncedEntityId: syncedEntityId, vendorIdentifier: AUTH0}",
+			"--language", "language",
 			"--metadata", "{foo: string}",
 			"--name", "name",
+			"--passthrough", "{stripe: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}, zuora: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}}",
+			"--timezone", "timezone",
 		)
 	})
 
@@ -235,8 +284,12 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--integration.id", "id",
 			"--integration.synced-entity-id", "syncedEntityId",
 			"--integration.vendor-identifier", "AUTH0",
+			"--language", "language",
 			"--metadata", "{foo: string}",
 			"--name", "name",
+			"--passthrough.stripe", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}",
+			"--passthrough.zuora", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}",
+			"--timezone", "timezone",
 		)
 	})
 
@@ -258,9 +311,48 @@ func TestV1CustomersProvision(t *testing.T) {
 			"  - id: id\n" +
 			"    syncedEntityId: syncedEntityId\n" +
 			"    vendorIdentifier: AUTH0\n" +
+			"language: language\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
-			"name: name\n")
+			"name: name\n" +
+			"passthrough:\n" +
+			"  stripe:\n" +
+			"    billingAddress:\n" +
+			"      city: city\n" +
+			"      country: country\n" +
+			"      line1: line1\n" +
+			"      line2: line2\n" +
+			"      postalCode: postalCode\n" +
+			"      state: state\n" +
+			"    customerName: customerName\n" +
+			"    invoiceCustomFields:\n" +
+			"      foo: string\n" +
+			"    metadata:\n" +
+			"      foo: string\n" +
+			"    paymentMethodId: paymentMethodId\n" +
+			"    shippingAddress:\n" +
+			"      city: city\n" +
+			"      country: country\n" +
+			"      line1: line1\n" +
+			"      line2: line2\n" +
+			"      postalCode: postalCode\n" +
+			"      state: state\n" +
+			"    taxIds:\n" +
+			"      - type: type\n" +
+			"        value: value\n" +
+			"  zuora:\n" +
+			"    billingAddress:\n" +
+			"      city: city\n" +
+			"      country: country\n" +
+			"      line1: line1\n" +
+			"      line2: line2\n" +
+			"      postalCode: postalCode\n" +
+			"      state: state\n" +
+			"    currency: usd\n" +
+			"    metadata:\n" +
+			"      foo: string\n" +
+			"    paymentMethodId: paymentMethodId\n" +
+			"timezone: timezone\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData, "v1:customers", "provision",
 			"--api-key", "string",
