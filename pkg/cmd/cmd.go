@@ -219,7 +219,6 @@ func init() {
 					&v1AddonsCreateDraft,
 					&v1AddonsPublish,
 					&v1AddonsRemoveDraft,
-					&v1AddonsSetPricing,
 				},
 			},
 			{
@@ -246,7 +245,6 @@ func init() {
 					&v1PlansCreateDraft,
 					&v1PlansPublish,
 					&v1PlansRemoveDraft,
-					&v1PlansSetPricing,
 				},
 			},
 			{

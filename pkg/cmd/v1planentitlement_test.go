@@ -80,6 +80,7 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 			"--yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
 			"--amount", "1",
 			"--cadence", "MONTH",
+			"--dependency-feature-id", "dependencyFeatureId",
 		)
 	})
 
@@ -111,6 +112,7 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 			"--yearly-reset-period-configuration.according-to", "SubscriptionStart",
 			"--amount", "1",
 			"--cadence", "MONTH",
+			"--dependency-feature-id", "dependencyFeatureId",
 		)
 	})
 
@@ -139,7 +141,8 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 			"yearlyResetPeriodConfiguration:\n" +
 			"  accordingTo: SubscriptionStart\n" +
 			"amount: 1\n" +
-			"cadence: MONTH\n")
+			"cadence: MONTH\n" +
+			"dependencyFeatureId: dependencyFeatureId\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData, "v1:plans:entitlements", "update",
 			"--api-key", "string",
