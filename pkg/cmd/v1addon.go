@@ -87,7 +87,7 @@ var v1AddonsRetrieve = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1AddonsUpdate = cli.Command{
+var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update",
 	Usage:   "Updates an existing addon's properties such as display name, description, and\nmetadata.",
 	Suggest: true,
@@ -100,6 +100,11 @@ var v1AddonsUpdate = cli.Command{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "charges",
+			Usage:    "Pricing configuration to set on the addon draft",
+			BodyPath: "charges",
 		},
 		&requestflag.Flag[any]{
 			Name:     "dependency",
@@ -134,7 +139,40 @@ var v1AddonsUpdate = cli.Command{
 	},
 	Action:          handleV1AddonsUpdate,
 	HideHelpCommand: true,
-}
+}, map[string][]requestflag.HasOuterFlag{
+	"charges": {
+		&requestflag.InnerFlag[string]{
+			Name:       "charges.pricing-type",
+			Usage:      "The pricing type (FREE, PAID, or CUSTOM)",
+			InnerField: "pricingType",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "charges.billing-id",
+			Usage:      "Deprecated: billing integration ID",
+			InnerField: "billingId",
+		},
+		&requestflag.InnerFlag[any]{
+			Name:       "charges.minimum-spend",
+			Usage:      "Minimum spend configuration per billing period",
+			InnerField: "minimumSpend",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "charges.overage-billing-period",
+			Usage:      "When overage charges are billed",
+			InnerField: "overageBillingPeriod",
+		},
+		&requestflag.InnerFlag[[]map[string]any]{
+			Name:       "charges.overage-pricing-models",
+			Usage:      "Array of overage pricing model configurations",
+			InnerField: "overagePricingModels",
+		},
+		&requestflag.InnerFlag[[]map[string]any]{
+			Name:       "charges.pricing-models",
+			Usage:      "Array of pricing model configurations",
+			InnerField: "pricingModels",
+		},
+	},
+})
 
 var v1AddonsList = requestflag.WithInnerFlags(cli.Command{
 	Name:    "list",
@@ -265,158 +303,6 @@ var v1AddonsRemoveDraft = cli.Command{
 	Action:          handleV1AddonsRemoveDraft,
 	HideHelpCommand: true,
 }
-
-var v1AddonsSetPricing = requestflag.WithInnerFlags(cli.Command{
-	Name:    "set-pricing",
-	Usage:   "Sets the pricing configuration for an addon.",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
-		},
-		&requestflag.Flag[string]{
-			Name:     "pricing-type",
-			Usage:    "The pricing type (FREE, PAID, or CUSTOM)",
-			Required: true,
-			BodyPath: "pricingType",
-		},
-		&requestflag.Flag[string]{
-			Name:     "billing-id",
-			Usage:    "Deprecated: billing integration ID",
-			BodyPath: "billingId",
-		},
-		&requestflag.Flag[any]{
-			Name:     "minimum-spend",
-			Usage:    "Minimum spend configuration per billing period",
-			BodyPath: "minimumSpend",
-		},
-		&requestflag.Flag[string]{
-			Name:     "overage-billing-period",
-			Usage:    "When overage charges are billed",
-			BodyPath: "overageBillingPeriod",
-		},
-		&requestflag.Flag[[]map[string]any]{
-			Name:     "overage-pricing-model",
-			Usage:    "Array of overage pricing model configurations",
-			BodyPath: "overagePricingModels",
-		},
-		&requestflag.Flag[[]map[string]any]{
-			Name:     "pricing-model",
-			Usage:    "Array of pricing model configurations",
-			BodyPath: "pricingModels",
-		},
-	},
-	Action:          handleV1AddonsSetPricing,
-	HideHelpCommand: true,
-}, map[string][]requestflag.HasOuterFlag{
-	"minimum-spend": {
-		&requestflag.InnerFlag[string]{
-			Name:       "minimum-spend.billing-period",
-			Usage:      "The billing period",
-			InnerField: "billingPeriod",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "minimum-spend.minimum",
-			Usage:      "The minimum spend amount",
-			InnerField: "minimum",
-		},
-	},
-	"overage-pricing-model": {
-		&requestflag.InnerFlag[string]{
-			Name:       "overage-pricing-model.billing-model",
-			Usage:      "The billing model for overages",
-			InnerField: "billingModel",
-		},
-		&requestflag.InnerFlag[[]map[string]any]{
-			Name:       "overage-pricing-model.price-periods",
-			Usage:      "Price periods for overage pricing",
-			InnerField: "pricePeriods",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "overage-pricing-model.billing-cadence",
-			Usage:      "The billing cadence for overages",
-			InnerField: "billingCadence",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "overage-pricing-model.entitlement",
-			Usage:      "Entitlement configuration for the overage feature",
-			InnerField: "entitlement",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "overage-pricing-model.feature-id",
-			Usage:      "The feature ID for overage pricing",
-			InnerField: "featureId",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "overage-pricing-model.top-up-custom-currency-id",
-			Usage:      "Custom currency ID for overage top-up",
-			InnerField: "topUpCustomCurrencyId",
-		},
-	},
-	"pricing-model": {
-		&requestflag.InnerFlag[string]{
-			Name:       "pricing-model.billing-model",
-			Usage:      "The billing model (FLAT_FEE, PER_UNIT, USAGE_BASED, CREDIT_BASED)",
-			InnerField: "billingModel",
-		},
-		&requestflag.InnerFlag[[]map[string]any]{
-			Name:       "pricing-model.price-periods",
-			Usage:      "Array of price period configurations (at least one required)",
-			InnerField: "pricePeriods",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "pricing-model.billing-cadence",
-			Usage:      "The billing cadence (RECURRING or ONE_OFF)",
-			InnerField: "billingCadence",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "pricing-model.feature-id",
-			Usage:      "The feature ID this pricing model is associated with",
-			InnerField: "featureId",
-		},
-		&requestflag.InnerFlag[int64]{
-			Name:       "pricing-model.max-unit-quantity",
-			Usage:      "Maximum number of units (max 999999)",
-			InnerField: "maxUnitQuantity",
-		},
-		&requestflag.InnerFlag[int64]{
-			Name:       "pricing-model.min-unit-quantity",
-			Usage:      "Minimum number of units",
-			InnerField: "minUnitQuantity",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "pricing-model.monthly-reset-period-configuration",
-			Usage:      "Monthly reset period configuration",
-			InnerField: "monthlyResetPeriodConfiguration",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "pricing-model.reset-period",
-			Usage:      "The usage reset period",
-			InnerField: "resetPeriod",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "pricing-model.tiers-mode",
-			Usage:      "The tiered pricing mode (VOLUME or GRADUATED)",
-			InnerField: "tiersMode",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "pricing-model.top-up-custom-currency-id",
-			Usage:      "The custom currency ID for top-up pricing",
-			InnerField: "topUpCustomCurrencyId",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "pricing-model.weekly-reset-period-configuration",
-			Usage:      "Weekly reset period configuration",
-			InnerField: "weeklyResetPeriodConfiguration",
-		},
-		&requestflag.InnerFlag[map[string]any]{
-			Name:       "pricing-model.yearly-reset-period-configuration",
-			Usage:      "Yearly reset period configuration",
-			InnerField: "yearlyResetPeriodConfiguration",
-		},
-	},
-})
 
 func handleV1AddonsCreate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
@@ -716,46 +602,4 @@ func handleV1AddonsRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
 	return ShowJSON(os.Stdout, "v1:addons remove-draft", obj, format, transform)
-}
-
-func handleV1AddonsSetPricing(ctx context.Context, cmd *cli.Command) error {
-	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
-		cmd.Set("id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	params := stigg.V1AddonSetPricingParams{}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatComma,
-		ApplicationJSON,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Addons.SetPricing(
-		ctx,
-		cmd.Value("id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons set-pricing", obj, format, transform)
 }

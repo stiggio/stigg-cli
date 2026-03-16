@@ -98,6 +98,7 @@ func TestV1PlansUpdate(t *testing.T) {
 			"--api-key", "string",
 			"--id", "x",
 			"--billing-id", "billingId",
+			"--charges", "{pricingType: FREE, billingId: billingId, minimumSpend: [{billingPeriod: MONTHLY, minimum: {amount: 0, currency: usd}}], overageBillingPeriod: ON_SUBSCRIPTION_RENEWAL, overagePricingModels: [{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, entitlement: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}, featureId: featureId, topUpCustomCurrencyId: topUpCustomCurrencyId}], pricingModels: [{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, featureId: featureId, maxUnitQuantity: 1, minUnitQuantity: 1, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, tiersMode: VOLUME, topUpCustomCurrencyId: topUpCustomCurrencyId, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}]}",
 			"--compatible-addon-id", "[string]",
 			"--default-trial-config", "{duration: 0, units: DAY, budget: {hasSoftLimit: true, limit: 0}, trialEndBehavior: CONVERT_TO_PAID}",
 			"--description", "description",
@@ -117,6 +118,12 @@ func TestV1PlansUpdate(t *testing.T) {
 			"--api-key", "string",
 			"--id", "x",
 			"--billing-id", "billingId",
+			"--charges.pricing-type", "FREE",
+			"--charges.billing-id", "billingId",
+			"--charges.minimum-spend", "[{billingPeriod: MONTHLY, minimum: {amount: 0, currency: usd}}]",
+			"--charges.overage-billing-period", "ON_SUBSCRIPTION_RENEWAL",
+			"--charges.overage-pricing-models", "[{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, entitlement: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}, featureId: featureId, topUpCustomCurrencyId: topUpCustomCurrencyId}]",
+			"--charges.pricing-models", "[{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, featureId: featureId, maxUnitQuantity: 1, minUnitQuantity: 1, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, tiersMode: VOLUME, topUpCustomCurrencyId: topUpCustomCurrencyId, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}]",
 			"--compatible-addon-id", "[string]",
 			"--default-trial-config.duration", "0",
 			"--default-trial-config.units", "DAY",
@@ -133,6 +140,87 @@ func TestV1PlansUpdate(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"billingId: billingId\n" +
+			"charges:\n" +
+			"  pricingType: FREE\n" +
+			"  billingId: billingId\n" +
+			"  minimumSpend:\n" +
+			"    - billingPeriod: MONTHLY\n" +
+			"      minimum:\n" +
+			"        amount: 0\n" +
+			"        currency: usd\n" +
+			"  overageBillingPeriod: ON_SUBSCRIPTION_RENEWAL\n" +
+			"  overagePricingModels:\n" +
+			"    - billingModel: FLAT_FEE\n" +
+			"      pricePeriods:\n" +
+			"        - billingPeriod: MONTHLY\n" +
+			"          billingCountryCode: billingCountryCode\n" +
+			"          blockSize: 0\n" +
+			"          creditGrantCadence: BEGINNING_OF_BILLING_PERIOD\n" +
+			"          creditRate:\n" +
+			"            amount: 1\n" +
+			"            currencyId: currencyId\n" +
+			"            costFormula: costFormula\n" +
+			"          price:\n" +
+			"            amount: 0\n" +
+			"            currency: usd\n" +
+			"          tiers:\n" +
+			"            - flatPrice:\n" +
+			"                amount: 0\n" +
+			"                currency: usd\n" +
+			"              unitPrice:\n" +
+			"                amount: 0\n" +
+			"                currency: usd\n" +
+			"              upTo: 0\n" +
+			"      billingCadence: RECURRING\n" +
+			"      entitlement:\n" +
+			"        featureId: featureId\n" +
+			"        hasSoftLimit: true\n" +
+			"        hasUnlimitedUsage: true\n" +
+			"        monthlyResetPeriodConfiguration:\n" +
+			"          accordingTo: SubscriptionStart\n" +
+			"        resetPeriod: YEAR\n" +
+			"        usageLimit: 0\n" +
+			"        weeklyResetPeriodConfiguration:\n" +
+			"          accordingTo: SubscriptionStart\n" +
+			"        yearlyResetPeriodConfiguration:\n" +
+			"          accordingTo: SubscriptionStart\n" +
+			"      featureId: featureId\n" +
+			"      topUpCustomCurrencyId: topUpCustomCurrencyId\n" +
+			"  pricingModels:\n" +
+			"    - billingModel: FLAT_FEE\n" +
+			"      pricePeriods:\n" +
+			"        - billingPeriod: MONTHLY\n" +
+			"          billingCountryCode: billingCountryCode\n" +
+			"          blockSize: 0\n" +
+			"          creditGrantCadence: BEGINNING_OF_BILLING_PERIOD\n" +
+			"          creditRate:\n" +
+			"            amount: 1\n" +
+			"            currencyId: currencyId\n" +
+			"            costFormula: costFormula\n" +
+			"          price:\n" +
+			"            amount: 0\n" +
+			"            currency: usd\n" +
+			"          tiers:\n" +
+			"            - flatPrice:\n" +
+			"                amount: 0\n" +
+			"                currency: usd\n" +
+			"              unitPrice:\n" +
+			"                amount: 0\n" +
+			"                currency: usd\n" +
+			"              upTo: 0\n" +
+			"      billingCadence: RECURRING\n" +
+			"      featureId: featureId\n" +
+			"      maxUnitQuantity: 1\n" +
+			"      minUnitQuantity: 1\n" +
+			"      monthlyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
+			"      resetPeriod: YEAR\n" +
+			"      tiersMode: VOLUME\n" +
+			"      topUpCustomCurrencyId: topUpCustomCurrencyId\n" +
+			"      weeklyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
+			"      yearlyResetPeriodConfiguration:\n" +
+			"        accordingTo: SubscriptionStart\n" +
 			"compatibleAddonIds:\n" +
 			"  - string\n" +
 			"defaultTrialConfig:\n" +
@@ -242,148 +330,6 @@ func TestV1PlansRemoveDraft(t *testing.T) {
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t, "v1:plans", "remove-draft",
-			"--api-key", "string",
-			"--id", "x",
-		)
-	})
-}
-
-func TestV1PlansSetPricing(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	t.Run("regular flags", func(t *testing.T) {
-		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "set-pricing",
-			"--api-key", "string",
-			"--id", "x",
-			"--pricing-type", "FREE",
-			"--billing-id", "billingId",
-			"--minimum-spend", "[{billingPeriod: MONTHLY, minimum: {amount: 0, currency: usd}}]",
-			"--overage-billing-period", "ON_SUBSCRIPTION_RENEWAL",
-			"--overage-pricing-model", "{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, entitlement: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}, featureId: featureId, topUpCustomCurrencyId: topUpCustomCurrencyId}",
-			"--pricing-model", "{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, featureId: featureId, maxUnitQuantity: 1, minUnitQuantity: 1, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, tiersMode: VOLUME, topUpCustomCurrencyId: topUpCustomCurrencyId, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
-		)
-	})
-
-	t.Run("inner flags", func(t *testing.T) {
-		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1PlansSetPricing)
-
-		// Alternative argument passing style using inner flags
-		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "set-pricing",
-			"--api-key", "string",
-			"--id", "x",
-			"--pricing-type", "FREE",
-			"--billing-id", "billingId",
-			"--minimum-spend.billing-period", "MONTHLY",
-			"--minimum-spend.minimum", "{amount: 0, currency: usd}",
-			"--overage-billing-period", "ON_SUBSCRIPTION_RENEWAL",
-			"--overage-pricing-model.billing-model", "FLAT_FEE",
-			"--overage-pricing-model.price-periods", "[{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}]",
-			"--overage-pricing-model.billing-cadence", "RECURRING",
-			"--overage-pricing-model.entitlement", "{featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
-			"--overage-pricing-model.feature-id", "featureId",
-			"--overage-pricing-model.top-up-custom-currency-id", "topUpCustomCurrencyId",
-			"--pricing-model.billing-model", "FLAT_FEE",
-			"--pricing-model.price-periods", "[{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}]",
-			"--pricing-model.billing-cadence", "RECURRING",
-			"--pricing-model.feature-id", "featureId",
-			"--pricing-model.max-unit-quantity", "1",
-			"--pricing-model.min-unit-quantity", "1",
-			"--pricing-model.monthly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
-			"--pricing-model.reset-period", "YEAR",
-			"--pricing-model.tiers-mode", "VOLUME",
-			"--pricing-model.top-up-custom-currency-id", "topUpCustomCurrencyId",
-			"--pricing-model.weekly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
-			"--pricing-model.yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
-		)
-	})
-
-	t.Run("piping data", func(t *testing.T) {
-		// Test piping YAML data over stdin
-		pipeData := []byte("" +
-			"pricingType: FREE\n" +
-			"billingId: billingId\n" +
-			"minimumSpend:\n" +
-			"  - billingPeriod: MONTHLY\n" +
-			"    minimum:\n" +
-			"      amount: 0\n" +
-			"      currency: usd\n" +
-			"overageBillingPeriod: ON_SUBSCRIPTION_RENEWAL\n" +
-			"overagePricingModels:\n" +
-			"  - billingModel: FLAT_FEE\n" +
-			"    pricePeriods:\n" +
-			"      - billingPeriod: MONTHLY\n" +
-			"        billingCountryCode: billingCountryCode\n" +
-			"        blockSize: 0\n" +
-			"        creditGrantCadence: BEGINNING_OF_BILLING_PERIOD\n" +
-			"        creditRate:\n" +
-			"          amount: 1\n" +
-			"          currencyId: currencyId\n" +
-			"          costFormula: costFormula\n" +
-			"        price:\n" +
-			"          amount: 0\n" +
-			"          currency: usd\n" +
-			"        tiers:\n" +
-			"          - flatPrice:\n" +
-			"              amount: 0\n" +
-			"              currency: usd\n" +
-			"            unitPrice:\n" +
-			"              amount: 0\n" +
-			"              currency: usd\n" +
-			"            upTo: 0\n" +
-			"    billingCadence: RECURRING\n" +
-			"    entitlement:\n" +
-			"      featureId: featureId\n" +
-			"      hasSoftLimit: true\n" +
-			"      hasUnlimitedUsage: true\n" +
-			"      monthlyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
-			"      resetPeriod: YEAR\n" +
-			"      usageLimit: 0\n" +
-			"      weeklyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
-			"      yearlyResetPeriodConfiguration:\n" +
-			"        accordingTo: SubscriptionStart\n" +
-			"    featureId: featureId\n" +
-			"    topUpCustomCurrencyId: topUpCustomCurrencyId\n" +
-			"pricingModels:\n" +
-			"  - billingModel: FLAT_FEE\n" +
-			"    pricePeriods:\n" +
-			"      - billingPeriod: MONTHLY\n" +
-			"        billingCountryCode: billingCountryCode\n" +
-			"        blockSize: 0\n" +
-			"        creditGrantCadence: BEGINNING_OF_BILLING_PERIOD\n" +
-			"        creditRate:\n" +
-			"          amount: 1\n" +
-			"          currencyId: currencyId\n" +
-			"          costFormula: costFormula\n" +
-			"        price:\n" +
-			"          amount: 0\n" +
-			"          currency: usd\n" +
-			"        tiers:\n" +
-			"          - flatPrice:\n" +
-			"              amount: 0\n" +
-			"              currency: usd\n" +
-			"            unitPrice:\n" +
-			"              amount: 0\n" +
-			"              currency: usd\n" +
-			"            upTo: 0\n" +
-			"    billingCadence: RECURRING\n" +
-			"    featureId: featureId\n" +
-			"    maxUnitQuantity: 1\n" +
-			"    minUnitQuantity: 1\n" +
-			"    monthlyResetPeriodConfiguration:\n" +
-			"      accordingTo: SubscriptionStart\n" +
-			"    resetPeriod: YEAR\n" +
-			"    tiersMode: VOLUME\n" +
-			"    topUpCustomCurrencyId: topUpCustomCurrencyId\n" +
-			"    weeklyResetPeriodConfiguration:\n" +
-			"      accordingTo: SubscriptionStart\n" +
-			"    yearlyResetPeriodConfiguration:\n" +
-			"      accordingTo: SubscriptionStart\n")
-		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:plans", "set-pricing",
 			"--api-key", "string",
 			"--id", "x",
 		)

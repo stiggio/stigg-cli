@@ -139,6 +139,11 @@ var v1AddonsEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Credit grant cadence (MONTH or YEAR)",
 			BodyPath: "cadence",
 		},
+		&requestflag.Flag[any]{
+			Name:     "dependency-feature-id",
+			Usage:    "The feature ID this entitlement depends on. The entitlement value will be calculated as: base amount × dependency feature usage limit",
+			BodyPath: "dependencyFeatureId",
+		},
 	},
 	Action:          handleV1AddonsEntitlementsUpdate,
 	HideHelpCommand: true,
