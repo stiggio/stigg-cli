@@ -40,15 +40,16 @@ var v1ProductsCreateProduct = cli.Command{
 			Required: true,
 			BodyPath: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:     "display-name",
+			Usage:    "Display name of the product",
+			Required: true,
+			BodyPath: "displayName",
+		},
 		&requestflag.Flag[any]{
 			Name:     "description",
 			Usage:    "Description of the product",
 			BodyPath: "description",
-		},
-		&requestflag.Flag[string]{
-			Name:     "display-name",
-			Usage:    "Display name of the product",
-			BodyPath: "displayName",
 		},
 		&requestflag.Flag[any]{
 			Name:     "metadata",

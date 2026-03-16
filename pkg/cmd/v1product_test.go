@@ -27,8 +27,8 @@ func TestV1ProductsCreateProduct(t *testing.T) {
 			t, "v1:products", "create-product",
 			"--api-key", "string",
 			"--id", "id",
-			"--description", "description",
 			"--display-name", "displayName",
+			"--description", "description",
 			"--metadata", "{foo: string}",
 			"--multiple-subscriptions=true",
 		)
@@ -38,8 +38,8 @@ func TestV1ProductsCreateProduct(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"id: id\n" +
-			"description: description\n" +
 			"displayName: displayName\n" +
+			"description: description\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
 			"multipleSubscriptions: true\n")
