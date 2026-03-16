@@ -63,6 +63,11 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "List of integrations",
 			BodyPath: "integrations",
 		},
+		&requestflag.Flag[any]{
+			Name:     "language",
+			Usage:    "Language to use for this customer",
+			BodyPath: "language",
+		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Additional metadata",
@@ -72,6 +77,16 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "name",
 			Usage:    "The name of the customer",
 			BodyPath: "name",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "passthrough",
+			Usage:    "Vendor-specific billing passthrough fields.",
+			BodyPath: "passthrough",
+		},
+		&requestflag.Flag[any]{
+			Name:     "timezone",
+			Usage:    "Timezone to use for this customer",
+			BodyPath: "timezone",
 		},
 	},
 	Action:          handleV1CustomersUpdate,
@@ -92,6 +107,18 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:       "integration.vendor-identifier",
 			Usage:      "The vendor identifier of integration",
 			InnerField: "vendorIdentifier",
+		},
+	},
+	"passthrough": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "passthrough.stripe",
+			Usage:      "Stripe-specific billing fields for the customer.",
+			InnerField: "stripe",
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "passthrough.zuora",
+			Usage:      "Zuora-specific billing fields for the customer.",
+			InnerField: "zuora",
 		},
 	},
 })
@@ -317,6 +344,11 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "List of integrations",
 			BodyPath: "integrations",
 		},
+		&requestflag.Flag[any]{
+			Name:     "language",
+			Usage:    "Language to use for this customer",
+			BodyPath: "language",
+		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Additional metadata",
@@ -326,6 +358,16 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "name",
 			Usage:    "The name of the customer",
 			BodyPath: "name",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "passthrough",
+			Usage:    "Vendor-specific billing passthrough fields.",
+			BodyPath: "passthrough",
+		},
+		&requestflag.Flag[any]{
+			Name:     "timezone",
+			Usage:    "Timezone to use for this customer",
+			BodyPath: "timezone",
 		},
 	},
 	Action:          handleV1CustomersProvision,
@@ -373,6 +415,18 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:       "integration.vendor-identifier",
 			Usage:      "The vendor identifier of integration",
 			InnerField: "vendorIdentifier",
+		},
+	},
+	"passthrough": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "passthrough.stripe",
+			Usage:      "Stripe-specific billing fields for the customer.",
+			InnerField: "stripe",
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "passthrough.zuora",
+			Usage:      "Zuora-specific billing fields for the customer.",
+			InnerField: "zuora",
 		},
 	},
 })
