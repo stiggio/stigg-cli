@@ -431,6 +431,25 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
+var v1CustomersRetrieveEntitlements = cli.Command{
+	Name:    "retrieve-entitlements",
+	Usage:   "Retrieves the effective entitlements for a customer or resource, including\nfeature and credit entitlements.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "id",
+			Required: true,
+		},
+		&requestflag.Flag[string]{
+			Name:      "resource-id",
+			Usage:     "Resource ID to scope entitlements to a specific resource",
+			QueryPath: "resourceId",
+		},
+	},
+	Action:          handleV1CustomersRetrieveEntitlements,
+	HideHelpCommand: true,
+}
+
 var v1CustomersUnarchive = cli.Command{
 	Name:    "unarchive",
 	Usage:   "Restores an archived customer, allowing them to create new subscriptions again.",
@@ -720,6 +739,48 @@ func handleV1CustomersProvision(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	transform := cmd.Root().String("transform")
 	return ShowJSON(os.Stdout, "v1:customers provision", obj, format, transform)
+}
+
+func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	params := stigg.V1CustomerGetEntitlementsParams{}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Customers.GetEntitlements(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(os.Stdout, "v1:customers retrieve-entitlements", obj, format, transform)
 }
 
 func handleV1CustomersUnarchive(ctx context.Context, cmd *cli.Command) error {
