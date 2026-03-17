@@ -244,6 +244,7 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[any]{
 			Name:       "product-settings.prorate-at-end-of-billing-period",
+			Usage:      "Indicates if the subscription should be prorated at the end of the billing period",
 			InnerField: "prorateAtEndOfBillingPeriod",
 		},
 		&requestflag.InnerFlag[any]{
