@@ -41,6 +41,7 @@ var v1UsageHistory = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "group-by",
+			Usage:     "Criteria by which to group the usage history",
 			QueryPath: "groupBy",
 		},
 		&requestflag.Flag[bool]{

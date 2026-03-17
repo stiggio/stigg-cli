@@ -61,7 +61,7 @@ func TestV1ProductsDuplicateProduct(t *testing.T) {
 			"--api-key", "string",
 			"v1:products", "duplicate-product",
 			"--id", "x",
-			"--id", "id",
+			"--target-id", "targetId",
 			"--description", "description",
 			"--display-name", "displayName",
 		)
@@ -70,7 +70,7 @@ func TestV1ProductsDuplicateProduct(t *testing.T) {
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
-			"id: id\n" +
+			"targetId: targetId\n" +
 			"description: description\n" +
 			"displayName: displayName\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
