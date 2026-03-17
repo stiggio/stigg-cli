@@ -374,6 +374,19 @@ func TestV1CustomersProvision(t *testing.T) {
 	})
 }
 
+func TestV1CustomersRetrieveEntitlements(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers", "retrieve-entitlements",
+			"--id", "x",
+			"--resource-id", "resourceId",
+		)
+	})
+}
+
 func TestV1CustomersUnarchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
