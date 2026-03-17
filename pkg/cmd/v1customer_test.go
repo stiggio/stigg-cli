@@ -13,8 +13,9 @@ func TestV1CustomersRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "retrieve",
+			t,
 			"--api-key", "string",
+			"v1:customers", "retrieve",
 			"--id", "x",
 		)
 	})
@@ -24,8 +25,9 @@ func TestV1CustomersUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "update",
+			t,
 			"--api-key", "string",
+			"v1:customers", "update",
 			"--id", "x",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
@@ -46,8 +48,9 @@ func TestV1CustomersUpdate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "update",
+			t,
 			"--api-key", "string",
+			"v1:customers", "update",
 			"--id", "x",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
@@ -119,8 +122,9 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"    paymentMethodId: paymentMethodId\n" +
 			"timezone: timezone\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:customers", "update",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:customers", "update",
 			"--id", "x",
 		)
 	})
@@ -130,8 +134,9 @@ func TestV1CustomersList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "list",
+			t,
 			"--api-key", "string",
+			"v1:customers", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -148,8 +153,9 @@ func TestV1CustomersList(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "list",
+			t,
 			"--api-key", "string",
+			"v1:customers", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -168,8 +174,9 @@ func TestV1CustomersArchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "archive",
+			t,
 			"--api-key", "string",
+			"v1:customers", "archive",
 			"--id", "x",
 		)
 	})
@@ -179,8 +186,9 @@ func TestV1CustomersImport(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "import",
+			t,
 			"--api-key", "string",
+			"v1:customers", "import",
 			"--customer", "{id: id, email: dev@stainless.com, name: name, billingId: billingId, metadata: {foo: string}, paymentMethodId: paymentMethodId, salesforceId: salesforceId, updatedAt: '2019-12-27T18:11:19.117Z'}",
 			"--integration-id", "integrationId",
 		)
@@ -192,8 +200,9 @@ func TestV1CustomersImport(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "import",
+			t,
 			"--api-key", "string",
+			"v1:customers", "import",
 			"--customer.id", "id",
 			"--customer.email", "dev@stainless.com",
 			"--customer.name", "name",
@@ -221,8 +230,9 @@ func TestV1CustomersImport(t *testing.T) {
 			"    updatedAt: '2019-12-27T18:11:19.117Z'\n" +
 			"integrationId: integrationId\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:customers", "import",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:customers", "import",
 		)
 	})
 }
@@ -231,8 +241,9 @@ func TestV1CustomersListResources(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "list-resources",
+			t,
 			"--api-key", "string",
+			"v1:customers", "list-resources",
 			"--max-items", "10",
 			"--id", "x",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -246,8 +257,9 @@ func TestV1CustomersProvision(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "provision",
+			t,
 			"--api-key", "string",
+			"v1:customers", "provision",
 			"--id", "id",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
@@ -269,8 +281,9 @@ func TestV1CustomersProvision(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "provision",
+			t,
 			"--api-key", "string",
+			"v1:customers", "provision",
 			"--id", "id",
 			"--billing-currency", "usd",
 			"--billing-id", "billingId",
@@ -354,8 +367,9 @@ func TestV1CustomersProvision(t *testing.T) {
 			"    paymentMethodId: paymentMethodId\n" +
 			"timezone: timezone\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:customers", "provision",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:customers", "provision",
 		)
 	})
 }
@@ -364,8 +378,9 @@ func TestV1CustomersUnarchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers", "unarchive",
+			t,
 			"--api-key", "string",
+			"v1:customers", "unarchive",
 			"--id", "x",
 		)
 	})

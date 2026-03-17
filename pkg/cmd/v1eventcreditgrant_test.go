@@ -13,8 +13,9 @@ func TestV1EventsCreditsGrantsCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits:grants", "create",
+			t,
 			"--api-key", "string",
+			"v1:events:credits:grants", "create",
 			"--amount", "0",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
@@ -39,8 +40,9 @@ func TestV1EventsCreditsGrantsCreate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits:grants", "create",
+			t,
 			"--api-key", "string",
+			"v1:events:credits:grants", "create",
 			"--amount", "0",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
@@ -93,8 +95,9 @@ func TestV1EventsCreditsGrantsCreate(t *testing.T) {
 			"priority: 0\n" +
 			"resourceId: resourceId\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:events:credits:grants", "create",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:events:credits:grants", "create",
 		)
 	})
 }
@@ -103,8 +106,9 @@ func TestV1EventsCreditsGrantsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits:grants", "list",
+			t,
 			"--api-key", "string",
+			"v1:events:credits:grants", "list",
 			"--max-items", "10",
 			"--customer-id", "customerId",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -122,8 +126,9 @@ func TestV1EventsCreditsGrantsList(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits:grants", "list",
+			t,
 			"--api-key", "string",
+			"v1:events:credits:grants", "list",
 			"--max-items", "10",
 			"--customer-id", "customerId",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -143,8 +148,9 @@ func TestV1EventsCreditsGrantsVoid(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits:grants", "void",
+			t,
 			"--api-key", "string",
+			"v1:events:credits:grants", "void",
 			"--id", "x",
 		)
 	})

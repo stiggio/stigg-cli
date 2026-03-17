@@ -13,8 +13,9 @@ func TestV1PlansCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "create",
+			t,
 			"--api-key", "string",
+			"v1:plans", "create",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--product-id", "productId",
@@ -34,8 +35,9 @@ func TestV1PlansCreate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "create",
+			t,
 			"--api-key", "string",
+			"v1:plans", "create",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--product-id", "productId",
@@ -73,8 +75,9 @@ func TestV1PlansCreate(t *testing.T) {
 			"pricingType: FREE\n" +
 			"status: DRAFT\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:plans", "create",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:plans", "create",
 		)
 	})
 }
@@ -83,8 +86,9 @@ func TestV1PlansRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "retrieve",
+			t,
 			"--api-key", "string",
+			"v1:plans", "retrieve",
 			"--id", "x",
 		)
 	})
@@ -94,8 +98,9 @@ func TestV1PlansUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "update",
+			t,
 			"--api-key", "string",
+			"v1:plans", "update",
 			"--id", "x",
 			"--billing-id", "billingId",
 			"--charges", "{pricingType: FREE, billingId: billingId, minimumSpend: [{billingPeriod: MONTHLY, minimum: {amount: 0, currency: usd}}], overageBillingPeriod: ON_SUBSCRIPTION_RENEWAL, overagePricingModels: [{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, entitlement: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}, featureId: featureId, topUpCustomCurrencyId: topUpCustomCurrencyId}], pricingModels: [{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, featureId: featureId, maxUnitQuantity: 1, minUnitQuantity: 1, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, tiersMode: VOLUME, topUpCustomCurrencyId: topUpCustomCurrencyId, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}]}",
@@ -114,8 +119,9 @@ func TestV1PlansUpdate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "update",
+			t,
 			"--api-key", "string",
+			"v1:plans", "update",
 			"--id", "x",
 			"--billing-id", "billingId",
 			"--charges.pricing-type", "FREE",
@@ -236,8 +242,9 @@ func TestV1PlansUpdate(t *testing.T) {
 			"  foo: string\n" +
 			"parentPlanId: parentPlanId\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:plans", "update",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:plans", "update",
 			"--id", "x",
 		)
 	})
@@ -247,8 +254,9 @@ func TestV1PlansList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "list",
+			t,
 			"--api-key", "string",
+			"v1:plans", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -265,8 +273,9 @@ func TestV1PlansList(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "list",
+			t,
 			"--api-key", "string",
+			"v1:plans", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -285,8 +294,9 @@ func TestV1PlansArchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "archive",
+			t,
 			"--api-key", "string",
+			"v1:plans", "archive",
 			"--id", "x",
 		)
 	})
@@ -296,8 +306,9 @@ func TestV1PlansCreateDraft(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "create-draft",
+			t,
 			"--api-key", "string",
+			"v1:plans", "create-draft",
 			"--id", "x",
 		)
 	})
@@ -307,8 +318,9 @@ func TestV1PlansPublish(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "publish",
+			t,
 			"--api-key", "string",
+			"v1:plans", "publish",
 			"--id", "x",
 			"--migration-type", "NEW_CUSTOMERS",
 		)
@@ -318,8 +330,9 @@ func TestV1PlansPublish(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("migrationType: NEW_CUSTOMERS")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:plans", "publish",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:plans", "publish",
 			"--id", "x",
 		)
 	})
@@ -329,8 +342,9 @@ func TestV1PlansRemoveDraft(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans", "remove-draft",
+			t,
 			"--api-key", "string",
+			"v1:plans", "remove-draft",
 			"--id", "x",
 		)
 	})

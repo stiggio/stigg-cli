@@ -13,8 +13,9 @@ func TestV1FeaturesArchiveFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "archive-feature",
+			t,
 			"--api-key", "string",
+			"v1:features", "archive-feature",
 			"--id", "x",
 		)
 	})
@@ -24,8 +25,9 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "create-feature",
+			t,
 			"--api-key", "string",
+			"v1:features", "create-feature",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--feature-type", "BOOLEAN",
@@ -46,8 +48,9 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "create-feature",
+			t,
 			"--api-key", "string",
+			"v1:features", "create-feature",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--feature-type", "BOOLEAN",
@@ -88,8 +91,9 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 			"  featureUnitsPlural: featureUnitsPlural\n" +
 			"  round: UP\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:features", "create-feature",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:features", "create-feature",
 		)
 	})
 }
@@ -98,8 +102,9 @@ func TestV1FeaturesListFeatures(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "list-features",
+			t,
 			"--api-key", "string",
+			"v1:features", "list-features",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -118,8 +123,9 @@ func TestV1FeaturesListFeatures(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "list-features",
+			t,
 			"--api-key", "string",
+			"v1:features", "list-features",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -140,8 +146,9 @@ func TestV1FeaturesRetrieveFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "retrieve-feature",
+			t,
 			"--api-key", "string",
+			"v1:features", "retrieve-feature",
 			"--id", "x",
 		)
 	})
@@ -151,8 +158,9 @@ func TestV1FeaturesUnarchiveFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "unarchive-feature",
+			t,
 			"--api-key", "string",
+			"v1:features", "unarchive-feature",
 			"--id", "x",
 		)
 	})
@@ -162,8 +170,9 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "update-feature",
+			t,
 			"--api-key", "string",
+			"v1:features", "update-feature",
 			"--id", "x",
 			"--description", "description",
 			"--display-name", "displayName",
@@ -182,8 +191,9 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:features", "update-feature",
+			t,
 			"--api-key", "string",
+			"v1:features", "update-feature",
 			"--id", "x",
 			"--description", "description",
 			"--display-name", "displayName",
@@ -230,8 +240,9 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 			"  featureUnitsPlural: featureUnitsPlural\n" +
 			"  round: UP\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:features", "update-feature",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:features", "update-feature",
 			"--id", "x",
 		)
 	})

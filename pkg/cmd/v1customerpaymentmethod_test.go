@@ -12,8 +12,9 @@ func TestV1CustomersPaymentMethodAttach(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers:payment-method", "attach",
+			t,
 			"--api-key", "string",
+			"v1:customers:payment-method", "attach",
 			"--id", "x",
 			"--integration-id", "integrationId",
 			"--payment-method-id", "paymentMethodId",
@@ -30,8 +31,9 @@ func TestV1CustomersPaymentMethodAttach(t *testing.T) {
 			"vendorIdentifier: AUTH0\n" +
 			"billingCurrency: usd\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:customers:payment-method", "attach",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:customers:payment-method", "attach",
 			"--id", "x",
 		)
 	})
@@ -41,8 +43,9 @@ func TestV1CustomersPaymentMethodDetach(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:customers:payment-method", "detach",
+			t,
 			"--api-key", "string",
+			"v1:customers:payment-method", "detach",
 			"--id", "x",
 		)
 	})

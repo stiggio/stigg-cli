@@ -12,8 +12,9 @@ func TestV1SubscriptionsFutureUpdateCancelPendingPayment(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions:future-update", "cancel-pending-payment",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions:future-update", "cancel-pending-payment",
 			"--id", "x",
 		)
 	})
@@ -23,8 +24,9 @@ func TestV1SubscriptionsFutureUpdateCancelSchedule(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions:future-update", "cancel-schedule",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions:future-update", "cancel-schedule",
 			"--id", "x",
 		)
 	})
