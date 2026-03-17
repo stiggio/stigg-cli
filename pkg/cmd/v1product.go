@@ -77,10 +77,10 @@ var v1ProductsDuplicateProduct = cli.Command{
 			Required: true,
 		},
 		&requestflag.Flag[string]{
-			Name:     "id",
+			Name:     "target-id",
 			Usage:    "The unique identifier for the entity",
 			Required: true,
-			BodyPath: "id",
+			BodyPath: "targetId",
 		},
 		&requestflag.Flag[any]{
 			Name:     "description",
