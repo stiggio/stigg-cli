@@ -13,8 +13,9 @@ func TestV1CouponsCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:coupons", "create",
+			t,
 			"--api-key", "string",
+			"v1:coupons", "create",
 			"--id", "id",
 			"--amounts-off", "[{amount: 0, currency: usd}]",
 			"--description", "description",
@@ -31,8 +32,9 @@ func TestV1CouponsCreate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:coupons", "create",
+			t,
 			"--api-key", "string",
+			"v1:coupons", "create",
 			"--id", "id",
 			"--amounts-off.amount", "0",
 			"--amounts-off.currency", "usd",
@@ -58,8 +60,9 @@ func TestV1CouponsCreate(t *testing.T) {
 			"name: name\n" +
 			"percentOff: 1\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:coupons", "create",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:coupons", "create",
 		)
 	})
 }
@@ -68,8 +71,9 @@ func TestV1CouponsRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:coupons", "retrieve",
+			t,
 			"--api-key", "string",
+			"v1:coupons", "retrieve",
 			"--id", "x",
 		)
 	})
@@ -79,8 +83,9 @@ func TestV1CouponsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:coupons", "list",
+			t,
 			"--api-key", "string",
+			"v1:coupons", "list",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -98,8 +103,9 @@ func TestV1CouponsList(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:coupons", "list",
+			t,
 			"--api-key", "string",
+			"v1:coupons", "list",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -119,8 +125,9 @@ func TestV1CouponsArchiveCoupon(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:coupons", "archive-coupon",
+			t,
 			"--api-key", "string",
+			"v1:coupons", "archive-coupon",
 			"--id", "x",
 		)
 	})
@@ -130,8 +137,9 @@ func TestV1CouponsUpdateCoupon(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:coupons", "update-coupon",
+			t,
 			"--api-key", "string",
+			"v1:coupons", "update-coupon",
 			"--id", "x",
 			"--description", "description",
 			"--metadata", "{foo: string}",
@@ -147,8 +155,9 @@ func TestV1CouponsUpdateCoupon(t *testing.T) {
 			"  foo: string\n" +
 			"name: name\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:coupons", "update-coupon",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:coupons", "update-coupon",
 			"--id", "x",
 		)
 	})

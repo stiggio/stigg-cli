@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.7.1 (2026-03-17)
+
+Full Changelog: [v0.7.0...v0.7.1](https://github.com/stiggio/stigg-cli/compare/v0.7.0...v0.7.1)
+
+### Bug Fixes
+
+* better support passing client args in any position ([bf63688](https://github.com/stiggio/stigg-cli/commit/bf6368819c4f50c72d7f5fbe48533efdff3a7bc7))
+* improved workflow for developing on branches ([fe4d128](https://github.com/stiggio/stigg-cli/commit/fe4d1286597dc5e967ac1b125dcb76bace5f8ce8))
+* no longer require an API key when building on production repos ([2622e41](https://github.com/stiggio/stigg-cli/commit/2622e41a233b98e7fd9401e4b06768f8af9b769f))
+
+
+### Chores
+
+* **internal:** tweak CI branches ([8f8ba0d](https://github.com/stiggio/stigg-cli/commit/8f8ba0d1b19d01ec1ace9b7bef1b8329b37edcf4))
+
 ## 0.7.0 (2026-03-16)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/stiggio/stigg-cli/compare/v0.6.0...v0.7.0)
