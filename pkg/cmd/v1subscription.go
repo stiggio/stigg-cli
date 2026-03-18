@@ -48,6 +48,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[bool]{
 			Name:     "await-payment-confirmation",
+			Usage:    "Await payment confirmation",
 			BodyPath: "awaitPaymentConfirmation",
 		},
 		&requestflag.Flag[string]{
@@ -90,6 +91,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "promotion-code",
+			Usage:    "Promotion code",
 			BodyPath: "promotionCode",
 		},
 		&requestflag.Flag[string]{
@@ -580,7 +582,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Trial period override settings",
 			BodyPath: "trialOverrideConfiguration",
 		},
-		&requestflag.Flag[float64]{
+		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
 			Usage:    "Unit quantity for per-unit pricing",
 			BodyPath: "unitQuantity",
@@ -861,8 +863,9 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Trial period override settings",
 			BodyPath: "trialOverrideConfiguration",
 		},
-		&requestflag.Flag[float64]{
+		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
+			Usage:    "Unit quantity",
 			BodyPath: "unitQuantity",
 		},
 	},
