@@ -671,7 +671,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Whether invoice is already paid",
 			InnerField: "isInvoicePaid",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[map[string]any]{
 			Name:       "billing-information.metadata",
 			Usage:      "Additional billing metadata",
 			InnerField: "metadata",
