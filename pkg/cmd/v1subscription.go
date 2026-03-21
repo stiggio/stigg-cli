@@ -53,6 +53,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "billing-cycle-anchor",
+			Usage:    `Allowed values: "UNCHANGED", "NOW".`,
 			BodyPath: "billingCycleAnchor",
 		},
 		&requestflag.Flag[map[string]any]{
@@ -61,6 +62,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "billing-period",
+			Usage:    `Allowed values: "MONTHLY", "ANNUALLY".`,
 			BodyPath: "billingPeriod",
 		},
 		&requestflag.Flag[any]{
@@ -96,6 +98,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "schedule-strategy",
+			Usage:    `Allowed values: "END_OF_BILLING_PERIOD", "END_OF_BILLING_MONTH", "IMMEDIATE".`,
 			BodyPath: "scheduleStrategy",
 		},
 		&requestflag.Flag[any]{
@@ -179,6 +182,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "billing-information.proration-behavior",
+			Usage:      `Allowed values: "INVOICE_IMMEDIATELY", "CREATE_PRORATIONS", "NONE".`,
 			InnerField: "prorationBehavior",
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
@@ -218,6 +222,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "charge.type",
+			Usage:      `Allowed values: "FEATURE", "CREDIT".`,
 			InnerField: "type",
 		},
 	},
@@ -1074,6 +1079,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "price-override.credit-grant-cadence",
+			Usage:      `Allowed values: "BEGINNING_OF_BILLING_PERIOD", "MONTHLY".`,
 			InnerField: "creditGrantCadence",
 		},
 		&requestflag.InnerFlag[map[string]any]{
