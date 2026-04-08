@@ -44,6 +44,11 @@ var v1UsageHistory = cli.Command{
 			Usage:     "Criteria by which to group the usage history",
 			QueryPath: "groupBy",
 		},
+		&requestflag.Flag[bool]{
+			Name:      "include-inactive-subscriptions",
+			Usage:     "When true, includes usage data from the most recent cancelled or expired subscription",
+			QueryPath: "includeInactiveSubscriptions",
+		},
 		&requestflag.Flag[any]{
 			Name:      "resource-id",
 			Usage:     "Resource id",
