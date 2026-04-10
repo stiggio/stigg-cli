@@ -99,7 +99,7 @@ var v1AddonsEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Whether the entitlement is granted",
 			BodyPath: "isGranted",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "monthly-reset-period-configuration",
 			Usage:    "Configuration for monthly reset period",
 			BodyPath: "monthlyResetPeriodConfiguration",
@@ -119,12 +119,12 @@ var v1AddonsEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Maximum allowed usage for the feature",
 			BodyPath: "usageLimit",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "weekly-reset-period-configuration",
 			Usage:    "Configuration for weekly reset period",
 			BodyPath: "weeklyResetPeriodConfiguration",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "yearly-reset-period-configuration",
 			Usage:    "Configuration for yearly reset period",
 			BodyPath: "yearlyResetPeriodConfiguration",

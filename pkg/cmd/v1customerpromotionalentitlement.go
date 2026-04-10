@@ -65,7 +65,7 @@ var v1CustomersPromotionalEntitlementsCreate = requestflag.WithInnerFlags(cli.Co
 			Usage:      "Whether the entitlement is visible",
 			InnerField: "isVisible",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[map[string]any]{
 			Name:       "promotional-entitlement.monthly-reset-period-configuration",
 			Usage:      "The monthly reset period configuration of the entitlement, defined when reset period is monthly",
 			InnerField: "monthlyResetPeriodConfiguration",
@@ -85,12 +85,12 @@ var v1CustomersPromotionalEntitlementsCreate = requestflag.WithInnerFlags(cli.Co
 			Usage:      "The usage limit of the entitlement",
 			InnerField: "usageLimit",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[map[string]any]{
 			Name:       "promotional-entitlement.weekly-reset-period-configuration",
 			Usage:      "The weekly reset period configuration of the entitlement, defined when reset period is weekly",
 			InnerField: "weeklyResetPeriodConfiguration",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[map[string]any]{
 			Name:       "promotional-entitlement.yearly-reset-period-configuration",
 			Usage:      "The yearly reset period configuration of the entitlement, defined when reset period is yearly",
 			InnerField: "yearlyResetPeriodConfiguration",

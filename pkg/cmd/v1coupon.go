@@ -44,7 +44,7 @@ var v1CouponsCreate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "durationInMonths",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Metadata associated with the entity",
 			Required: true,
@@ -195,7 +195,7 @@ var v1CouponsUpdateCoupon = cli.Command{
 			Usage:    "Description of the coupon",
 			BodyPath: "description",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Metadata associated with the entity",
 			BodyPath: "metadata",

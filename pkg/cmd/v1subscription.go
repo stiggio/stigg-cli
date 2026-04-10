@@ -65,7 +65,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    `Allowed values: "MONTHLY", "ANNUALLY".`,
 			BodyPath: "billingPeriod",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "budget",
 			BodyPath: "budget",
 		},
@@ -82,7 +82,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Additional metadata for the subscription",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "minimum-spend",
 			Usage:    "Minimum spend amount",
 			BodyPath: "minimumSpend",
@@ -801,7 +801,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Billing period (MONTHLY or ANNUALLY)",
 			BodyPath: "billingPeriod",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "budget",
 			BodyPath: "budget",
 		},
@@ -823,7 +823,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Additional metadata for the subscription",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "minimum-spend",
 			Usage:    "Minimum spend amount",
 			BodyPath: "minimumSpend",

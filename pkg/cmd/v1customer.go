@@ -329,7 +329,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Customer level coupon",
 			BodyPath: "couponId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "default-payment-method",
 			Usage:    "The default payment method details",
 			BodyPath: "defaultPaymentMethod",
