@@ -88,7 +88,7 @@ var v1FeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The meter type for the feature",
 			BodyPath: "meterType",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "unit-transformation",
 			Usage:    "Unit transformation to be applied to the reported usage",
 			BodyPath: "unitTransformation",
@@ -282,7 +282,7 @@ var v1FeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 			Name:     "meter",
 			BodyPath: "meter",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "unit-transformation",
 			Usage:    "Unit transformation to be applied to the reported usage",
 			BodyPath: "unitTransformation",
