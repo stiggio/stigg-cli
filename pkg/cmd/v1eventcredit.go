@@ -144,8 +144,9 @@ func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command)
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits get-auto-recharge", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits get-auto-recharge", obj, format, explicitFormat, transform)
 }
 
 func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
@@ -178,8 +179,9 @@ func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits get-usage", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits get-usage", obj, format, explicitFormat, transform)
 }
 
 func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) error {
@@ -204,6 +206,7 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -213,13 +216,13 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:events:credits list-ledger", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits list-ledger", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Events.Credits.ListLedgerAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:events:credits list-ledger", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:events:credits list-ledger", iter, format, explicitFormat, transform, maxItems)
 	}
 }

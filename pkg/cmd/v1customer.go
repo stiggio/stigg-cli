@@ -495,8 +495,9 @@ func handleV1CustomersRetrieve(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers retrieve", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers retrieve", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -537,8 +538,9 @@ func handleV1CustomersUpdate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers update", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers update", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
@@ -563,6 +565,7 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -572,14 +575,14 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:customers list", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:customers list", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Customers.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:customers list", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:customers list", iter, format, explicitFormat, transform, maxItems)
 	}
 }
 
@@ -614,8 +617,9 @@ func handleV1CustomersArchive(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers archive", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers archive", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
@@ -648,8 +652,9 @@ func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers import", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers import", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error {
@@ -677,6 +682,7 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -691,7 +697,7 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:customers list-resources", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:customers list-resources", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Customers.ListResourcesAutoPaging(
 			ctx,
@@ -703,7 +709,7 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:customers list-resources", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:customers list-resources", iter, format, explicitFormat, transform, maxItems)
 	}
 }
 
@@ -737,8 +743,9 @@ func handleV1CustomersProvision(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers provision", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers provision", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command) error {
@@ -779,8 +786,9 @@ func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers retrieve-entitlements", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers retrieve-entitlements", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersUnarchive(ctx context.Context, cmd *cli.Command) error {
@@ -814,6 +822,7 @@ func handleV1CustomersUnarchive(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers unarchive", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers unarchive", obj, format, explicitFormat, transform)
 }

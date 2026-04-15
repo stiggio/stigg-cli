@@ -241,8 +241,9 @@ func handleV1PlansEntitlementsCreate(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements create", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:plans:entitlements create", obj, format, explicitFormat, transform)
 }
 
 func handleV1PlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -285,8 +286,9 @@ func handleV1PlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements update", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:plans:entitlements update", obj, format, explicitFormat, transform)
 }
 
 func handleV1PlansEntitlementsList(ctx context.Context, cmd *cli.Command) error {
@@ -320,8 +322,9 @@ func handleV1PlansEntitlementsList(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements list", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:plans:entitlements list", obj, format, explicitFormat, transform)
 }
 
 func handleV1PlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) error {
@@ -364,6 +367,7 @@ func handleV1PlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements delete", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:plans:entitlements delete", obj, format, explicitFormat, transform)
 }

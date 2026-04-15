@@ -94,6 +94,7 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events report", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:events report", obj, format, explicitFormat, transform)
 }

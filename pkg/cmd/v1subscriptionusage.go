@@ -86,8 +86,9 @@ func handleV1SubscriptionsUsageChargeUsage(ctx context.Context, cmd *cli.Command
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions:usage charge-usage", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions:usage charge-usage", obj, format, explicitFormat, transform)
 }
 
 func handleV1SubscriptionsUsageSync(ctx context.Context, cmd *cli.Command) error {
@@ -121,6 +122,7 @@ func handleV1SubscriptionsUsageSync(ctx context.Context, cmd *cli.Command) error
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions:usage sync", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions:usage sync", obj, format, explicitFormat, transform)
 }

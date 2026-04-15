@@ -253,8 +253,9 @@ func handleV1EventsCreditsGrantsCreate(ctx context.Context, cmd *cli.Command) er
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits:grants create", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits:grants create", obj, format, explicitFormat, transform)
 }
 
 func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
@@ -279,6 +280,7 @@ func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) erro
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -288,14 +290,14 @@ func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) erro
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:events:credits:grants list", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits:grants list", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Events.Credits.Grants.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:events:credits:grants list", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:events:credits:grants list", iter, format, explicitFormat, transform, maxItems)
 	}
 }
 
@@ -330,6 +332,7 @@ func handleV1EventsCreditsGrantsVoid(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits:grants void", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits:grants void", obj, format, explicitFormat, transform)
 }

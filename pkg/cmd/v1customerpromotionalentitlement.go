@@ -221,8 +221,9 @@ func handleV1CustomersPromotionalEntitlementsCreate(ctx context.Context, cmd *cl
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:promotional-entitlements create", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements create", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.Command) error {
@@ -250,6 +251,7 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -264,7 +266,7 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:customers:promotional-entitlements list", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements list", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Customers.PromotionalEntitlements.ListAutoPaging(
 			ctx,
@@ -276,7 +278,7 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:customers:promotional-entitlements list", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements list", iter, format, explicitFormat, transform, maxItems)
 	}
 }
 
@@ -320,6 +322,7 @@ func handleV1CustomersPromotionalEntitlementsRevoke(ctx context.Context, cmd *cl
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:promotional-entitlements revoke", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements revoke", obj, format, explicitFormat, transform)
 }

@@ -104,8 +104,9 @@ func handleV1CustomersPaymentMethodAttach(ctx context.Context, cmd *cli.Command)
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:payment-method attach", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:payment-method attach", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersPaymentMethodDetach(ctx context.Context, cmd *cli.Command) error {
@@ -139,6 +140,7 @@ func handleV1CustomersPaymentMethodDetach(ctx context.Context, cmd *cli.Command)
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:payment-method detach", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:payment-method detach", obj, format, explicitFormat, transform)
 }

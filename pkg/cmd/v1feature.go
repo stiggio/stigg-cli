@@ -368,8 +368,9 @@ func handleV1FeaturesArchiveFeature(ctx context.Context, cmd *cli.Command) error
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features archive-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:features archive-feature", obj, format, explicitFormat, transform)
 }
 
 func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error {
@@ -402,8 +403,9 @@ func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features create-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:features create-feature", obj, format, explicitFormat, transform)
 }
 
 func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
@@ -428,6 +430,7 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -437,14 +440,14 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:features list-features", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:features list-features", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Features.ListFeaturesAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:features list-features", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:features list-features", iter, format, explicitFormat, transform, maxItems)
 	}
 }
 
@@ -479,8 +482,9 @@ func handleV1FeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features retrieve-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:features retrieve-feature", obj, format, explicitFormat, transform)
 }
 
 func handleV1FeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) error {
@@ -514,8 +518,9 @@ func handleV1FeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) err
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features unarchive-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:features unarchive-feature", obj, format, explicitFormat, transform)
 }
 
 func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error {
@@ -556,6 +561,7 @@ func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features update-feature", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:features update-feature", obj, format, explicitFormat, transform)
 }

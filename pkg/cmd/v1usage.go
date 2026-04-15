@@ -148,8 +148,9 @@ func handleV1UsageHistory(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:usage history", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:usage history", obj, format, explicitFormat, transform)
 }
 
 func handleV1UsageReport(ctx context.Context, cmd *cli.Command) error {
@@ -182,6 +183,7 @@ func handleV1UsageReport(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:usage report", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:usage report", obj, format, explicitFormat, transform)
 }

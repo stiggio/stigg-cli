@@ -293,8 +293,9 @@ func handleV1ProductsArchiveProduct(ctx context.Context, cmd *cli.Command) error
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products archive-product", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:products archive-product", obj, format, explicitFormat, transform)
 }
 
 func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error {
@@ -327,8 +328,9 @@ func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products create-product", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:products create-product", obj, format, explicitFormat, transform)
 }
 
 func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) error {
@@ -369,8 +371,9 @@ func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) err
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products duplicate-product", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:products duplicate-product", obj, format, explicitFormat, transform)
 }
 
 func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
@@ -395,6 +398,7 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -404,14 +408,14 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:products list-products", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:products list-products", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Products.ListProductsAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:products list-products", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:products list-products", iter, format, explicitFormat, transform, maxItems)
 	}
 }
 
@@ -446,8 +450,9 @@ func handleV1ProductsUnarchiveProduct(ctx context.Context, cmd *cli.Command) err
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products unarchive-product", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:products unarchive-product", obj, format, explicitFormat, transform)
 }
 
 func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error {
@@ -488,6 +493,7 @@ func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products update-product", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:products update-product", obj, format, explicitFormat, transform)
 }

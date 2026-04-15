@@ -186,8 +186,9 @@ func handleV1CustomersIntegrationsRetrieve(ctx context.Context, cmd *cli.Command
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:integrations retrieve", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:integrations retrieve", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersIntegrationsUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -230,8 +231,9 @@ func handleV1CustomersIntegrationsUpdate(ctx context.Context, cmd *cli.Command) 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:integrations update", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:integrations update", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) error {
@@ -259,6 +261,7 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 	}
 
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -273,7 +276,7 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:customers:integrations list", obj, format, transform)
+		return ShowJSON(os.Stdout, os.Stderr, "v1:customers:integrations list", obj, format, explicitFormat, transform)
 	} else {
 		iter := client.V1.Customers.Integrations.ListAutoPaging(
 			ctx,
@@ -285,7 +288,7 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:customers:integrations list", iter, format, transform, maxItems)
+		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:customers:integrations list", iter, format, explicitFormat, transform, maxItems)
 	}
 }
 
@@ -327,8 +330,9 @@ func handleV1CustomersIntegrationsLink(ctx context.Context, cmd *cli.Command) er
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:integrations link", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:integrations link", obj, format, explicitFormat, transform)
 }
 
 func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) error {
@@ -371,6 +375,7 @@ func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:integrations unlink", obj, format, transform)
+	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:integrations unlink", obj, format, explicitFormat, transform)
 }
