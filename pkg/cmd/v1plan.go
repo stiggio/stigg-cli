@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -385,7 +384,12 @@ func handleV1PlansCreate(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:plans create", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:plans create",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansRetrieve(ctx context.Context, cmd *cli.Command) error {
@@ -421,7 +425,12 @@ func handleV1PlansRetrieve(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:plans retrieve", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:plans retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -464,7 +473,12 @@ func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:plans update", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:plans update",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
@@ -499,14 +513,24 @@ func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, os.Stderr, "v1:plans list", obj, format, explicitFormat, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:plans list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Plans.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:plans list", iter, format, explicitFormat, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:plans list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -543,7 +567,12 @@ func handleV1PlansArchive(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:plans archive", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:plans archive",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansCreateDraft(ctx context.Context, cmd *cli.Command) error {
@@ -579,7 +608,12 @@ func handleV1PlansCreateDraft(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:plans create-draft", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:plans create-draft",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
@@ -622,7 +656,12 @@ func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:plans publish", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:plans publish",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansRemoveDraft(ctx context.Context, cmd *cli.Command) error {
@@ -658,5 +697,10 @@ func handleV1PlansRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:plans remove-draft", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:plans remove-draft",
+		Transform:      transform,
+	})
 }

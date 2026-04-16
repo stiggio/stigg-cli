@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -76,7 +75,12 @@ func handleV1SubscriptionsFutureUpdateCancelPendingPayment(ctx context.Context, 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions:future-update cancel-pending-payment", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions:future-update cancel-pending-payment",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsFutureUpdateCancelSchedule(ctx context.Context, cmd *cli.Command) error {
@@ -112,5 +116,10 @@ func handleV1SubscriptionsFutureUpdateCancelSchedule(ctx context.Context, cmd *c
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions:future-update cancel-schedule", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions:future-update cancel-schedule",
+		Transform:      transform,
+	})
 }

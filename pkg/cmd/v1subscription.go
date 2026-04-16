@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -1174,7 +1173,12 @@ func handleV1SubscriptionsRetrieve(ctx context.Context, cmd *cli.Command) error 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions retrieve", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -1217,7 +1221,12 @@ func handleV1SubscriptionsUpdate(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions update", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions update",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
@@ -1252,14 +1261,24 @@ func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions list", obj, format, explicitFormat, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:subscriptions list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Subscriptions.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:subscriptions list", iter, format, explicitFormat, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:subscriptions list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -1303,7 +1322,12 @@ func handleV1SubscriptionsCancel(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions cancel", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions cancel",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsDelegate(ctx context.Context, cmd *cli.Command) error {
@@ -1346,7 +1370,12 @@ func handleV1SubscriptionsDelegate(ctx context.Context, cmd *cli.Command) error 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions delegate", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions delegate",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsImport(ctx context.Context, cmd *cli.Command) error {
@@ -1381,7 +1410,12 @@ func handleV1SubscriptionsImport(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions import", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions import",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsMigrate(ctx context.Context, cmd *cli.Command) error {
@@ -1424,7 +1458,12 @@ func handleV1SubscriptionsMigrate(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions migrate", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions migrate",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsPreview(ctx context.Context, cmd *cli.Command) error {
@@ -1459,7 +1498,12 @@ func handleV1SubscriptionsPreview(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions preview", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions preview",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsProvision(ctx context.Context, cmd *cli.Command) error {
@@ -1494,7 +1538,12 @@ func handleV1SubscriptionsProvision(ctx context.Context, cmd *cli.Command) error
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions provision", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions provision",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsTransfer(ctx context.Context, cmd *cli.Command) error {
@@ -1537,5 +1586,10 @@ func handleV1SubscriptionsTransfer(ctx context.Context, cmd *cli.Command) error 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:subscriptions transfer", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:subscriptions transfer",
+		Transform:      transform,
+	})
 }

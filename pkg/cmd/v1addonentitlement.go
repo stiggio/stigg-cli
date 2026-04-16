@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -243,7 +242,12 @@ func handleV1AddonsEntitlementsCreate(ctx context.Context, cmd *cli.Command) err
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:addons:entitlements create", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:addons:entitlements create",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsEntitlementsUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -288,7 +292,12 @@ func handleV1AddonsEntitlementsUpdate(ctx context.Context, cmd *cli.Command) err
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:addons:entitlements update", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:addons:entitlements update",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsEntitlementsList(ctx context.Context, cmd *cli.Command) error {
@@ -324,7 +333,12 @@ func handleV1AddonsEntitlementsList(ctx context.Context, cmd *cli.Command) error
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:addons:entitlements list", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:addons:entitlements list",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsEntitlementsDelete(ctx context.Context, cmd *cli.Command) error {
@@ -369,5 +383,10 @@ func handleV1AddonsEntitlementsDelete(ctx context.Context, cmd *cli.Command) err
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:addons:entitlements delete", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:addons:entitlements delete",
+		Transform:      transform,
+	})
 }

@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -150,7 +149,12 @@ func handleInternalBetaEventQueuesRetrieve(ctx context.Context, cmd *cli.Command
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "internal:beta:event-queues retrieve", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "internal:beta:event-queues retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleInternalBetaEventQueuesUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -193,7 +197,12 @@ func handleInternalBetaEventQueuesUpdate(ctx context.Context, cmd *cli.Command) 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "internal:beta:event-queues update", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "internal:beta:event-queues update",
+		Transform:      transform,
+	})
 }
 
 func handleInternalBetaEventQueuesList(ctx context.Context, cmd *cli.Command) error {
@@ -226,7 +235,12 @@ func handleInternalBetaEventQueuesList(ctx context.Context, cmd *cli.Command) er
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "internal:beta:event-queues list", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "internal:beta:event-queues list",
+		Transform:      transform,
+	})
 }
 
 func handleInternalBetaEventQueuesDelete(ctx context.Context, cmd *cli.Command) error {
@@ -262,7 +276,12 @@ func handleInternalBetaEventQueuesDelete(ctx context.Context, cmd *cli.Command) 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "internal:beta:event-queues delete", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "internal:beta:event-queues delete",
+		Transform:      transform,
+	})
 }
 
 func handleInternalBetaEventQueuesProvision(ctx context.Context, cmd *cli.Command) error {
@@ -297,5 +316,10 @@ func handleInternalBetaEventQueuesProvision(ctx context.Context, cmd *cli.Comman
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "internal:beta:event-queues provision", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "internal:beta:event-queues provision",
+		Transform:      transform,
+	})
 }

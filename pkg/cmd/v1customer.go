@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -497,7 +496,12 @@ func handleV1CustomersRetrieve(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers retrieve", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -540,7 +544,12 @@ func handleV1CustomersUpdate(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers update", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers update",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
@@ -575,14 +584,24 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, os.Stderr, "v1:customers list", obj, format, explicitFormat, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:customers list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Customers.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:customers list", iter, format, explicitFormat, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:customers list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -619,7 +638,12 @@ func handleV1CustomersArchive(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers archive", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers archive",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
@@ -654,7 +678,12 @@ func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers import", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers import",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error {
@@ -697,7 +726,12 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, os.Stderr, "v1:customers list-resources", obj, format, explicitFormat, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:customers list-resources",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Customers.ListResourcesAutoPaging(
 			ctx,
@@ -709,7 +743,12 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:customers list-resources", iter, format, explicitFormat, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:customers list-resources",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -745,7 +784,12 @@ func handleV1CustomersProvision(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers provision", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers provision",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command) error {
@@ -788,7 +832,12 @@ func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers retrieve-entitlements", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers retrieve-entitlements",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersUnarchive(ctx context.Context, cmd *cli.Command) error {
@@ -824,5 +873,10 @@ func handleV1CustomersUnarchive(ctx context.Context, cmd *cli.Command) error {
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers unarchive", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers unarchive",
+		Transform:      transform,
+	})
 }

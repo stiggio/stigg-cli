@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -146,7 +145,12 @@ func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command)
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits get-auto-recharge", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:events:credits get-auto-recharge",
+		Transform:      transform,
+	})
 }
 
 func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
@@ -181,7 +185,12 @@ func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits get-usage", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:events:credits get-usage",
+		Transform:      transform,
+	})
 }
 
 func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) error {
@@ -216,13 +225,23 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, os.Stderr, "v1:events:credits list-ledger", obj, format, explicitFormat, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:events:credits list-ledger",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Events.Credits.ListLedgerAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:events:credits list-ledger", iter, format, explicitFormat, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:events:credits list-ledger",
+			Transform:      transform,
+		})
 	}
 }

@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -223,7 +222,12 @@ func handleV1CustomersPromotionalEntitlementsCreate(ctx context.Context, cmd *cl
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements create", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers:promotional-entitlements create",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.Command) error {
@@ -266,7 +270,12 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements list", obj, format, explicitFormat, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:customers:promotional-entitlements list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Customers.PromotionalEntitlements.ListAutoPaging(
 			ctx,
@@ -278,7 +287,12 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements list", iter, format, explicitFormat, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			Title:          "v1:customers:promotional-entitlements list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -324,5 +338,10 @@ func handleV1CustomersPromotionalEntitlementsRevoke(ctx context.Context, cmd *cl
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, os.Stderr, "v1:customers:promotional-entitlements revoke", obj, format, explicitFormat, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		Title:          "v1:customers:promotional-entitlements revoke",
+		Transform:      transform,
+	})
 }
