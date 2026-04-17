@@ -225,6 +225,7 @@ func handleV1CustomersPromotionalEntitlementsCreate(ctx context.Context, cmd *cl
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:promotional-entitlements create",
 		Transform:      transform,
 	})
@@ -273,6 +274,7 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers:promotional-entitlements list",
 			Transform:      transform,
 		})
@@ -290,6 +292,7 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers:promotional-entitlements list",
 			Transform:      transform,
 		})
@@ -341,6 +344,7 @@ func handleV1CustomersPromotionalEntitlementsRevoke(ctx context.Context, cmd *cl
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:promotional-entitlements revoke",
 		Transform:      transform,
 	})

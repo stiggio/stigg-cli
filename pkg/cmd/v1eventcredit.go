@@ -148,6 +148,7 @@ func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command)
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:events:credits get-auto-recharge",
 		Transform:      transform,
 	})
@@ -188,6 +189,7 @@ func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:events:credits get-usage",
 		Transform:      transform,
 	})
@@ -228,6 +230,7 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:events:credits list-ledger",
 			Transform:      transform,
 		})
@@ -240,6 +243,7 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:events:credits list-ledger",
 			Transform:      transform,
 		})

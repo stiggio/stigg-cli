@@ -297,6 +297,7 @@ func handleV1ProductsArchiveProduct(ctx context.Context, cmd *cli.Command) error
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:products archive-product",
 		Transform:      transform,
 	})
@@ -337,6 +338,7 @@ func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:products create-product",
 		Transform:      transform,
 	})
@@ -385,6 +387,7 @@ func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) err
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:products duplicate-product",
 		Transform:      transform,
 	})
@@ -425,6 +428,7 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:products list-products",
 			Transform:      transform,
 		})
@@ -437,6 +441,7 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:products list-products",
 			Transform:      transform,
 		})
@@ -479,6 +484,7 @@ func handleV1ProductsUnarchiveProduct(ctx context.Context, cmd *cli.Command) err
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:products unarchive-product",
 		Transform:      transform,
 	})
@@ -527,6 +533,7 @@ func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:products update-product",
 		Transform:      transform,
 	})

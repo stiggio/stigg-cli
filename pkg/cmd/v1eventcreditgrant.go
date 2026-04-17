@@ -257,6 +257,7 @@ func handleV1EventsCreditsGrantsCreate(ctx context.Context, cmd *cli.Command) er
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:events:credits:grants create",
 		Transform:      transform,
 	})
@@ -297,6 +298,7 @@ func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) erro
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:events:credits:grants list",
 			Transform:      transform,
 		})
@@ -309,6 +311,7 @@ func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) erro
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:events:credits:grants list",
 			Transform:      transform,
 		})
@@ -351,6 +354,7 @@ func handleV1EventsCreditsGrantsVoid(ctx context.Context, cmd *cli.Command) erro
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:events:credits:grants void",
 		Transform:      transform,
 	})

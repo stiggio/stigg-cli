@@ -90,6 +90,7 @@ func handleV1SubscriptionsUsageChargeUsage(ctx context.Context, cmd *cli.Command
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions:usage charge-usage",
 		Transform:      transform,
 	})
@@ -131,6 +132,7 @@ func handleV1SubscriptionsUsageSync(ctx context.Context, cmd *cli.Command) error
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions:usage sync",
 		Transform:      transform,
 	})

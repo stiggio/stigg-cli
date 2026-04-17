@@ -1176,6 +1176,7 @@ func handleV1SubscriptionsRetrieve(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions retrieve",
 		Transform:      transform,
 	})
@@ -1224,6 +1225,7 @@ func handleV1SubscriptionsUpdate(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions update",
 		Transform:      transform,
 	})
@@ -1264,6 +1266,7 @@ func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:subscriptions list",
 			Transform:      transform,
 		})
@@ -1276,6 +1279,7 @@ func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:subscriptions list",
 			Transform:      transform,
 		})
@@ -1325,6 +1329,7 @@ func handleV1SubscriptionsCancel(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions cancel",
 		Transform:      transform,
 	})
@@ -1373,6 +1378,7 @@ func handleV1SubscriptionsDelegate(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions delegate",
 		Transform:      transform,
 	})
@@ -1413,6 +1419,7 @@ func handleV1SubscriptionsImport(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions import",
 		Transform:      transform,
 	})
@@ -1461,6 +1468,7 @@ func handleV1SubscriptionsMigrate(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions migrate",
 		Transform:      transform,
 	})
@@ -1501,6 +1509,7 @@ func handleV1SubscriptionsPreview(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions preview",
 		Transform:      transform,
 	})
@@ -1541,6 +1550,7 @@ func handleV1SubscriptionsProvision(ctx context.Context, cmd *cli.Command) error
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions provision",
 		Transform:      transform,
 	})
@@ -1589,6 +1599,7 @@ func handleV1SubscriptionsTransfer(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions transfer",
 		Transform:      transform,
 	})

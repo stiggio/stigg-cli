@@ -245,6 +245,7 @@ func handleV1PlansEntitlementsCreate(ctx context.Context, cmd *cli.Command) erro
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:plans:entitlements create",
 		Transform:      transform,
 	})
@@ -295,6 +296,7 @@ func handleV1PlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) erro
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:plans:entitlements update",
 		Transform:      transform,
 	})
@@ -336,6 +338,7 @@ func handleV1PlansEntitlementsList(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:plans:entitlements list",
 		Transform:      transform,
 	})
@@ -386,6 +389,7 @@ func handleV1PlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) erro
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:plans:entitlements delete",
 		Transform:      transform,
 	})

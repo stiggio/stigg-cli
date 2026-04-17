@@ -108,6 +108,7 @@ func handleV1CustomersPaymentMethodAttach(ctx context.Context, cmd *cli.Command)
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:payment-method attach",
 		Transform:      transform,
 	})
@@ -149,6 +150,7 @@ func handleV1CustomersPaymentMethodDetach(ctx context.Context, cmd *cli.Command)
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:payment-method detach",
 		Transform:      transform,
 	})

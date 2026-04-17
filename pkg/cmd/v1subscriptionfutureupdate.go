@@ -78,6 +78,7 @@ func handleV1SubscriptionsFutureUpdateCancelPendingPayment(ctx context.Context, 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions:future-update cancel-pending-payment",
 		Transform:      transform,
 	})
@@ -119,6 +120,7 @@ func handleV1SubscriptionsFutureUpdateCancelSchedule(ctx context.Context, cmd *c
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions:future-update cancel-schedule",
 		Transform:      transform,
 	})

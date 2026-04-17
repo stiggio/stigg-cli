@@ -244,6 +244,7 @@ func handleV1CouponsCreate(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:coupons create",
 		Transform:      transform,
 	})
@@ -285,6 +286,7 @@ func handleV1CouponsRetrieve(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:coupons retrieve",
 		Transform:      transform,
 	})
@@ -325,6 +327,7 @@ func handleV1CouponsList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:coupons list",
 			Transform:      transform,
 		})
@@ -337,6 +340,7 @@ func handleV1CouponsList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:coupons list",
 			Transform:      transform,
 		})
@@ -379,6 +383,7 @@ func handleV1CouponsArchiveCoupon(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:coupons archive-coupon",
 		Transform:      transform,
 	})
@@ -427,6 +432,7 @@ func handleV1CouponsUpdateCoupon(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:coupons update-coupon",
 		Transform:      transform,
 	})

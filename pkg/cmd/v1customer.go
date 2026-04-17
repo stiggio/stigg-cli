@@ -499,6 +499,7 @@ func handleV1CustomersRetrieve(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers retrieve",
 		Transform:      transform,
 	})
@@ -547,6 +548,7 @@ func handleV1CustomersUpdate(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers update",
 		Transform:      transform,
 	})
@@ -587,6 +589,7 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers list",
 			Transform:      transform,
 		})
@@ -599,6 +602,7 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers list",
 			Transform:      transform,
 		})
@@ -641,6 +645,7 @@ func handleV1CustomersArchive(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers archive",
 		Transform:      transform,
 	})
@@ -681,6 +686,7 @@ func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers import",
 		Transform:      transform,
 	})
@@ -729,6 +735,7 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers list-resources",
 			Transform:      transform,
 		})
@@ -746,6 +753,7 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers list-resources",
 			Transform:      transform,
 		})
@@ -787,6 +795,7 @@ func handleV1CustomersProvision(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers provision",
 		Transform:      transform,
 	})
@@ -835,6 +844,7 @@ func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers retrieve-entitlements",
 		Transform:      transform,
 	})
@@ -876,6 +886,7 @@ func handleV1CustomersUnarchive(ctx context.Context, cmd *cli.Command) error {
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers unarchive",
 		Transform:      transform,
 	})

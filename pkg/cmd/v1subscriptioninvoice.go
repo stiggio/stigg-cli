@@ -64,6 +64,7 @@ func handleV1SubscriptionsInvoiceMarkAsPaid(ctx context.Context, cmd *cli.Comman
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:subscriptions:invoice mark-as-paid",
 		Transform:      transform,
 	})

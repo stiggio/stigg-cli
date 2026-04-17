@@ -245,6 +245,7 @@ func handleV1AddonsEntitlementsCreate(ctx context.Context, cmd *cli.Command) err
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:addons:entitlements create",
 		Transform:      transform,
 	})
@@ -295,6 +296,7 @@ func handleV1AddonsEntitlementsUpdate(ctx context.Context, cmd *cli.Command) err
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:addons:entitlements update",
 		Transform:      transform,
 	})
@@ -336,6 +338,7 @@ func handleV1AddonsEntitlementsList(ctx context.Context, cmd *cli.Command) error
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:addons:entitlements list",
 		Transform:      transform,
 	})
@@ -386,6 +389,7 @@ func handleV1AddonsEntitlementsDelete(ctx context.Context, cmd *cli.Command) err
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:addons:entitlements delete",
 		Transform:      transform,
 	})

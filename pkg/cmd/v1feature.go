@@ -372,6 +372,7 @@ func handleV1FeaturesArchiveFeature(ctx context.Context, cmd *cli.Command) error
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:features archive-feature",
 		Transform:      transform,
 	})
@@ -412,6 +413,7 @@ func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:features create-feature",
 		Transform:      transform,
 	})
@@ -452,6 +454,7 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:features list-features",
 			Transform:      transform,
 		})
@@ -464,6 +467,7 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:features list-features",
 			Transform:      transform,
 		})
@@ -506,6 +510,7 @@ func handleV1FeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command) erro
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:features retrieve-feature",
 		Transform:      transform,
 	})
@@ -547,6 +552,7 @@ func handleV1FeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) err
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:features unarchive-feature",
 		Transform:      transform,
 	})
@@ -595,6 +601,7 @@ func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:features update-feature",
 		Transform:      transform,
 	})

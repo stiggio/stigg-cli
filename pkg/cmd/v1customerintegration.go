@@ -190,6 +190,7 @@ func handleV1CustomersIntegrationsRetrieve(ctx context.Context, cmd *cli.Command
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:integrations retrieve",
 		Transform:      transform,
 	})
@@ -240,6 +241,7 @@ func handleV1CustomersIntegrationsUpdate(ctx context.Context, cmd *cli.Command) 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:integrations update",
 		Transform:      transform,
 	})
@@ -288,6 +290,7 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 		return ShowJSON(obj, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers:integrations list",
 			Transform:      transform,
 		})
@@ -305,6 +308,7 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
 			ExplicitFormat: explicitFormat,
 			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
 			Title:          "v1:customers:integrations list",
 			Transform:      transform,
 		})
@@ -354,6 +358,7 @@ func handleV1CustomersIntegrationsLink(ctx context.Context, cmd *cli.Command) er
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:integrations link",
 		Transform:      transform,
 	})
@@ -404,6 +409,7 @@ func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:customers:integrations unlink",
 		Transform:      transform,
 	})

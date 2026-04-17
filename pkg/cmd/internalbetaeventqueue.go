@@ -152,6 +152,7 @@ func handleInternalBetaEventQueuesRetrieve(ctx context.Context, cmd *cli.Command
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "internal:beta:event-queues retrieve",
 		Transform:      transform,
 	})
@@ -200,6 +201,7 @@ func handleInternalBetaEventQueuesUpdate(ctx context.Context, cmd *cli.Command) 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "internal:beta:event-queues update",
 		Transform:      transform,
 	})
@@ -238,6 +240,7 @@ func handleInternalBetaEventQueuesList(ctx context.Context, cmd *cli.Command) er
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "internal:beta:event-queues list",
 		Transform:      transform,
 	})
@@ -279,6 +282,7 @@ func handleInternalBetaEventQueuesDelete(ctx context.Context, cmd *cli.Command) 
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "internal:beta:event-queues delete",
 		Transform:      transform,
 	})
@@ -319,6 +323,7 @@ func handleInternalBetaEventQueuesProvision(ctx context.Context, cmd *cli.Comman
 	return ShowJSON(obj, ShowJSONOpts{
 		ExplicitFormat: explicitFormat,
 		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "internal:beta:event-queues provision",
 		Transform:      transform,
 	})
