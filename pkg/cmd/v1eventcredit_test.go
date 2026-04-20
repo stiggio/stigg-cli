@@ -30,7 +30,9 @@ func TestV1EventsCreditsGetUsage(t *testing.T) {
 			"v1:events:credits", "get-usage",
 			"--customer-id", "customerId",
 			"--currency-id", "currencyId",
+			"--end-date", "'2019-12-27T18:11:19.117Z'",
 			"--resource-id", "resourceId",
+			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--time-range", "LAST_DAY",
 		)
 	})

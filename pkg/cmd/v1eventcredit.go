@@ -52,10 +52,20 @@ var v1EventsCreditsGetUsage = cli.Command{
 			Usage:     "Filter by currency ID",
 			QueryPath: "currencyId",
 		},
+		&requestflag.Flag[any]{
+			Name:      "end-date",
+			Usage:     "End date for the credit usage time range (ISO 8601). Defaults to now when startDate is provided",
+			QueryPath: "endDate",
+		},
 		&requestflag.Flag[string]{
 			Name:      "resource-id",
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
+		},
+		&requestflag.Flag[any]{
+			Name:      "start-date",
+			Usage:     "Start date for the credit usage time range (ISO 8601). Takes precedence over timeRange when provided",
+			QueryPath: "startDate",
 		},
 		&requestflag.Flag[string]{
 			Name:      "time-range",
