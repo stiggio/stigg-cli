@@ -302,18 +302,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "internal:beta:event-queues",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&internalBetaEventQueuesRetrieve,
-					&internalBetaEventQueuesUpdate,
-					&internalBetaEventQueuesList,
-					&internalBetaEventQueuesDelete,
-					&internalBetaEventQueuesProvision,
-				},
-			},
-			{
 				Name:            "@manpages",
 				Usage:           "Generate documentation for 'man'",
 				UsageText:       "stigg @manpages [-o stigg.1] [--gzip]",
