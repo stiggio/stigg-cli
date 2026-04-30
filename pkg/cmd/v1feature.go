@@ -20,8 +20,9 @@ var v1FeaturesArchiveFeature = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1FeaturesArchiveFeature,
@@ -216,8 +217,9 @@ var v1FeaturesRetrieveFeature = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1FeaturesRetrieveFeature,
@@ -230,8 +232,9 @@ var v1FeaturesUnarchiveFeature = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1FeaturesUnarchiveFeature,
@@ -244,8 +247,9 @@ var v1FeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "description",
@@ -386,8 +390,6 @@ func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1FeatureNewFeatureParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -398,6 +400,8 @@ func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1FeatureNewFeatureParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -427,8 +431,6 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1FeatureListFeaturesParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -439,6 +441,8 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1FeatureListFeaturesParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -569,8 +573,6 @@ func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1FeatureUpdateFeatureParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -581,6 +583,8 @@ func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1FeatureUpdateFeatureParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

@@ -131,8 +131,6 @@ func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command)
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventCreditGetAutoRechargeParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -143,6 +141,8 @@ func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command)
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1EventCreditGetAutoRechargeParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -172,8 +172,6 @@ func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventCreditGetUsageParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -184,6 +182,8 @@ func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1EventCreditGetUsageParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -213,8 +213,6 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventCreditListLedgerParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -225,6 +223,8 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1EventCreditListLedgerParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")

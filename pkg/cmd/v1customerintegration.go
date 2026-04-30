@@ -20,12 +20,14 @@ var v1CustomersIntegrationsRetrieve = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "integration-id",
-			Required: true,
+			Name:      "integration-id",
+			Required:  true,
+			PathParam: "integrationId",
 		},
 	},
 	Action:          handleV1CustomersIntegrationsRetrieve,
@@ -38,14 +40,16 @@ var v1CustomersIntegrationsUpdate = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "integration-id",
-			Required: true,
+			Name:      "integration-id",
+			Required:  true,
+			PathParam: "integrationId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "synced-entity-id",
 			Usage:    "Synced entity id",
 			Required: true,
@@ -62,8 +66,9 @@ var v1CustomersIntegrationsList = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "after",
@@ -101,8 +106,9 @@ var v1CustomersIntegrationsLink = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "id",
@@ -133,12 +139,14 @@ var v1CustomersIntegrationsUnlink = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "integration-id",
-			Required: true,
+			Name:      "integration-id",
+			Required:  true,
+			PathParam: "integrationId",
 		},
 	},
 	Action:          handleV1CustomersIntegrationsUnlink,
@@ -156,10 +164,6 @@ func handleV1CustomersIntegrationsRetrieve(ctx context.Context, cmd *cli.Command
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerIntegrationGetParams{
-		ID: cmd.Value("id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -169,6 +173,10 @@ func handleV1CustomersIntegrationsRetrieve(ctx context.Context, cmd *cli.Command
 	)
 	if err != nil {
 		return err
+	}
+
+	params := stigg.V1CustomerIntegrationGetParams{
+		ID: cmd.Value("id").(string),
 	}
 
 	var res []byte
@@ -207,10 +215,6 @@ func handleV1CustomersIntegrationsUpdate(ctx context.Context, cmd *cli.Command) 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerIntegrationUpdateParams{
-		ID: cmd.Value("id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -220,6 +224,10 @@ func handleV1CustomersIntegrationsUpdate(ctx context.Context, cmd *cli.Command) 
 	)
 	if err != nil {
 		return err
+	}
+
+	params := stigg.V1CustomerIntegrationUpdateParams{
+		ID: cmd.Value("id").(string),
 	}
 
 	var res []byte
@@ -258,8 +266,6 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerIntegrationListParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -270,6 +276,8 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerIntegrationListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -326,8 +334,6 @@ func handleV1CustomersIntegrationsLink(ctx context.Context, cmd *cli.Command) er
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerIntegrationLinkParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -338,6 +344,8 @@ func handleV1CustomersIntegrationsLink(ctx context.Context, cmd *cli.Command) er
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerIntegrationLinkParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -375,10 +383,6 @@ func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerIntegrationUnlinkParams{
-		ID: cmd.Value("id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -388,6 +392,10 @@ func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) 
 	)
 	if err != nil {
 		return err
+	}
+
+	params := stigg.V1CustomerIntegrationUnlinkParams{
+		ID: cmd.Value("id").(string),
 	}
 
 	var res []byte

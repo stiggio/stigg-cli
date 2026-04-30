@@ -37,7 +37,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "productId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
@@ -47,7 +47,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Default trial configuration for the plan",
 			BodyPath: "defaultTrialConfig",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "The description of the package",
 			BodyPath: "description",
@@ -57,12 +57,12 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Metadata associated with the entity",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "parent-plan-id",
 			Usage:    "The ID of the parent plan, if applicable",
 			BodyPath: "parentPlanId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "pricing-type",
 			Usage:    "The pricing type of the package",
 			BodyPath: "pricingType",
@@ -92,7 +92,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Budget configuration for the trial",
 			InnerField: "budget",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "default-trial-config.trial-end-behavior",
 			Usage:      "Behavior when the trial ends (CONVERT_TO_PAID or CANCEL_SUBSCRIPTION)",
 			InnerField: "trialEndBehavior",
@@ -106,8 +106,9 @@ var v1PlansRetrieve = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansRetrieve,
@@ -120,10 +121,11 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
@@ -142,7 +144,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Default trial configuration for the plan",
 			BodyPath: "defaultTrialConfig",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "The description of the package",
 			BodyPath: "description",
@@ -157,7 +159,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Metadata associated with the entity",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "parent-plan-id",
 			Usage:    "The ID of the parent plan, if applicable",
 			BodyPath: "parentPlanId",
@@ -214,7 +216,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Budget configuration for the trial",
 			InnerField: "budget",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "default-trial-config.trial-end-behavior",
 			Usage:      "Behavior when the trial ends (CONVERT_TO_PAID or CANCEL_SUBSCRIPTION)",
 			InnerField: "trialEndBehavior",
@@ -296,8 +298,9 @@ var v1PlansArchive = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansArchive,
@@ -310,8 +313,9 @@ var v1PlansCreateDraft = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansCreateDraft,
@@ -324,8 +328,9 @@ var v1PlansPublish = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "migration-type",
@@ -344,8 +349,9 @@ var v1PlansRemoveDraft = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansRemoveDraft,
@@ -360,8 +366,6 @@ func handleV1PlansCreate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanNewParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -372,6 +376,8 @@ func handleV1PlansCreate(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1PlanNewParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -446,8 +452,6 @@ func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanUpdateParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -458,6 +462,8 @@ func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1PlanUpdateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -492,8 +498,6 @@ func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanListParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -504,6 +508,8 @@ func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1PlanListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -634,8 +640,6 @@ func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanPublishParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -646,6 +650,8 @@ func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1PlanPublishParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

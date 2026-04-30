@@ -20,8 +20,9 @@ var v1SubscriptionsFutureUpdateCancelPendingPayment = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1SubscriptionsFutureUpdateCancelPendingPayment,
@@ -34,8 +35,9 @@ var v1SubscriptionsFutureUpdateCancelSchedule = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1SubscriptionsFutureUpdateCancelSchedule,

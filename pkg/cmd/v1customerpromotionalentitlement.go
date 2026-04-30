@@ -20,8 +20,9 @@ var v1CustomersPromotionalEntitlementsCreate = requestflag.WithInnerFlags(cli.Co
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "promotional-entitlement",
@@ -49,17 +50,17 @@ var v1CustomersPromotionalEntitlementsCreate = requestflag.WithInnerFlags(cli.Co
 			Usage:      "The unique identifier of the entitlement feature",
 			InnerField: "featureId",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*bool]{
 			Name:       "promotional-entitlement.has-soft-limit",
 			Usage:      "Whether the entitlement has a soft limit",
 			InnerField: "hasSoftLimit",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*bool]{
 			Name:       "promotional-entitlement.has-unlimited-usage",
 			Usage:      "Whether the entitlement has an unlimited usage",
 			InnerField: "hasUnlimitedUsage",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*bool]{
 			Name:       "promotional-entitlement.is-visible",
 			Usage:      "Whether the entitlement is visible",
 			InnerField: "isVisible",
@@ -74,12 +75,12 @@ var v1CustomersPromotionalEntitlementsCreate = requestflag.WithInnerFlags(cli.Co
 			Usage:      "The grant period of the promotional entitlement",
 			InnerField: "period",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "promotional-entitlement.reset-period",
 			Usage:      "The reset period of the entitlement",
 			InnerField: "resetPeriod",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*int64]{
 			Name:       "promotional-entitlement.usage-limit",
 			Usage:      "The usage limit of the entitlement",
 			InnerField: "usageLimit",
@@ -103,8 +104,9 @@ var v1CustomersPromotionalEntitlementsList = requestflag.WithInnerFlags(cli.Comm
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "after",
@@ -170,12 +172,14 @@ var v1CustomersPromotionalEntitlementsRevoke = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
-			Name:     "feature-id",
-			Required: true,
+			Name:      "feature-id",
+			Required:  true,
+			PathParam: "featureId",
 		},
 	},
 	Action:          handleV1CustomersPromotionalEntitlementsRevoke,
@@ -193,8 +197,6 @@ func handleV1CustomersPromotionalEntitlementsCreate(ctx context.Context, cmd *cl
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerPromotionalEntitlementNewParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -205,6 +207,8 @@ func handleV1CustomersPromotionalEntitlementsCreate(ctx context.Context, cmd *cl
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerPromotionalEntitlementNewParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -242,8 +246,6 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerPromotionalEntitlementListParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -254,6 +256,8 @@ func handleV1CustomersPromotionalEntitlementsList(ctx context.Context, cmd *cli.
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerPromotionalEntitlementListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -310,10 +314,6 @@ func handleV1CustomersPromotionalEntitlementsRevoke(ctx context.Context, cmd *cl
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerPromotionalEntitlementRevokeParams{
-		ID: cmd.Value("id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -323,6 +323,10 @@ func handleV1CustomersPromotionalEntitlementsRevoke(ctx context.Context, cmd *cl
 	)
 	if err != nil {
 		return err
+	}
+
+	params := stigg.V1CustomerPromotionalEntitlementRevokeParams{
+		ID: cmd.Value("id").(string),
 	}
 
 	var res []byte

@@ -20,12 +20,14 @@ var v1UsageHistory = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "customer-id",
-			Required: true,
+			Name:      "customer-id",
+			Required:  true,
+			PathParam: "customerId",
 		},
 		&requestflag.Flag[string]{
-			Name:     "feature-id",
-			Required: true,
+			Name:      "feature-id",
+			Required:  true,
+			PathParam: "featureId",
 		},
 		&requestflag.Flag[any]{
 			Name:      "start-date",
@@ -43,7 +45,7 @@ var v1UsageHistory = cli.Command{
 			Usage:     "Criteria by which to group the usage history",
 			QueryPath: "groupBy",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:      "resource-id",
 			Usage:     "Resource id",
 			QueryPath: "resourceId",
@@ -94,7 +96,7 @@ var v1UsageReport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Additional dimensions for the usage report",
 			InnerField: "dimensions",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "usage.resource-id",
 			Usage:      "Resource id",
 			InnerField: "resourceId",
@@ -118,10 +120,6 @@ func handleV1UsageHistory(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1UsageHistoryParams{
-		CustomerID: cmd.Value("customer-id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -131,6 +129,10 @@ func handleV1UsageHistory(ctx context.Context, cmd *cli.Command) error {
 	)
 	if err != nil {
 		return err
+	}
+
+	params := stigg.V1UsageHistoryParams{
+		CustomerID: cmd.Value("customer-id").(string),
 	}
 
 	var res []byte
@@ -166,8 +168,6 @@ func handleV1UsageReport(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1UsageReportParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -178,6 +178,8 @@ func handleV1UsageReport(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1UsageReportParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

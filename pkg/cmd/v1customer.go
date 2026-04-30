@@ -20,8 +20,9 @@ var v1CustomersRetrieve = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1CustomersRetrieve,
@@ -34,25 +35,26 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-currency",
 			Usage:    "The billing currency of the customer",
 			BodyPath: "billingCurrency",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "coupon-id",
 			Usage:    "Customer level coupon",
 			BodyPath: "couponId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "email",
 			Usage:    "The email of the customer",
 			BodyPath: "email",
@@ -62,7 +64,7 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "List of integrations",
 			BodyPath: "integrations",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "language",
 			Usage:    "Language to use for this customer",
 			BodyPath: "language",
@@ -72,7 +74,7 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Additional metadata",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "name",
 			Usage:    "The name of the customer",
 			BodyPath: "name",
@@ -82,7 +84,7 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Vendor-specific billing passthrough fields.",
 			BodyPath: "passthrough",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "timezone",
 			Usage:    "Timezone to use for this customer",
 			BodyPath: "timezone",
@@ -97,7 +99,7 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Integration details",
 			InnerField: "id",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "integration.synced-entity-id",
 			Usage:      "Synced entity id",
 			InnerField: "syncedEntityId",
@@ -196,8 +198,9 @@ var v1CustomersArchive = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1CustomersArchive,
@@ -230,12 +233,12 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Customer slug",
 			InnerField: "id",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "customer.email",
 			Usage:      "The email of the customer",
 			InnerField: "email",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "customer.name",
 			Usage:      "The name of the customer",
 			InnerField: "name",
@@ -274,8 +277,9 @@ var v1CustomersListResources = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "after",
@@ -313,17 +317,17 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-currency",
 			Usage:    "The billing currency of the customer",
 			BodyPath: "billingCurrency",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "coupon-id",
 			Usage:    "Customer level coupon",
 			BodyPath: "couponId",
@@ -333,7 +337,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The default payment method details",
 			BodyPath: "defaultPaymentMethod",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "email",
 			Usage:    "The email of the customer",
 			BodyPath: "email",
@@ -343,7 +347,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "List of integrations",
 			BodyPath: "integrations",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "language",
 			Usage:    "Language to use for this customer",
 			BodyPath: "language",
@@ -353,7 +357,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Additional metadata",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "name",
 			Usage:    "The name of the customer",
 			BodyPath: "name",
@@ -363,7 +367,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Vendor-specific billing passthrough fields.",
 			BodyPath: "passthrough",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "timezone",
 			Usage:    "Timezone to use for this customer",
 			BodyPath: "timezone",
@@ -373,22 +377,22 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"default-payment-method": {
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "default-payment-method.billing-id",
 			Usage:      "The default payment method id",
 			InnerField: "billingId",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*float64]{
 			Name:       "default-payment-method.card-expiry-month",
 			Usage:      "The expiration month of the default payment method",
 			InnerField: "cardExpiryMonth",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*float64]{
 			Name:       "default-payment-method.card-expiry-year",
 			Usage:      "The expiration year of the default payment method",
 			InnerField: "cardExpiryYear",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "default-payment-method.card-last4-digits",
 			Usage:      "The last 4 digits of the default payment method",
 			InnerField: "cardLast4Digits",
@@ -405,7 +409,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Integration details",
 			InnerField: "id",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "integration.synced-entity-id",
 			Usage:      "Synced entity id",
 			InnerField: "syncedEntityId",
@@ -436,8 +440,9 @@ var v1CustomersRetrieveEntitlements = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:      "resource-id",
@@ -455,8 +460,9 @@ var v1CustomersUnarchive = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1CustomersUnarchive,
@@ -516,8 +522,6 @@ func handleV1CustomersUpdate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerUpdateParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -528,6 +532,8 @@ func handleV1CustomersUpdate(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerUpdateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -562,8 +568,6 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerListParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -574,6 +578,8 @@ func handleV1CustomersList(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -659,8 +665,6 @@ func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerImportParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -671,6 +675,8 @@ func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerImportParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -703,8 +709,6 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerListResourcesParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -715,6 +719,8 @@ func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerListResourcesParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -768,8 +774,6 @@ func handleV1CustomersProvision(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerProvisionParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -780,6 +784,8 @@ func handleV1CustomersProvision(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerProvisionParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -812,8 +818,6 @@ func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerGetEntitlementsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -824,6 +828,8 @@ func handleV1CustomersRetrieveEntitlements(ctx context.Context, cmd *cli.Command
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerGetEntitlementsParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

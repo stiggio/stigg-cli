@@ -20,8 +20,9 @@ var v1ProductsArchiveProduct = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1ProductsArchiveProduct,
@@ -45,7 +46,7 @@ var v1ProductsCreateProduct = cli.Command{
 			Required: true,
 			BodyPath: "displayName",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the product",
 			BodyPath: "description",
@@ -72,8 +73,9 @@ var v1ProductsDuplicateProduct = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "target-id",
@@ -81,7 +83,7 @@ var v1ProductsDuplicateProduct = cli.Command{
 			Required: true,
 			BodyPath: "targetId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the product",
 			BodyPath: "description",
@@ -170,8 +172,9 @@ var v1ProductsUnarchiveProduct = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1ProductsUnarchiveProduct,
@@ -184,10 +187,11 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the product",
 			BodyPath: "description",
@@ -236,17 +240,17 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Setup for the start of the subscription",
 			InnerField: "subscriptionStartSetup",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "product-settings.downgrade-plan-id",
 			Usage:      "ID of the plan to downgrade to at the end of the billing period",
 			InnerField: "downgradePlanId",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*bool]{
 			Name:       "product-settings.prorate-at-end-of-billing-period",
 			Usage:      "Indicates if the subscription should be prorated at the end of the billing period",
 			InnerField: "prorateAtEndOfBillingPeriod",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "product-settings.subscription-start-plan-id",
 			Usage:      "ID of the plan to start the subscription with",
 			InnerField: "subscriptionStartPlanId",
@@ -311,8 +315,6 @@ func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1ProductNewProductParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -323,6 +325,8 @@ func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1ProductNewProductParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -355,8 +359,6 @@ func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) err
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1ProductDuplicateProductParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -367,6 +369,8 @@ func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) err
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1ProductDuplicateProductParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -401,8 +405,6 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1ProductListProductsParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -413,6 +415,8 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1ProductListProductsParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -501,8 +505,6 @@ func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1ProductUpdateProductParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -513,6 +515,8 @@ func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1ProductUpdateProductParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))

@@ -50,7 +50,7 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Dimensions associated with the usage event",
 			InnerField: "dimensions",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "event.resource-id",
 			Usage:      "Resource id",
 			InnerField: "resourceId",
@@ -71,8 +71,6 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventReportParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -83,6 +81,8 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1EventReportParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
