@@ -93,6 +93,7 @@ func init() {
 					&v1CustomersUpdate,
 					&v1CustomersList,
 					&v1CustomersArchive,
+					&v1CustomersCheckEntitlement,
 					&v1CustomersImport,
 					&v1CustomersListResources,
 					&v1CustomersProvision,
