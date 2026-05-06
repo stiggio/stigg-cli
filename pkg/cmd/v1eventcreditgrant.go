@@ -45,7 +45,7 @@ var v1EventsCreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "grant-type",
-			Usage:    "The type of credit grant (PAID, PROMOTIONAL, RECURRING)",
+			Usage:    "The type of credit grant (PAID, PROMOTIONAL)",
 			Required: true,
 			BodyPath: "grantType",
 		},
