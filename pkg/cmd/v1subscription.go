@@ -309,7 +309,7 @@ var v1SubscriptionsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by plan ID",
 			QueryPath: "planId",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "pricing-type",
 			Usage:     "Filter by pricing type. Supports comma-separated values for multiple types",
 			QueryPath: "pricingType",
@@ -319,7 +319,7 @@ var v1SubscriptionsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by subscription status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",

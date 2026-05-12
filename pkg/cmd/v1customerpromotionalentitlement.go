@@ -129,7 +129,7 @@ var v1CustomersPromotionalEntitlementsList = requestflag.WithInnerFlags(cli.Comm
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by promotional entitlement status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",

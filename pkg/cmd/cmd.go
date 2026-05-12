@@ -216,6 +216,19 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:events:credits:custom-currencies",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsCreditsCustomCurrenciesCreate,
+					&v1EventsCreditsCustomCurrenciesUpdate,
+					&v1EventsCreditsCustomCurrenciesList,
+					&v1EventsCreditsCustomCurrenciesArchive,
+					&v1EventsCreditsCustomCurrenciesListAssociatedEntities,
+					&v1EventsCreditsCustomCurrenciesUnarchive,
+				},
+			},
+			{
 				Name:     "v1:features",
 				Category: "API RESOURCE",
 				Suggest:  true,

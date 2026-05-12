@@ -129,7 +129,7 @@ var v1ProductsListProducts = requestflag.WithInnerFlags(cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by product status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",

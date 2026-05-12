@@ -158,7 +158,7 @@ var v1FeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by creation date using range operators: gt, gte, lt, lte",
 			QueryPath: "createdAt",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "feature-type",
 			Usage:     "Filter by feature type. Supports comma-separated values for multiple types",
 			QueryPath: "featureType",
@@ -169,12 +169,12 @@ var v1FeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "meter-type",
 			Usage:     "Filter by meter type. Supports comma-separated values for multiple types",
 			QueryPath: "meterType",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by feature status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",

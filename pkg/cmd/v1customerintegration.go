@@ -86,7 +86,7 @@ var v1CustomersIntegrationsList = cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "vendor-identifier",
 			Usage:     "Filter by vendor identifier. Supports comma-separated values for multiple vendors (e.g., STRIPE,HUBSPOT)",
 			QueryPath: "vendorIdentifier",

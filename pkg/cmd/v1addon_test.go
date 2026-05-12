@@ -221,7 +221,7 @@ func TestV1AddonsList(t *testing.T) {
 			"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
 			"--limit", "1",
 			"--product-id", "productId",
-			"--status", "status",
+			"--status", "DRAFT",
 		)
 	})
 
@@ -243,7 +243,7 @@ func TestV1AddonsList(t *testing.T) {
 			"--created-at.lte", "2019-12-27T18:11:19.117Z",
 			"--limit", "1",
 			"--product-id", "productId",
-			"--status", "status",
+			"--status", "DRAFT",
 		)
 	})
 }

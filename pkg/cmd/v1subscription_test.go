@@ -204,9 +204,9 @@ func TestV1SubscriptionsList(t *testing.T) {
 			"--customer-id", "customerId",
 			"--limit", "1",
 			"--plan-id", "planId",
-			"--pricing-type", "pricingType",
+			"--pricing-type", "FREE",
 			"--resource-id", "resourceId",
-			"--status", "status",
+			"--status", "PAYMENT_PENDING",
 		)
 	})
 
@@ -229,9 +229,9 @@ func TestV1SubscriptionsList(t *testing.T) {
 			"--customer-id", "customerId",
 			"--limit", "1",
 			"--plan-id", "planId",
-			"--pricing-type", "pricingType",
+			"--pricing-type", "FREE",
 			"--resource-id", "resourceId",
-			"--status", "status",
+			"--status", "PAYMENT_PENDING",
 		)
 	})
 }

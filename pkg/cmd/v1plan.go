@@ -255,7 +255,7 @@ var v1PlansList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by product ID",
 			QueryPath: "productId",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
