@@ -9,13 +9,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
-func TestV1EventsCreditsCustomCurrenciesCreate(t *testing.T) {
+func TestV1CreditsCustomCurrenciesCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "create",
+			"v1:credits:custom-currencies", "create",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--description", "description",
@@ -27,13 +27,13 @@ func TestV1EventsCreditsCustomCurrenciesCreate(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1EventsCreditsCustomCurrenciesCreate)
+		requestflag.CheckInnerFlags(v1CreditsCustomCurrenciesCreate)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "create",
+			"v1:credits:custom-currencies", "create",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--description", "description",
@@ -59,18 +59,18 @@ func TestV1EventsCreditsCustomCurrenciesCreate(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "create",
+			"v1:credits:custom-currencies", "create",
 		)
 	})
 }
 
-func TestV1EventsCreditsCustomCurrenciesUpdate(t *testing.T) {
+func TestV1CreditsCustomCurrenciesUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "update",
+			"v1:credits:custom-currencies", "update",
 			"--currency-id", "currencyId",
 			"--description", "description",
 			"--display-name", "displayName",
@@ -82,13 +82,13 @@ func TestV1EventsCreditsCustomCurrenciesUpdate(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1EventsCreditsCustomCurrenciesUpdate)
+		requestflag.CheckInnerFlags(v1CreditsCustomCurrenciesUpdate)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "update",
+			"v1:credits:custom-currencies", "update",
 			"--currency-id", "currencyId",
 			"--description", "description",
 			"--display-name", "displayName",
@@ -113,19 +113,19 @@ func TestV1EventsCreditsCustomCurrenciesUpdate(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "update",
+			"v1:credits:custom-currencies", "update",
 			"--currency-id", "currencyId",
 		)
 	})
 }
 
-func TestV1EventsCreditsCustomCurrenciesList(t *testing.T) {
+func TestV1CreditsCustomCurrenciesList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "list",
+			"v1:credits:custom-currencies", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -135,37 +135,37 @@ func TestV1EventsCreditsCustomCurrenciesList(t *testing.T) {
 	})
 }
 
-func TestV1EventsCreditsCustomCurrenciesArchive(t *testing.T) {
+func TestV1CreditsCustomCurrenciesArchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "archive",
+			"v1:credits:custom-currencies", "archive",
 			"--currency-id", "currencyId",
 		)
 	})
 }
 
-func TestV1EventsCreditsCustomCurrenciesListAssociatedEntities(t *testing.T) {
+func TestV1CreditsCustomCurrenciesListAssociatedEntities(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "list-associated-entities",
+			"v1:credits:custom-currencies", "list-associated-entities",
 			"--currency-id", "currencyId",
 		)
 	})
 }
 
-func TestV1EventsCreditsCustomCurrenciesUnarchive(t *testing.T) {
+func TestV1CreditsCustomCurrenciesUnarchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits:custom-currencies", "unarchive",
+			"v1:credits:custom-currencies", "unarchive",
 			"--currency-id", "currencyId",
 		)
 	})

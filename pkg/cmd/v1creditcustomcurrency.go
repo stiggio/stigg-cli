@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsCreditsCustomCurrenciesCreate = requestflag.WithInnerFlags(cli.Command{
+var v1CreditsCustomCurrenciesCreate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create",
 	Usage:   "Creates a new custom currency in the environment.",
 	Suggest: true,
@@ -52,7 +52,7 @@ var v1EventsCreditsCustomCurrenciesCreate = requestflag.WithInnerFlags(cli.Comma
 			BodyPath: "units",
 		},
 	},
-	Action:          handleV1EventsCreditsCustomCurrenciesCreate,
+	Action:          handleV1CreditsCustomCurrenciesCreate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"units": {
@@ -69,7 +69,7 @@ var v1EventsCreditsCustomCurrenciesCreate = requestflag.WithInnerFlags(cli.Comma
 	},
 })
 
-var v1EventsCreditsCustomCurrenciesUpdate = requestflag.WithInnerFlags(cli.Command{
+var v1CreditsCustomCurrenciesUpdate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update",
 	Usage:   "Updates an existing custom currency. Only the supplied fields are modified.",
 	Suggest: true,
@@ -105,7 +105,7 @@ var v1EventsCreditsCustomCurrenciesUpdate = requestflag.WithInnerFlags(cli.Comma
 			BodyPath: "units",
 		},
 	},
-	Action:          handleV1EventsCreditsCustomCurrenciesUpdate,
+	Action:          handleV1CreditsCustomCurrenciesUpdate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"units": {
@@ -122,7 +122,7 @@ var v1EventsCreditsCustomCurrenciesUpdate = requestflag.WithInnerFlags(cli.Comma
 	},
 })
 
-var v1EventsCreditsCustomCurrenciesList = cli.Command{
+var v1CreditsCustomCurrenciesList = cli.Command{
 	Name:    "list",
 	Usage:   "Retrieves a paginated list of custom currencies in the environment. Archived\ncurrencies are excluded by default; pass `status=ARCHIVED` (or\n`status=ACTIVE,ARCHIVED`) to include them.",
 	Suggest: true,
@@ -153,11 +153,11 @@ var v1EventsCreditsCustomCurrenciesList = cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1EventsCreditsCustomCurrenciesList,
+	Action:          handleV1CreditsCustomCurrenciesList,
 	HideHelpCommand: true,
 }
 
-var v1EventsCreditsCustomCurrenciesArchive = cli.Command{
+var v1CreditsCustomCurrenciesArchive = cli.Command{
 	Name:    "archive",
 	Usage:   "Archives a custom currency. Fails if the currency is still associated with any\nactive plan or addon — use the associated-entities endpoint first to inspect\ndependencies.",
 	Suggest: true,
@@ -168,11 +168,11 @@ var v1EventsCreditsCustomCurrenciesArchive = cli.Command{
 			PathParam: "currencyId",
 		},
 	},
-	Action:          handleV1EventsCreditsCustomCurrenciesArchive,
+	Action:          handleV1CreditsCustomCurrenciesArchive,
 	HideHelpCommand: true,
 }
 
-var v1EventsCreditsCustomCurrenciesListAssociatedEntities = cli.Command{
+var v1CreditsCustomCurrenciesListAssociatedEntities = cli.Command{
 	Name:    "list-associated-entities",
 	Usage:   "Lists the active plans and addons that reference a custom currency. Useful\nbefore archiving to inspect dependencies.",
 	Suggest: true,
@@ -183,11 +183,11 @@ var v1EventsCreditsCustomCurrenciesListAssociatedEntities = cli.Command{
 			PathParam: "currencyId",
 		},
 	},
-	Action:          handleV1EventsCreditsCustomCurrenciesListAssociatedEntities,
+	Action:          handleV1CreditsCustomCurrenciesListAssociatedEntities,
 	HideHelpCommand: true,
 }
 
-var v1EventsCreditsCustomCurrenciesUnarchive = cli.Command{
+var v1CreditsCustomCurrenciesUnarchive = cli.Command{
 	Name:    "unarchive",
 	Usage:   "Restores a previously archived custom currency. Fails if another active currency\nwith the same ID already exists.",
 	Suggest: true,
@@ -198,11 +198,11 @@ var v1EventsCreditsCustomCurrenciesUnarchive = cli.Command{
 			PathParam: "currencyId",
 		},
 	},
-	Action:          handleV1EventsCreditsCustomCurrenciesUnarchive,
+	Action:          handleV1CreditsCustomCurrenciesUnarchive,
 	HideHelpCommand: true,
 }
 
-func handleV1EventsCreditsCustomCurrenciesCreate(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsCustomCurrenciesCreate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -221,11 +221,11 @@ func handleV1EventsCreditsCustomCurrenciesCreate(ctx context.Context, cmd *cli.C
 		return err
 	}
 
-	params := stigg.V1EventCreditCustomCurrencyNewParams{}
+	params := stigg.V1CreditCustomCurrencyNewParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.CustomCurrencies.New(ctx, params, options...)
+	_, err = client.V1.Credits.CustomCurrencies.New(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -238,12 +238,12 @@ func handleV1EventsCreditsCustomCurrenciesCreate(ctx context.Context, cmd *cli.C
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:credits:custom-currencies create",
+		Title:          "v1:credits:custom-currencies create",
 		Transform:      transform,
 	})
 }
 
-func handleV1EventsCreditsCustomCurrenciesUpdate(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsCustomCurrenciesUpdate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("currency-id") && len(unusedArgs) > 0 {
@@ -265,11 +265,11 @@ func handleV1EventsCreditsCustomCurrenciesUpdate(ctx context.Context, cmd *cli.C
 		return err
 	}
 
-	params := stigg.V1EventCreditCustomCurrencyUpdateParams{}
+	params := stigg.V1CreditCustomCurrencyUpdateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.CustomCurrencies.Update(
+	_, err = client.V1.Credits.CustomCurrencies.Update(
 		ctx,
 		cmd.Value("currency-id").(string),
 		params,
@@ -287,12 +287,12 @@ func handleV1EventsCreditsCustomCurrenciesUpdate(ctx context.Context, cmd *cli.C
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:credits:custom-currencies update",
+		Title:          "v1:credits:custom-currencies update",
 		Transform:      transform,
 	})
 }
 
-func handleV1EventsCreditsCustomCurrenciesList(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsCustomCurrenciesList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -311,7 +311,7 @@ func handleV1EventsCreditsCustomCurrenciesList(ctx context.Context, cmd *cli.Com
 		return err
 	}
 
-	params := stigg.V1EventCreditCustomCurrencyListParams{}
+	params := stigg.V1CreditCustomCurrencyListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -319,7 +319,7 @@ func handleV1EventsCreditsCustomCurrenciesList(ctx context.Context, cmd *cli.Com
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Credits.CustomCurrencies.List(ctx, params, options...)
+		_, err = client.V1.Credits.CustomCurrencies.List(ctx, params, options...)
 		if err != nil {
 			return err
 		}
@@ -328,11 +328,11 @@ func handleV1EventsCreditsCustomCurrenciesList(ctx context.Context, cmd *cli.Com
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:credits:custom-currencies list",
+			Title:          "v1:credits:custom-currencies list",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1.Events.Credits.CustomCurrencies.ListAutoPaging(ctx, params, options...)
+		iter := client.V1.Credits.CustomCurrencies.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
@@ -341,13 +341,13 @@ func handleV1EventsCreditsCustomCurrenciesList(ctx context.Context, cmd *cli.Com
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:credits:custom-currencies list",
+			Title:          "v1:credits:custom-currencies list",
 			Transform:      transform,
 		})
 	}
 }
 
-func handleV1EventsCreditsCustomCurrenciesArchive(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsCustomCurrenciesArchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("currency-id") && len(unusedArgs) > 0 {
@@ -371,7 +371,7 @@ func handleV1EventsCreditsCustomCurrenciesArchive(ctx context.Context, cmd *cli.
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.CustomCurrencies.Archive(ctx, cmd.Value("currency-id").(string), options...)
+	_, err = client.V1.Credits.CustomCurrencies.Archive(ctx, cmd.Value("currency-id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -384,12 +384,12 @@ func handleV1EventsCreditsCustomCurrenciesArchive(ctx context.Context, cmd *cli.
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:credits:custom-currencies archive",
+		Title:          "v1:credits:custom-currencies archive",
 		Transform:      transform,
 	})
 }
 
-func handleV1EventsCreditsCustomCurrenciesListAssociatedEntities(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsCustomCurrenciesListAssociatedEntities(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("currency-id") && len(unusedArgs) > 0 {
@@ -413,7 +413,7 @@ func handleV1EventsCreditsCustomCurrenciesListAssociatedEntities(ctx context.Con
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.CustomCurrencies.ListAssociatedEntities(ctx, cmd.Value("currency-id").(string), options...)
+	_, err = client.V1.Credits.CustomCurrencies.ListAssociatedEntities(ctx, cmd.Value("currency-id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -426,12 +426,12 @@ func handleV1EventsCreditsCustomCurrenciesListAssociatedEntities(ctx context.Con
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:credits:custom-currencies list-associated-entities",
+		Title:          "v1:credits:custom-currencies list-associated-entities",
 		Transform:      transform,
 	})
 }
 
-func handleV1EventsCreditsCustomCurrenciesUnarchive(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsCustomCurrenciesUnarchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("currency-id") && len(unusedArgs) > 0 {
@@ -455,7 +455,7 @@ func handleV1EventsCreditsCustomCurrenciesUnarchive(ctx context.Context, cmd *cl
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.CustomCurrencies.Unarchive(ctx, cmd.Value("currency-id").(string), options...)
+	_, err = client.V1.Credits.CustomCurrencies.Unarchive(ctx, cmd.Value("currency-id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -468,7 +468,7 @@ func handleV1EventsCreditsCustomCurrenciesUnarchive(ctx context.Context, cmd *cl
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:credits:custom-currencies unarchive",
+		Title:          "v1:credits:custom-currencies unarchive",
 		Transform:      transform,
 	})
 }

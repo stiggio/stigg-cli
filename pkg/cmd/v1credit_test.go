@@ -8,26 +8,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/mocktest"
 )
 
-func TestV1EventsCreditsGetAutoRecharge(t *testing.T) {
+func TestV1CreditsGetUsage(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits", "get-auto-recharge",
-			"--currency-id", "currencyId",
-			"--customer-id", "customerId",
-		)
-	})
-}
-
-func TestV1EventsCreditsGetUsage(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	t.Run("regular flags", func(t *testing.T) {
-		mocktest.TestRunMockTestWithFlags(
-			t,
-			"--api-key", "string",
-			"v1:events:credits", "get-usage",
+			"v1:credits", "get-usage",
 			"--customer-id", "customerId",
 			"--currency-id", "currencyId",
 			"--end-date", "'2019-12-27T18:11:19.117Z'",
@@ -38,13 +25,13 @@ func TestV1EventsCreditsGetUsage(t *testing.T) {
 	})
 }
 
-func TestV1EventsCreditsListLedger(t *testing.T) {
+func TestV1CreditsListLedger(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:credits", "list-ledger",
+			"v1:credits", "list-ledger",
 			"--max-items", "10",
 			"--customer-id", "customerId",
 			"--after", "after",
