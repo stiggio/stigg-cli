@@ -190,11 +190,11 @@ func TestV1CustomersCheckEntitlement(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers", "check-entitlement",
 			"--id", "x",
-			"--currency-id", "x",
-			"--feature-id", "x",
+			"--currency-id", "currencyId",
+			"--feature-id", "featureId",
 			"--requested-usage", "0",
 			"--requested-value", "string",
-			"--resource-id", "x",
+			"--resource-id", "resourceId",
 		)
 	})
 }

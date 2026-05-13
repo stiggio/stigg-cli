@@ -9,13 +9,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
-func TestV1CreditsGrantsCreate(t *testing.T) {
+func TestV1EventsCreditsGrantsCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:credits:grants", "create",
+			"v1:events:credits:grants", "create",
 			"--amount", "0",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
@@ -36,13 +36,13 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1CreditsGrantsCreate)
+		requestflag.CheckInnerFlags(v1EventsCreditsGrantsCreate)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:credits:grants", "create",
+			"v1:events:credits:grants", "create",
 			"--amount", "0",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
@@ -97,18 +97,18 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:credits:grants", "create",
+			"v1:events:credits:grants", "create",
 		)
 	})
 }
 
-func TestV1CreditsGrantsList(t *testing.T) {
+func TestV1EventsCreditsGrantsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:credits:grants", "list",
+			"v1:events:credits:grants", "list",
 			"--max-items", "10",
 			"--customer-id", "customerId",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -122,13 +122,13 @@ func TestV1CreditsGrantsList(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1CreditsGrantsList)
+		requestflag.CheckInnerFlags(v1EventsCreditsGrantsList)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:credits:grants", "list",
+			"v1:events:credits:grants", "list",
 			"--max-items", "10",
 			"--customer-id", "customerId",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -144,13 +144,13 @@ func TestV1CreditsGrantsList(t *testing.T) {
 	})
 }
 
-func TestV1CreditsGrantsVoid(t *testing.T) {
+func TestV1EventsCreditsGrantsVoid(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:credits:grants", "void",
+			"v1:events:credits:grants", "void",
 			"--id", "x",
 		)
 	})

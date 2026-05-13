@@ -593,7 +593,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
-			Usage:    "Unit quantity for per-unit pricing",
+			Usage:    "Unit quantity for per-unit pricing. Minimum is 0 (zero is allowed).",
 			BodyPath: "unitQuantity",
 		},
 	},
@@ -647,7 +647,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "billable-feature.quantity",
-			Usage:      "Quantity of feature units",
+			Usage:      "Quantity of feature units. Minimum is 0 (zero is allowed).",
 			InnerField: "quantity",
 		},
 	},
@@ -716,7 +716,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "charge.quantity",
-			Usage:      "Charge quantity",
+			Usage:      "Charge quantity. Minimum is 0 (zero is allowed).",
 			InnerField: "quantity",
 		},
 		&requestflag.InnerFlag[string]{
@@ -874,7 +874,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
-			Usage:    "Unit quantity",
+			Usage:    "Unit quantity for per-unit pricing. Minimum is 0 (zero is allowed).",
 			BodyPath: "unitQuantity",
 		},
 	},
@@ -997,7 +997,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "charge.quantity",
-			Usage:      "Charge quantity",
+			Usage:      "Charge quantity. Minimum is 0 (zero is allowed).",
 			InnerField: "quantity",
 		},
 		&requestflag.InnerFlag[string]{

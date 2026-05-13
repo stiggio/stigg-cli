@@ -14,7 +14,29 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1CreditsGetUsage = cli.Command{
+var v1EventsCreditsGetAutoRecharge = cli.Command{
+	Name:    "get-auto-recharge",
+	Usage:   "Retrieves the automatic recharge configuration for a customer and currency.\nReturns default settings if no configuration exists.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "currency-id",
+			Usage:     "Filter by currency ID (required)",
+			Required:  true,
+			QueryPath: "currencyId",
+		},
+		&requestflag.Flag[string]{
+			Name:      "customer-id",
+			Usage:     "Filter by customer ID (required)",
+			Required:  true,
+			QueryPath: "customerId",
+		},
+	},
+	Action:          handleV1EventsCreditsGetAutoRecharge,
+	HideHelpCommand: true,
+}
+
+var v1EventsCreditsGetUsage = cli.Command{
 	Name:    "get-usage",
 	Usage:   "Retrieves credit usage time-series data for a customer, grouped by feature, over\na specified time range.",
 	Suggest: true,
@@ -51,11 +73,11 @@ var v1CreditsGetUsage = cli.Command{
 			QueryPath: "timeRange",
 		},
 	},
-	Action:          handleV1CreditsGetUsage,
+	Action:          handleV1EventsCreditsGetUsage,
 	HideHelpCommand: true,
 }
 
-var v1CreditsListLedger = cli.Command{
+var v1EventsCreditsListLedger = cli.Command{
 	Name:    "list-ledger",
 	Usage:   "Retrieves a paginated list of credit ledger events for a customer.",
 	Suggest: true,
@@ -97,11 +119,11 @@ var v1CreditsListLedger = cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1CreditsListLedger,
+	Action:          handleV1EventsCreditsListLedger,
 	HideHelpCommand: true,
 }
 
-func handleV1CreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -120,11 +142,11 @@ func handleV1CreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1CreditGetUsageParams{}
+	params := stigg.V1EventCreditGetAutoRechargeParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Credits.GetUsage(ctx, params, options...)
+	_, err = client.V1.Events.Credits.GetAutoRecharge(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -137,12 +159,12 @@ func handleV1CreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:credits get-usage",
+		Title:          "v1:events:credits get-auto-recharge",
 		Transform:      transform,
 	})
 }
 
-func handleV1CreditsListLedger(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -161,7 +183,48 @@ func handleV1CreditsListLedger(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1CreditListLedgerParams{}
+	params := stigg.V1EventCreditGetUsageParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Events.Credits.GetUsage(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:events:credits get-usage",
+		Transform:      transform,
+	})
+}
+
+func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1EventCreditListLedgerParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -169,7 +232,7 @@ func handleV1CreditsListLedger(ctx context.Context, cmd *cli.Command) error {
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Credits.ListLedger(ctx, params, options...)
+		_, err = client.V1.Events.Credits.ListLedger(ctx, params, options...)
 		if err != nil {
 			return err
 		}
@@ -178,11 +241,11 @@ func handleV1CreditsListLedger(ctx context.Context, cmd *cli.Command) error {
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:credits list-ledger",
+			Title:          "v1:events:credits list-ledger",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1.Credits.ListLedgerAutoPaging(ctx, params, options...)
+		iter := client.V1.Events.Credits.ListLedgerAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
@@ -191,7 +254,7 @@ func handleV1CreditsListLedger(ctx context.Context, cmd *cli.Command) error {
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:credits list-ledger",
+			Title:          "v1:events:credits list-ledger",
 			Transform:      transform,
 		})
 	}

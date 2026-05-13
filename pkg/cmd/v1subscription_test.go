@@ -36,7 +36,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, couponId: couponId, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
-			"--charge", "{id: id, quantity: 1, type: FEATURE}",
+			"--charge", "{id: id, quantity: 0, type: FEATURE}",
 			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend", "{amount: 0, currency: usd}",
@@ -82,7 +82,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--budget.has-soft-limit=true",
 			"--budget.limit", "0",
 			"--charge.id", "id",
-			"--charge.quantity", "1",
+			"--charge.quantity", "0",
 			"--charge.type", "FEATURE",
 			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
@@ -151,7 +151,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"  limit: 0\n" +
 			"charges:\n" +
 			"  - id: id\n" +
-			"    quantity: 1\n" +
+			"    quantity: 0\n" +
 			"    type: FEATURE\n" +
 			"entitlements:\n" +
 			"  - id: id\n" +
@@ -298,7 +298,7 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:subscriptions", "import",
-			"--subscription", "{id: id, customerId: customerId, planId: planId, addons: [{id: id, quantity: 0}], billingId: billingId, billingPeriod: MONTHLY, charges: [{id: id, quantity: 1, type: FEATURE}], endDate: '2019-12-27T18:11:19.117Z', metadata: {foo: string}, resourceId: resourceId, startDate: '2019-12-27T18:11:19.117Z'}",
+			"--subscription", "{id: id, customerId: customerId, planId: planId, addons: [{id: id, quantity: 0}], billingId: billingId, billingPeriod: MONTHLY, charges: [{id: id, quantity: 0, type: FEATURE}], endDate: '2019-12-27T18:11:19.117Z', metadata: {foo: string}, resourceId: resourceId, startDate: '2019-12-27T18:11:19.117Z'}",
 			"--integration-id", "integrationId",
 		)
 	})
@@ -318,7 +318,7 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			"--subscription.addons", "[{id: id, quantity: 0}]",
 			"--subscription.billing-id", "billingId",
 			"--subscription.billing-period", "MONTHLY",
-			"--subscription.charges", "[{id: id, quantity: 1, type: FEATURE}]",
+			"--subscription.charges", "[{id: id, quantity: 0, type: FEATURE}]",
 			"--subscription.end-date", "2019-12-27T18:11:19.117Z",
 			"--subscription.metadata", "{foo: string}",
 			"--subscription.resource-id", "resourceId",
@@ -341,7 +341,7 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			"    billingPeriod: MONTHLY\n" +
 			"    charges:\n" +
 			"      - id: id\n" +
-			"        quantity: 1\n" +
+			"        quantity: 0\n" +
 			"        type: FEATURE\n" +
 			"    endDate: '2019-12-27T18:11:19.117Z'\n" +
 			"    metadata:\n" +
@@ -392,18 +392,18 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--plan-id", "planId",
 			"--addon", "{id: id, quantity: 0}",
 			"--applied-coupon", "{billingCouponId: billingCouponId, configuration: {startDate: '2019-12-27T18:11:19.117Z'}, couponId: couponId, discount: {amountsOff: [{amount: 0, currency: usd}], description: description, durationInMonths: 1, name: name, percentOff: 1}, promotionCode: promotionCode}",
-			"--billable-feature", "{featureId: featureId, quantity: 1}",
+			"--billable-feature", "{featureId: featureId, quantity: 0}",
 			"--billing-country-code", "billingCountryCode",
 			"--billing-cycle-anchor", "UNCHANGED",
 			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
-			"--charge", "{id: id, quantity: 1, type: FEATURE}",
+			"--charge", "{id: id, quantity: 0, type: FEATURE}",
 			"--paying-customer-id", "payingCustomerId",
 			"--resource-id", "resourceId",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
-			"--unit-quantity", "1",
+			"--unit-quantity", "0",
 		)
 	})
 
@@ -426,7 +426,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--applied-coupon.discount", "{amountsOff: [{amount: 0, currency: usd}], description: description, durationInMonths: 1, name: name, percentOff: 1}",
 			"--applied-coupon.promotion-code", "promotionCode",
 			"--billable-feature.feature-id", "featureId",
-			"--billable-feature.quantity", "1",
+			"--billable-feature.quantity", "0",
 			"--billing-country-code", "billingCountryCode",
 			"--billing-cycle-anchor", "UNCHANGED",
 			"--billing-information.billing-address", "{city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}",
@@ -442,7 +442,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--billing-information.tax-rate-ids", "[string]",
 			"--billing-period", "MONTHLY",
 			"--charge.id", "id",
-			"--charge.quantity", "1",
+			"--charge.quantity", "0",
 			"--charge.type", "FEATURE",
 			"--paying-customer-id", "payingCustomerId",
 			"--resource-id", "resourceId",
@@ -451,7 +451,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--trial-override-configuration.is-trial=true",
 			"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 			"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
-			"--unit-quantity", "1",
+			"--unit-quantity", "0",
 		)
 	})
 
@@ -479,7 +479,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"  promotionCode: promotionCode\n" +
 			"billableFeatures:\n" +
 			"  - featureId: featureId\n" +
-			"    quantity: 1\n" +
+			"    quantity: 0\n" +
 			"billingCountryCode: billingCountryCode\n" +
 			"billingCycleAnchor: UNCHANGED\n" +
 			"billingInformation:\n" +
@@ -507,7 +507,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"billingPeriod: MONTHLY\n" +
 			"charges:\n" +
 			"  - id: id\n" +
-			"    quantity: 1\n" +
+			"    quantity: 0\n" +
 			"    type: FEATURE\n" +
 			"payingCustomerId: payingCustomerId\n" +
 			"resourceId: resourceId\n" +
@@ -517,7 +517,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"  isTrial: true\n" +
 			"  trialEndBehavior: CONVERT_TO_PAID\n" +
 			"  trialEndDate: '2019-12-27T18:11:19.117Z'\n" +
-			"unitQuantity: 1\n")
+			"unitQuantity: 0\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
@@ -545,7 +545,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
-			"--charge", "{id: id, quantity: 1, type: FEATURE}",
+			"--charge", "{id: id, quantity: 0, type: FEATURE}",
 			"--checkout-options", "{cancelUrl: https://example.com, successUrl: https://example.com, allowPromoCodes: true, allowTaxIdCollection: true, collectBillingAddress: true, collectPhoneNumber: true, referenceId: referenceId}",
 			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
@@ -558,7 +558,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
-			"--unit-quantity", "1",
+			"--unit-quantity", "0",
 		)
 	})
 
@@ -600,7 +600,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--budget.has-soft-limit=true",
 			"--budget.limit", "0",
 			"--charge.id", "id",
-			"--charge.quantity", "1",
+			"--charge.quantity", "0",
 			"--charge.type", "FEATURE",
 			"--checkout-options.cancel-url", "https://example.com",
 			"--checkout-options.success-url", "https://example.com",
@@ -632,7 +632,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--trial-override-configuration.is-trial=true",
 			"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 			"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
-			"--unit-quantity", "1",
+			"--unit-quantity", "0",
 		)
 	})
 
@@ -691,7 +691,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"  limit: 0\n" +
 			"charges:\n" +
 			"  - id: id\n" +
-			"    quantity: 1\n" +
+			"    quantity: 0\n" +
 			"    type: FEATURE\n" +
 			"checkoutOptions:\n" +
 			"  cancelUrl: https://example.com\n" +
@@ -750,7 +750,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"  isTrial: true\n" +
 			"  trialEndBehavior: CONVERT_TO_PAID\n" +
 			"  trialEndDate: '2019-12-27T18:11:19.117Z'\n" +
-			"unitQuantity: 1\n")
+			"unitQuantity: 0\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",

@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1CreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
+var v1EventsCreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create",
 	Usage:   "Creates a new credit grant for a customer with specified amount, type, and\noptional billing configuration.",
 	Suggest: true,
@@ -100,7 +100,7 @@ var v1CreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "resourceId",
 		},
 	},
-	Action:          handleV1CreditsGrantsCreate,
+	Action:          handleV1EventsCreditsGrantsCreate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"billing-information": {
@@ -134,7 +134,7 @@ var v1CreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1CreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
+var v1EventsCreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
 	Name:    "list",
 	Usage:   "Retrieves a paginated list of credit grants for a customer.",
 	Suggest: true,
@@ -181,7 +181,7 @@ var v1CreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1CreditsGrantsList,
+	Action:          handleV1EventsCreditsGrantsList,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"created-at": {
@@ -208,7 +208,7 @@ var v1CreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1CreditsGrantsVoid = cli.Command{
+var v1EventsCreditsGrantsVoid = cli.Command{
 	Name:    "void",
 	Usage:   "Voids an existing credit grant, preventing further consumption of the remaining\ncredits.",
 	Suggest: true,
@@ -219,11 +219,11 @@ var v1CreditsGrantsVoid = cli.Command{
 			PathParam: "id",
 		},
 	},
-	Action:          handleV1CreditsGrantsVoid,
+	Action:          handleV1EventsCreditsGrantsVoid,
 	HideHelpCommand: true,
 }
 
-func handleV1CreditsGrantsCreate(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsCreditsGrantsCreate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -242,11 +242,11 @@ func handleV1CreditsGrantsCreate(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1CreditGrantNewParams{}
+	params := stigg.V1EventCreditGrantNewParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Credits.Grants.New(ctx, params, options...)
+	_, err = client.V1.Events.Credits.Grants.New(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -259,12 +259,12 @@ func handleV1CreditsGrantsCreate(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:credits:grants create",
+		Title:          "v1:events:credits:grants create",
 		Transform:      transform,
 	})
 }
 
-func handleV1CreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -283,7 +283,7 @@ func handleV1CreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1CreditGrantListParams{}
+	params := stigg.V1EventCreditGrantListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -291,7 +291,7 @@ func handleV1CreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Credits.Grants.List(ctx, params, options...)
+		_, err = client.V1.Events.Credits.Grants.List(ctx, params, options...)
 		if err != nil {
 			return err
 		}
@@ -300,11 +300,11 @@ func handleV1CreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:credits:grants list",
+			Title:          "v1:events:credits:grants list",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1.Credits.Grants.ListAutoPaging(ctx, params, options...)
+		iter := client.V1.Events.Credits.Grants.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
@@ -313,13 +313,13 @@ func handleV1CreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:credits:grants list",
+			Title:          "v1:events:credits:grants list",
 			Transform:      transform,
 		})
 	}
 }
 
-func handleV1CreditsGrantsVoid(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsCreditsGrantsVoid(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -343,7 +343,7 @@ func handleV1CreditsGrantsVoid(ctx context.Context, cmd *cli.Command) error {
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Credits.Grants.Void(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Events.Credits.Grants.Void(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
@@ -356,7 +356,7 @@ func handleV1CreditsGrantsVoid(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:credits:grants void",
+		Title:          "v1:events:credits:grants void",
 		Transform:      transform,
 	})
 }
