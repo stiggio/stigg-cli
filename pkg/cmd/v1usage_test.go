@@ -13,8 +13,9 @@ func TestV1UsageHistory(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:usage", "history",
+			t,
 			"--api-key", "string",
+			"v1:usage", "history",
 			"--customer-id", "customerId",
 			"--feature-id", "featureId",
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
@@ -30,8 +31,9 @@ func TestV1UsageReport(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:usage", "report",
+			t,
 			"--api-key", "string",
+			"v1:usage", "report",
 			"--usage", "{customerId: customerId, featureId: featureId, value: -9007199254740991, createdAt: '2019-12-27T18:11:19.117Z', dimensions: {foo: string}, resourceId: resourceId, updateBehavior: DELTA}",
 		)
 	})
@@ -42,8 +44,9 @@ func TestV1UsageReport(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:usage", "report",
+			t,
 			"--api-key", "string",
+			"v1:usage", "report",
 			"--usage.customer-id", "customerId",
 			"--usage.feature-id", "featureId",
 			"--usage.value", "-9007199254740991",
@@ -67,8 +70,9 @@ func TestV1UsageReport(t *testing.T) {
 			"    resourceId: resourceId\n" +
 			"    updateBehavior: DELTA\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:usage", "report",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:usage", "report",
 		)
 	})
 }

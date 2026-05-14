@@ -13,8 +13,9 @@ func TestV1AddonsCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "create",
+			t,
 			"--api-key", "string",
+			"v1:addons", "create",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--product-id", "productId",
@@ -41,8 +42,9 @@ func TestV1AddonsCreate(t *testing.T) {
 			"pricingType: FREE\n" +
 			"status: DRAFT\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:addons", "create",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:addons", "create",
 		)
 	})
 }
@@ -51,8 +53,9 @@ func TestV1AddonsRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "retrieve",
+			t,
 			"--api-key", "string",
+			"v1:addons", "retrieve",
 			"--id", "x",
 		)
 	})
@@ -62,8 +65,9 @@ func TestV1AddonsUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "update",
+			t,
 			"--api-key", "string",
+			"v1:addons", "update",
 			"--id", "x",
 			"--billing-id", "billingId",
 			"--charges", "{pricingType: FREE, billingId: billingId, minimumSpend: [{billingPeriod: MONTHLY, minimum: {amount: 0, currency: usd}}], overageBillingPeriod: ON_SUBSCRIPTION_RENEWAL, overagePricingModels: [{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, entitlement: {featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}, featureId: featureId, topUpCustomCurrencyId: topUpCustomCurrencyId}], pricingModels: [{billingModel: FLAT_FEE, pricePeriods: [{billingPeriod: MONTHLY, billingCountryCode: billingCountryCode, blockSize: 0, creditGrantCadence: BEGINNING_OF_BILLING_PERIOD, creditRate: {amount: 1, currencyId: currencyId, costFormula: costFormula}, price: {amount: 0, currency: usd}, tiers: [{flatPrice: {amount: 0, currency: usd}, unitPrice: {amount: 0, currency: usd}, upTo: 0}]}], billingCadence: RECURRING, featureId: featureId, maxUnitQuantity: 1, minUnitQuantity: 1, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, tiersMode: VOLUME, topUpCustomCurrencyId: topUpCustomCurrencyId, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}]}",
@@ -82,8 +86,9 @@ func TestV1AddonsUpdate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "update",
+			t,
 			"--api-key", "string",
+			"v1:addons", "update",
 			"--id", "x",
 			"--billing-id", "billingId",
 			"--charges.pricing-type", "FREE",
@@ -195,8 +200,9 @@ func TestV1AddonsUpdate(t *testing.T) {
 			"  foo: string\n" +
 			"status: DRAFT\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:addons", "update",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:addons", "update",
 			"--id", "x",
 		)
 	})
@@ -206,8 +212,9 @@ func TestV1AddonsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "list",
+			t,
 			"--api-key", "string",
+			"v1:addons", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -224,8 +231,9 @@ func TestV1AddonsList(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "list",
+			t,
 			"--api-key", "string",
+			"v1:addons", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -244,8 +252,9 @@ func TestV1AddonsArchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "archive",
+			t,
 			"--api-key", "string",
+			"v1:addons", "archive",
 			"--id", "x",
 		)
 	})
@@ -255,8 +264,9 @@ func TestV1AddonsCreateDraft(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "create-draft",
+			t,
 			"--api-key", "string",
+			"v1:addons", "create-draft",
 			"--id", "x",
 		)
 	})
@@ -266,8 +276,9 @@ func TestV1AddonsPublish(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "publish",
+			t,
 			"--api-key", "string",
+			"v1:addons", "publish",
 			"--id", "x",
 			"--migration-type", "NEW_CUSTOMERS",
 		)
@@ -277,8 +288,9 @@ func TestV1AddonsPublish(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("migrationType: NEW_CUSTOMERS")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:addons", "publish",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:addons", "publish",
 			"--id", "x",
 		)
 	})
@@ -288,8 +300,9 @@ func TestV1AddonsRemoveDraft(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:addons", "remove-draft",
+			t,
 			"--api-key", "string",
+			"v1:addons", "remove-draft",
 			"--id", "x",
 		)
 	})

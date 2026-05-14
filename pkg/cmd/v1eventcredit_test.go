@@ -12,8 +12,9 @@ func TestV1EventsCreditsGetAutoRecharge(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits", "get-auto-recharge",
+			t,
 			"--api-key", "string",
+			"v1:events:credits", "get-auto-recharge",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
 		)
@@ -24,8 +25,9 @@ func TestV1EventsCreditsGetUsage(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits", "get-usage",
+			t,
 			"--api-key", "string",
+			"v1:events:credits", "get-usage",
 			"--customer-id", "customerId",
 			"--currency-id", "currencyId",
 			"--resource-id", "resourceId",
@@ -38,8 +40,9 @@ func TestV1EventsCreditsListLedger(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events:credits", "list-ledger",
+			t,
 			"--api-key", "string",
+			"v1:events:credits", "list-ledger",
 			"--max-items", "10",
 			"--customer-id", "customerId",
 			"--after", "after",

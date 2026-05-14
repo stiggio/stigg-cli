@@ -13,8 +13,9 @@ func TestV1SubscriptionsRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "retrieve",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "retrieve",
 			"--id", "x",
 		)
 	})
@@ -24,8 +25,9 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "update",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "update",
 			"--id", "x",
 			"--addon", "{id: id, quantity: 0}",
 			"--applied-coupon", "{billingCouponId: billingCouponId, configuration: {startDate: '2019-12-27T18:11:19.117Z'}, couponId: couponId, discount: {amountsOff: [{amount: 0, currency: usd}], description: description, durationInMonths: 1, name: name, percentOff: 1}, promotionCode: promotionCode}",
@@ -51,8 +53,9 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "update",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "update",
 			"--id", "x",
 			"--addon.id", "id",
 			"--addon.quantity", "0",
@@ -179,8 +182,9 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"scheduleStrategy: END_OF_BILLING_PERIOD\n" +
 			"trialEndDate: '2019-12-27T18:11:19.117Z'\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "update",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "update",
 			"--id", "x",
 		)
 	})
@@ -190,8 +194,9 @@ func TestV1SubscriptionsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "list",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -211,8 +216,9 @@ func TestV1SubscriptionsList(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "list",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -234,8 +240,9 @@ func TestV1SubscriptionsCancel(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "cancel",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "cancel",
 			"--id", "x",
 			"--cancellation-action", "DEFAULT",
 			"--cancellation-time", "END_OF_BILLING_PERIOD",
@@ -252,8 +259,9 @@ func TestV1SubscriptionsCancel(t *testing.T) {
 			"endDate: '2019-12-27T18:11:19.117Z'\n" +
 			"prorate: true\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "cancel",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "cancel",
 			"--id", "x",
 		)
 	})
@@ -263,8 +271,9 @@ func TestV1SubscriptionsDelegate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "delegate",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "delegate",
 			"--id", "x",
 			"--target-customer-id", "targetCustomerId",
 		)
@@ -274,8 +283,9 @@ func TestV1SubscriptionsDelegate(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("targetCustomerId: targetCustomerId")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "delegate",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "delegate",
 			"--id", "x",
 		)
 	})
@@ -285,8 +295,9 @@ func TestV1SubscriptionsImport(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "import",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "import",
 			"--subscription", "{id: id, customerId: customerId, planId: planId, addons: [{id: id, quantity: 0}], billingId: billingId, billingPeriod: MONTHLY, charges: [{id: id, quantity: 1, type: FEATURE}], endDate: '2019-12-27T18:11:19.117Z', metadata: {foo: string}, resourceId: resourceId, startDate: '2019-12-27T18:11:19.117Z'}",
 			"--integration-id", "integrationId",
 		)
@@ -298,8 +309,9 @@ func TestV1SubscriptionsImport(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "import",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "import",
 			"--subscription.id", "id",
 			"--subscription.customer-id", "customerId",
 			"--subscription.plan-id", "planId",
@@ -338,8 +350,9 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			"    startDate: '2019-12-27T18:11:19.117Z'\n" +
 			"integrationId: integrationId\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "import",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "import",
 		)
 	})
 }
@@ -348,8 +361,9 @@ func TestV1SubscriptionsMigrate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "migrate",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "migrate",
 			"--id", "x",
 			"--subscription-migration-time", "END_OF_BILLING_PERIOD",
 		)
@@ -359,8 +373,9 @@ func TestV1SubscriptionsMigrate(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("subscriptionMigrationTime: END_OF_BILLING_PERIOD")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "migrate",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "migrate",
 			"--id", "x",
 		)
 	})
@@ -370,8 +385,9 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "preview",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "preview",
 			"--customer-id", "customerId",
 			"--plan-id", "planId",
 			"--addon", "{id: id, quantity: 0}",
@@ -397,8 +413,9 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "preview",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "preview",
 			"--customer-id", "customerId",
 			"--plan-id", "planId",
 			"--addon.id", "id",
@@ -501,8 +518,9 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"  trialEndDate: '2019-12-27T18:11:19.117Z'\n" +
 			"unitQuantity: 1\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "preview",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "preview",
 		)
 	})
 }
@@ -511,8 +529,9 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "provision",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "provision",
 			"--customer-id", "customerId",
 			"--plan-id", "planId",
 			"--id", "id",
@@ -548,8 +567,9 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "provision",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "provision",
 			"--customer-id", "customerId",
 			"--plan-id", "planId",
 			"--id", "id",
@@ -731,8 +751,9 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"  trialEndDate: '2019-12-27T18:11:19.117Z'\n" +
 			"unitQuantity: 1\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "provision",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "provision",
 		)
 	})
 }
@@ -741,8 +762,9 @@ func TestV1SubscriptionsTransfer(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:subscriptions", "transfer",
+			t,
 			"--api-key", "string",
+			"v1:subscriptions", "transfer",
 			"--id", "x",
 			"--destination-resource-id", "destinationResourceId",
 		)
@@ -752,8 +774,9 @@ func TestV1SubscriptionsTransfer(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("destinationResourceId: destinationResourceId")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:subscriptions", "transfer",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:subscriptions", "transfer",
 			"--id", "x",
 		)
 	})

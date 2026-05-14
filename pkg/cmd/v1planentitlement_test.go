@@ -13,8 +13,9 @@ func TestV1PlansEntitlementsCreate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans:entitlements", "create",
+			t,
 			"--api-key", "string",
+			"v1:plans:entitlements", "create",
 			"--plan-id", "planId",
 			"--entitlement", "{id: id, type: FEATURE, behavior: Increment, description: description, displayNameOverride: displayNameOverride, enumValues: [string], hasSoftLimit: true, hasUnlimitedUsage: true, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, order: 0, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 		)
@@ -47,8 +48,9 @@ func TestV1PlansEntitlementsCreate(t *testing.T) {
 			"    yearlyResetPeriodConfiguration:\n" +
 			"      accordingTo: SubscriptionStart\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:plans:entitlements", "create",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:plans:entitlements", "create",
 			"--plan-id", "planId",
 		)
 	})
@@ -58,8 +60,9 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans:entitlements", "update",
+			t,
 			"--api-key", "string",
+			"v1:plans:entitlements", "update",
 			"--plan-id", "planId",
 			"--id", "id",
 			"--type", "FEATURE",
@@ -90,8 +93,9 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans:entitlements", "update",
+			t,
 			"--api-key", "string",
+			"v1:plans:entitlements", "update",
 			"--plan-id", "planId",
 			"--id", "id",
 			"--type", "FEATURE",
@@ -144,8 +148,9 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 			"cadence: MONTH\n" +
 			"dependencyFeatureId: dependencyFeatureId\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:plans:entitlements", "update",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:plans:entitlements", "update",
 			"--plan-id", "planId",
 			"--id", "id",
 		)
@@ -156,8 +161,9 @@ func TestV1PlansEntitlementsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans:entitlements", "list",
+			t,
 			"--api-key", "string",
+			"v1:plans:entitlements", "list",
 			"--plan-id", "planId",
 		)
 	})
@@ -167,8 +173,9 @@ func TestV1PlansEntitlementsDelete(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:plans:entitlements", "delete",
+			t,
 			"--api-key", "string",
+			"v1:plans:entitlements", "delete",
 			"--plan-id", "planId",
 			"--id", "id",
 		)

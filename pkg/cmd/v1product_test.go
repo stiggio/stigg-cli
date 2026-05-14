@@ -13,8 +13,9 @@ func TestV1ProductsArchiveProduct(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "archive-product",
+			t,
 			"--api-key", "string",
+			"v1:products", "archive-product",
 			"--id", "x",
 		)
 	})
@@ -24,8 +25,9 @@ func TestV1ProductsCreateProduct(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "create-product",
+			t,
 			"--api-key", "string",
+			"v1:products", "create-product",
 			"--id", "id",
 			"--display-name", "displayName",
 			"--description", "description",
@@ -44,8 +46,9 @@ func TestV1ProductsCreateProduct(t *testing.T) {
 			"  foo: string\n" +
 			"multipleSubscriptions: true\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:products", "create-product",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:products", "create-product",
 		)
 	})
 }
@@ -54,8 +57,9 @@ func TestV1ProductsDuplicateProduct(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "duplicate-product",
+			t,
 			"--api-key", "string",
+			"v1:products", "duplicate-product",
 			"--id", "x",
 			"--id", "id",
 			"--description", "description",
@@ -70,8 +74,9 @@ func TestV1ProductsDuplicateProduct(t *testing.T) {
 			"description: description\n" +
 			"displayName: displayName\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:products", "duplicate-product",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:products", "duplicate-product",
 			"--id", "x",
 		)
 	})
@@ -81,8 +86,9 @@ func TestV1ProductsListProducts(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "list-products",
+			t,
 			"--api-key", "string",
+			"v1:products", "list-products",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -99,8 +105,9 @@ func TestV1ProductsListProducts(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "list-products",
+			t,
 			"--api-key", "string",
+			"v1:products", "list-products",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -119,8 +126,9 @@ func TestV1ProductsUnarchiveProduct(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "unarchive-product",
+			t,
 			"--api-key", "string",
+			"v1:products", "unarchive-product",
 			"--id", "x",
 		)
 	})
@@ -130,8 +138,9 @@ func TestV1ProductsUpdateProduct(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "update-product",
+			t,
 			"--api-key", "string",
+			"v1:products", "update-product",
 			"--id", "x",
 			"--description", "description",
 			"--display-name", "displayName",
@@ -148,8 +157,9 @@ func TestV1ProductsUpdateProduct(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:products", "update-product",
+			t,
 			"--api-key", "string",
+			"v1:products", "update-product",
 			"--id", "x",
 			"--description", "description",
 			"--display-name", "displayName",
@@ -183,8 +193,9 @@ func TestV1ProductsUpdateProduct(t *testing.T) {
 			"usageResetCutoffRule:\n" +
 			"  behavior: NEVER_RESET\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:products", "update-product",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:products", "update-product",
 			"--id", "x",
 		)
 	})

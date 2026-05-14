@@ -13,8 +13,9 @@ func TestV1EventsReport(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events", "report",
+			t,
 			"--api-key", "string",
+			"v1:events", "report",
 			"--event", "{customerId: customerId, eventName: x, idempotencyKey: x, dimensions: {foo: string}, resourceId: resourceId, timestamp: '2019-12-27T18:11:19.117Z'}",
 		)
 	})
@@ -25,8 +26,9 @@ func TestV1EventsReport(t *testing.T) {
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
-			t, "v1:events", "report",
+			t,
 			"--api-key", "string",
+			"v1:events", "report",
 			"--event.customer-id", "customerId",
 			"--event.event-name", "x",
 			"--event.idempotency-key", "x",
@@ -48,8 +50,9 @@ func TestV1EventsReport(t *testing.T) {
 			"    resourceId: resourceId\n" +
 			"    timestamp: '2019-12-27T18:11:19.117Z'\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
-			t, pipeData, "v1:events", "report",
+			t, pipeData,
 			"--api-key", "string",
+			"v1:events", "report",
 		)
 	})
 }
