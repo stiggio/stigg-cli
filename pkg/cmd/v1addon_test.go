@@ -272,6 +272,22 @@ func TestV1AddonsCreateDraft(t *testing.T) {
 	})
 }
 
+func TestV1AddonsListCharges(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:addons", "list-charges",
+			"--max-items", "10",
+			"--id", "x",
+			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--limit", "1",
+		)
+	})
+}
+
 func TestV1AddonsPublish(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {

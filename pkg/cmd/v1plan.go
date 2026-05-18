@@ -322,6 +322,76 @@ var v1PlansCreateDraft = cli.Command{
 	HideHelpCommand: true,
 }
 
+var v1PlansListCharges = cli.Command{
+	Name:    "list-charges",
+	Usage:   "Retrieves the list of charges configured on a plan.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
+		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
+	},
+	Action:          handleV1PlansListCharges,
+	HideHelpCommand: true,
+}
+
+var v1PlansListOverageCharges = cli.Command{
+	Name:    "list-overage-charges",
+	Usage:   "Retrieves the list of overage charges configured on a plan.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
+		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
+	},
+	Action:          handleV1PlansListOverageCharges,
+	HideHelpCommand: true,
+}
+
 var v1PlansPublish = cli.Command{
 	Name:    "publish",
 	Usage:   "Publishes a draft plan, making it available for use in subscriptions.",
@@ -627,6 +697,142 @@ func handleV1PlansCreateDraft(ctx context.Context, cmd *cli.Command) error {
 		Title:          "v1:plans create-draft",
 		Transform:      transform,
 	})
+}
+
+func handleV1PlansListCharges(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1PlanListChargesParams{}
+
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	if format == "raw" {
+		var res []byte
+		options = append(options, option.WithResponseBodyInto(&res))
+		_, err = client.V1.Plans.ListCharges(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		if err != nil {
+			return err
+		}
+		obj := gjson.ParseBytes(res)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-charges",
+			Transform:      transform,
+		})
+	} else {
+		iter := client.V1.Plans.ListChargesAutoPaging(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-charges",
+			Transform:      transform,
+		})
+	}
+}
+
+func handleV1PlansListOverageCharges(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1PlanListOverageChargesParams{}
+
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	if format == "raw" {
+		var res []byte
+		options = append(options, option.WithResponseBodyInto(&res))
+		_, err = client.V1.Plans.ListOverageCharges(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		if err != nil {
+			return err
+		}
+		obj := gjson.ParseBytes(res)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-overage-charges",
+			Transform:      transform,
+		})
+	} else {
+		iter := client.V1.Plans.ListOverageChargesAutoPaging(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-overage-charges",
+			Transform:      transform,
+		})
+	}
 }
 
 func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
