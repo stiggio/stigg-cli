@@ -196,6 +196,14 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:events:beta:customers:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsBetaCustomersEntitlementsCheck,
+				},
+			},
+			{
 				Name:     "v1:credits",
 				Category: "API RESOURCE",
 				Suggest:  true,
