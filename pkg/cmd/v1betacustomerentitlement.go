@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsBetaCustomersEntitlementsCheck = cli.Command{
+var v1BetaCustomersEntitlementsCheck = cli.Command{
 	Name:    "check",
 	Usage:   "Experimental — request and response shapes may change without notice. Same\nsemantics as `Check entitlement`, plus an optional `dimensions` query param that\nresolves to per-entity governance limits surfaced as `chains` on the response.",
 	Suggest: true,
@@ -55,11 +55,11 @@ var v1EventsBetaCustomersEntitlementsCheck = cli.Command{
 			QueryPath: "resourceId",
 		},
 	},
-	Action:          handleV1EventsBetaCustomersEntitlementsCheck,
+	Action:          handleV1BetaCustomersEntitlementsCheck,
 	HideHelpCommand: true,
 }
 
-func handleV1EventsBetaCustomersEntitlementsCheck(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaCustomersEntitlementsCheck(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -81,11 +81,11 @@ func handleV1EventsBetaCustomersEntitlementsCheck(ctx context.Context, cmd *cli.
 		return err
 	}
 
-	params := stigg.V1EventBetaCustomerEntitlementCheckParams{}
+	params := stigg.V1BetaCustomerEntitlementCheckParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Beta.Customers.Entitlements.Check(
+	_, err = client.V1Beta.Customers.Entitlements.Check(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -103,7 +103,7 @@ func handleV1EventsBetaCustomersEntitlementsCheck(ctx context.Context, cmd *cli.
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:beta:customers:entitlements check",
+		Title:          "v1-beta:customers:entitlements check",
 		Transform:      transform,
 	})
 }

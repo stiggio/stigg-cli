@@ -196,14 +196,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1:events:beta:customers:entitlements",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1EventsBetaCustomersEntitlementsCheck,
-				},
-			},
-			{
 				Name:     "v1:credits",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -324,6 +316,23 @@ func init() {
 					&v1ProductsListProducts,
 					&v1ProductsUnarchiveProduct,
 					&v1ProductsUpdateProduct,
+				},
+			},
+			{
+				Name:     "v1-beta:customers:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersEntitlementsCheck,
+				},
+			},
+			{
+				Name:     "v1-beta:entity-types",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaEntityTypesList,
+					&v1BetaEntityTypesUpsert,
 				},
 			},
 			{
