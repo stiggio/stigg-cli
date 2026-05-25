@@ -336,6 +336,18 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1-beta:entities",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaEntitiesRetrieve,
+					&v1BetaEntitiesList,
+					&v1BetaEntitiesArchive,
+					&v1BetaEntitiesUnarchive,
+					&v1BetaEntitiesUpsert,
+				},
+			},
+			{
 				Name:            "@manpages",
 				Usage:           "Generate documentation for 'man'",
 				UsageText:       "stigg @manpages [-o stigg.1] [--gzip]",
