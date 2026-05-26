@@ -31,6 +31,7 @@ func TestV1CreditsGetUsage(t *testing.T) {
 			"--customer-id", "customerId",
 			"--currency-id", "currencyId",
 			"--end-date", "'2019-12-27T18:11:19.117Z'",
+			"--group-by", "groupBy",
 			"--resource-id", "resourceId",
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--time-range", "LAST_DAY",

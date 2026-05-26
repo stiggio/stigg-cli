@@ -58,6 +58,11 @@ var v1CreditsGetUsage = cli.Command{
 			QueryPath: "endDate",
 		},
 		&requestflag.Flag[string]{
+			Name:      "group-by",
+			Usage:     "Comma-separated list of feature dimension keys to group usage series by (up to 3). Each key matches /^[a-zA-Z0-9_$-]+$/",
+			QueryPath: "groupBy",
+		},
+		&requestflag.Flag[string]{
 			Name:      "resource-id",
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
