@@ -327,24 +327,33 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1-beta:customers:entities",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersEntitiesRetrieve,
+					&v1BetaCustomersEntitiesList,
+					&v1BetaCustomersEntitiesArchive,
+					&v1BetaCustomersEntitiesUnarchive,
+					&v1BetaCustomersEntitiesUpsert,
+				},
+			},
+			{
+				Name:     "v1-beta:customers:assignments",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersAssignmentsList,
+					&v1BetaCustomersAssignmentsUpsert,
+				},
+			},
+			{
 				Name:     "v1-beta:entity-types",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1BetaEntityTypesList,
 					&v1BetaEntityTypesUpsert,
-				},
-			},
-			{
-				Name:     "v1-beta:entities",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1BetaEntitiesRetrieve,
-					&v1BetaEntitiesList,
-					&v1BetaEntitiesArchive,
-					&v1BetaEntitiesUnarchive,
-					&v1BetaEntitiesUpsert,
 				},
 			},
 			{

@@ -9,26 +9,26 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
-func TestV1BetaEntitiesRetrieve(t *testing.T) {
+func TestV1BetaCustomersEntitiesRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entities", "retrieve",
+			"v1-beta:customers:entities", "retrieve",
 			"--id", "id",
 			"--entity-id", "x",
 		)
 	})
 }
 
-func TestV1BetaEntitiesList(t *testing.T) {
+func TestV1BetaCustomersEntitiesList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entities", "list",
+			"v1-beta:customers:entities", "list",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -40,13 +40,13 @@ func TestV1BetaEntitiesList(t *testing.T) {
 	})
 }
 
-func TestV1BetaEntitiesArchive(t *testing.T) {
+func TestV1BetaCustomersEntitiesArchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entities", "archive",
+			"v1-beta:customers:entities", "archive",
 			"--id", "id",
 			"--id", "user-7f3a0c1d",
 			"--id", "user-c4d1b2e9",
@@ -62,19 +62,19 @@ func TestV1BetaEntitiesArchive(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1-beta:entities", "archive",
+			"v1-beta:customers:entities", "archive",
 			"--id", "id",
 		)
 	})
 }
 
-func TestV1BetaEntitiesUnarchive(t *testing.T) {
+func TestV1BetaCustomersEntitiesUnarchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entities", "unarchive",
+			"v1-beta:customers:entities", "unarchive",
 			"--id", "id",
 			"--id", "user-7f3a0c1d",
 			"--id", "user-c4d1b2e9",
@@ -90,19 +90,19 @@ func TestV1BetaEntitiesUnarchive(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1-beta:entities", "unarchive",
+			"v1-beta:customers:entities", "unarchive",
 			"--id", "id",
 		)
 	})
 }
 
-func TestV1BetaEntitiesUpsert(t *testing.T) {
+func TestV1BetaCustomersEntitiesUpsert(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entities", "upsert",
+			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
 			"--entity", "{id: user-7f3a0c1d, metadata: {email: jane@acme.com, role: admin}, typeRefId: user}",
 			"--entity", "{id: user-c4d1b2e9, metadata: {email: john@acme.com}, typeRefId: user}",
@@ -111,13 +111,13 @@ func TestV1BetaEntitiesUpsert(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1BetaEntitiesUpsert)
+		requestflag.CheckInnerFlags(v1BetaCustomersEntitiesUpsert)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entities", "upsert",
+			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
 			"--entity.id", "user-7f3a0c1d",
 			"--entity.metadata", "{email: jane@acme.com, role: admin}",
@@ -144,7 +144,7 @@ func TestV1BetaEntitiesUpsert(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1-beta:entities", "upsert",
+			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
 		)
 	})
