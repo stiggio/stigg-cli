@@ -9,13 +9,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
-func TestV1BetaCustomersAssignmentsList(t *testing.T) {
+func TestV1EventsBetaCustomersAssignmentsList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:customers:assignments", "list",
+			"v1:events:beta:customers:assignments", "list",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -27,13 +27,13 @@ func TestV1BetaCustomersAssignmentsList(t *testing.T) {
 	})
 }
 
-func TestV1BetaCustomersAssignmentsUpsert(t *testing.T) {
+func TestV1EventsBetaCustomersAssignmentsUpsert(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:customers:assignments", "upsert",
+			"v1:events:beta:customers:assignments", "upsert",
 			"--id", "id",
 			"--assignment", "{capabilityId: compute-minutes, entityId: workspace-001, cadence: MONTH, usageLimit: 1000}",
 			"--assignment", "{capabilityId: compute-minutes, entityId: workspace-002, cadence: MONTH, usageLimit: 2000}",
@@ -42,13 +42,13 @@ func TestV1BetaCustomersAssignmentsUpsert(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1BetaCustomersAssignmentsUpsert)
+		requestflag.CheckInnerFlags(v1EventsBetaCustomersAssignmentsUpsert)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:customers:assignments", "upsert",
+			"v1:events:beta:customers:assignments", "upsert",
 			"--id", "id",
 			"--assignment.capability-id", "compute-minutes",
 			"--assignment.entity-id", "workspace-001",
@@ -76,7 +76,7 @@ func TestV1BetaCustomersAssignmentsUpsert(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1-beta:customers:assignments", "upsert",
+			"v1:events:beta:customers:assignments", "upsert",
 			"--id", "id",
 		)
 	})

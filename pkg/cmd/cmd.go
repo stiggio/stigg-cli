@@ -196,6 +196,44 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:events:beta:customers:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsBetaCustomersEntitlementsCheck,
+				},
+			},
+			{
+				Name:     "v1:events:beta:customers:entities",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsBetaCustomersEntitiesRetrieve,
+					&v1EventsBetaCustomersEntitiesList,
+					&v1EventsBetaCustomersEntitiesArchive,
+					&v1EventsBetaCustomersEntitiesUnarchive,
+					&v1EventsBetaCustomersEntitiesUpsert,
+				},
+			},
+			{
+				Name:     "v1:events:beta:customers:assignments",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsBetaCustomersAssignmentsList,
+					&v1EventsBetaCustomersAssignmentsUpsert,
+				},
+			},
+			{
+				Name:     "v1:events:beta:entity-types",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsBetaEntityTypesList,
+					&v1EventsBetaEntityTypesUpsert,
+				},
+			},
+			{
 				Name:     "v1:credits",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -316,44 +354,6 @@ func init() {
 					&v1ProductsListProducts,
 					&v1ProductsUnarchiveProduct,
 					&v1ProductsUpdateProduct,
-				},
-			},
-			{
-				Name:     "v1-beta:customers:entitlements",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1BetaCustomersEntitlementsCheck,
-				},
-			},
-			{
-				Name:     "v1-beta:customers:entities",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1BetaCustomersEntitiesRetrieve,
-					&v1BetaCustomersEntitiesList,
-					&v1BetaCustomersEntitiesArchive,
-					&v1BetaCustomersEntitiesUnarchive,
-					&v1BetaCustomersEntitiesUpsert,
-				},
-			},
-			{
-				Name:     "v1-beta:customers:assignments",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1BetaCustomersAssignmentsList,
-					&v1BetaCustomersAssignmentsUpsert,
-				},
-			},
-			{
-				Name:     "v1-beta:entity-types",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1BetaEntityTypesList,
-					&v1BetaEntityTypesUpsert,
 				},
 			},
 			{
