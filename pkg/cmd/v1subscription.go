@@ -48,10 +48,12 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[bool]{
 			Name:     "await-payment-confirmation",
+			Usage:    "Await payment confirmation",
 			BodyPath: "awaitPaymentConfirmation",
 		},
 		&requestflag.Flag[string]{
 			Name:     "billing-cycle-anchor",
+			Usage:    `Allowed values: "UNCHANGED", "NOW".`,
 			BodyPath: "billingCycleAnchor",
 		},
 		&requestflag.Flag[map[string]any]{
@@ -60,9 +62,10 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "billing-period",
+			Usage:    `Allowed values: "MONTHLY", "ANNUALLY".`,
 			BodyPath: "billingPeriod",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "budget",
 			BodyPath: "budget",
 		},
@@ -79,7 +82,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Additional metadata for the subscription",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "minimum-spend",
 			Usage:    "Minimum spend amount",
 			BodyPath: "minimumSpend",
@@ -90,10 +93,12 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "promotion-code",
+			Usage:    "Promotion code",
 			BodyPath: "promotionCode",
 		},
 		&requestflag.Flag[string]{
 			Name:     "schedule-strategy",
+			Usage:    `Allowed values: "END_OF_BILLING_PERIOD", "END_OF_BILLING_MONTH", "IMMEDIATE".`,
 			BodyPath: "scheduleStrategy",
 		},
 		&requestflag.Flag[any]{
@@ -177,6 +182,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "billing-information.proration-behavior",
+			Usage:      `Allowed values: "INVOICE_IMMEDIATELY", "CREATE_PRORATIONS", "NONE".`,
 			InnerField: "prorationBehavior",
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
@@ -216,6 +222,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "charge.type",
+			Usage:      `Allowed values: "FEATURE", "CREDIT".`,
 			InnerField: "type",
 		},
 	},
@@ -580,7 +587,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Trial period override settings",
 			BodyPath: "trialOverrideConfiguration",
 		},
-		&requestflag.Flag[float64]{
+		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
 			Usage:    "Unit quantity for per-unit pricing",
 			BodyPath: "unitQuantity",
@@ -671,7 +678,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Whether invoice is already paid",
 			InnerField: "isInvoicePaid",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[map[string]any]{
 			Name:       "billing-information.metadata",
 			Usage:      "Additional billing metadata",
 			InnerField: "metadata",
@@ -794,7 +801,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Billing period (MONTHLY or ANNUALLY)",
 			BodyPath: "billingPeriod",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "budget",
 			BodyPath: "budget",
 		},
@@ -816,7 +823,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Additional metadata for the subscription",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "minimum-spend",
 			Usage:    "Minimum spend amount",
 			BodyPath: "minimumSpend",
@@ -861,8 +868,9 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Trial period override settings",
 			BodyPath: "trialOverrideConfiguration",
 		},
-		&requestflag.Flag[float64]{
+		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
+			Usage:    "Unit quantity",
 			BodyPath: "unitQuantity",
 		},
 	},
@@ -1071,6 +1079,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "price-override.credit-grant-cadence",
+			Usage:      `Allowed values: "BEGINNING_OF_BILLING_PERIOD", "MONTHLY".`,
 			InnerField: "creditGrantCadence",
 		},
 		&requestflag.InnerFlag[map[string]any]{

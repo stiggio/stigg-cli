@@ -1,5 +1,64 @@
 # Changelog
 
+## 0.8.0 (2026-05-26)
+
+Full Changelog: [v0.7.1...v0.8.0](https://github.com/stiggio/stigg-cli/compare/v0.7.1...v0.8.0)
+
+### Features
+
+* add default description for enum CLI flags without an explicit description ([e073679](https://github.com/stiggio/stigg-cli/commit/e0736799f52f2bda2707065bb18de993c0378ea2))
+* allow `-` as value representing stdin to binary-only file parameters in CLIs ([2e80a9d](https://github.com/stiggio/stigg-cli/commit/2e80a9d67551395be133547f636033bfa8cc864c))
+* **api:** api update ([3edca52](https://github.com/stiggio/stigg-cli/commit/3edca52125babd1041082aca4dcd5fafdddffb12))
+* **api:** api update ([8c4a5d6](https://github.com/stiggio/stigg-cli/commit/8c4a5d68fd4821eb9f707d3cf13c492e746809b2))
+* **api:** api update ([2588549](https://github.com/stiggio/stigg-cli/commit/2588549292cbe883d67a630c883a755aafa023a5))
+* **api:** api update ([c608f59](https://github.com/stiggio/stigg-cli/commit/c608f599febf2a401ea7feb52dd793200d828bdc))
+* **api:** api update ([307016d](https://github.com/stiggio/stigg-cli/commit/307016d6d5f1b8addbd0177b839e8c1fd2daa97e))
+* **api:** api update ([0e59b7c](https://github.com/stiggio/stigg-cli/commit/0e59b7cef4d02f8f94477fdf57273437de026011))
+* **api:** api update ([4540fac](https://github.com/stiggio/stigg-cli/commit/4540facb99f4d976731744eeef4f9303bd2c90b6))
+* **api:** updated stainless config with new endpoint ([860152d](https://github.com/stiggio/stigg-cli/commit/860152d4c9b576466d1ebc4c1aaabec350a37933))
+* better error message if scheme forgotten in CLI `*_BASE_URL`/`--base-url` ([b9b06a4](https://github.com/stiggio/stigg-cli/commit/b9b06a40dac741cbb9955c3e6baac6360970d23f))
+* binary-only parameters become CLI flags that take filenames only ([883d0f8](https://github.com/stiggio/stigg-cli/commit/883d0f8c73dcb868af0e68c71adbd4459219e337))
+* set CLI flag constant values automatically where `x-stainless-const` is set ([bdcdbae](https://github.com/stiggio/stigg-cli/commit/bdcdbae10b4743038f82c66a5285593ee2f9e2a9))
+* **STIGG-6815:** auto-generate openapi schema stainless ([a41072d](https://github.com/stiggio/stigg-cli/commit/a41072da21d8c7467139a155110d40957535c9ea))
+* **STIGG-7501:** split cluster-fargate-vpc and doggo-persistent-cach… ([6596885](https://github.com/stiggio/stigg-cli/commit/65968857271608efddf410a228ac8fee9d204f97))
+
+
+### Bug Fixes
+
+* avoid reading from stdin unless request body is form encoded or json ([77c71ae](https://github.com/stiggio/stigg-cli/commit/77c71ae1e41f42226499638bda15c14a2f8c5476))
+* cli no longer hangs when stdin is attached to a pipe with empty input ([c2da831](https://github.com/stiggio/stigg-cli/commit/c2da8318e7d73685cbf7fcdd17f56f6b2971e1c6))
+* **cli:** fix incompatible Go types for flag generated as array of maps ([0c04026](https://github.com/stiggio/stigg-cli/commit/0c040269594b4304550c75e72d08f1f69ecd7ab2))
+* fall back to main branch if linking fails in CI ([80319f4](https://github.com/stiggio/stigg-cli/commit/80319f465823c832a99493a74a49437a0fd19d7f))
+* fix for failing to drop invalid module replace in link script ([1c4fa49](https://github.com/stiggio/stigg-cli/commit/1c4fa4953d1f4c3a59f0dae67251b419bca015ad))
+* fix for off-by-one error in pagination logic ([ce9aded](https://github.com/stiggio/stigg-cli/commit/ce9aded4af3caf3d3c5435803ad965acffb70929))
+* fix quoting typo ([54a361f](https://github.com/stiggio/stigg-cli/commit/54a361fdb635f938f2cdb456feec6fa8318b547b))
+* handle empty data set using `--format explore` ([2737d6b](https://github.com/stiggio/stigg-cli/commit/2737d6bb5eaf4b359277ea9fbe9c0367b10ed2be))
+* improve linking behavior when developing on a branch not in the Go SDK ([e3a4570](https://github.com/stiggio/stigg-cli/commit/e3a457095cbf85d3cd021041875fe9aff8ae248c))
+* **STIGG-7500:** stripe account not deauthorized when connected to multiple environments ([ccf98a6](https://github.com/stiggio/stigg-cli/commit/ccf98a6b0da218407620f2d55b247f8a46d00522))
+* **STIGG-7502:** sync paid credit grants to DynamoDB cache after acti… ([85640d4](https://github.com/stiggio/stigg-cli/commit/85640d48935a64ccc136e29c893e74ee11464138))
+* use `RawJSON` when iterating items with `--format explore` in the CLI ([8984eaa](https://github.com/stiggio/stigg-cli/commit/8984eaace04ea0a2965a94d17627370578a1c004))
+
+
+### Reverts
+
+* **STIGG-7500:** stripe account not deauthorized when connected to multiple environments ([cdb8d29](https://github.com/stiggio/stigg-cli/commit/cdb8d29056f38ef531ef187d8eaed6eb069f0bca))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([bf5cb08](https://github.com/stiggio/stigg-cli/commit/bf5cb08995b03c7831af19d9cbd65781e9eb995f))
+* **cli:** additional test cases for `ShowJSONIterator` ([e3099ee](https://github.com/stiggio/stigg-cli/commit/e3099ee4b0ce6e15f167d86dbc8ee3cdf70a287b))
+* **cli:** let `--format raw` be used in conjunction with `--transform` ([9a7e062](https://github.com/stiggio/stigg-cli/commit/9a7e062fd97dac93c22b9304adac201dc781ee95))
+* **internal:** codegen related update ([99c5b6c](https://github.com/stiggio/stigg-cli/commit/99c5b6cfac2974ea2f7cf6938ed8f3ab0adc4be8))
+* **internal:** codegen related update ([504ba0e](https://github.com/stiggio/stigg-cli/commit/504ba0e75676907ba2b854e233348482cb75ca4c))
+* **internal:** codegen related update ([2f6bf32](https://github.com/stiggio/stigg-cli/commit/2f6bf321ce4eb98082e404d6184f5c5fe83038ca))
+* **internal:** codegen related update ([12634e0](https://github.com/stiggio/stigg-cli/commit/12634e04985e2c480f67c197942e37e8b3a261b3))
+* **internal:** update gitignore ([25a968a](https://github.com/stiggio/stigg-cli/commit/25a968ac204c23ec2f75f45eca3028950ac8253a))
+* mark all CLI-related tests in Go with `t.Parallel()` ([751fb4f](https://github.com/stiggio/stigg-cli/commit/751fb4f8143fa21551d10c64665003da31eac159))
+* modify CLI tests to inject stdout so mutating `os.Stdout` isn't necessary ([21aa260](https://github.com/stiggio/stigg-cli/commit/21aa260da5925f765c19ee93ed8cdca4631fdef0))
+* omit full usage information when missing required CLI parameters ([ac35bd1](https://github.com/stiggio/stigg-cli/commit/ac35bd1e2b34dadf1b80e870b571a9f6398351a1))
+* switch some CLI Go tests from `os.Chdir` to `t.Chdir` ([beccd9a](https://github.com/stiggio/stigg-cli/commit/beccd9a38d07fe2b4c253576298dabbb39958edc))
+
 ## 0.7.1 (2026-03-17)
 
 Full Changelog: [v0.7.0...v0.7.1](https://github.com/stiggio/stigg-cli/compare/v0.7.0...v0.7.1)

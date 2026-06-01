@@ -29,6 +29,15 @@ import (
 
 var OutputFormats = []string{"auto", "explore", "json", "jsonl", "pretty", "raw", "yaml"}
 
+// ValidateBaseURL checks that a base URL is correctly prefixed with a protocol scheme and produces a better
+// error message than the person would see otherwise if it doesn't.
+func ValidateBaseURL(value, source string) error {
+	if value != "" && !strings.HasPrefix(value, "http://") && !strings.HasPrefix(value, "https://") {
+		return fmt.Errorf("%s %q is missing a scheme (expected http:// or https://)", source, value)
+	}
+	return nil
+}
+
 func getDefaultRequestOptions(cmd *cli.Command) []option.RequestOption {
 	opts := []option.RequestOption{
 		option.WithHeader("User-Agent", fmt.Sprintf("Stigg/CLI %s", Version)),
@@ -70,9 +79,35 @@ var debugMiddlewareOption = option.WithMiddleware(
 	},
 )
 
+// isInputPiped tries to check for input being piped into the CLI which tells us that we should try to read
+// from stdin. This can be a bit tricky in some cases like when an stdin is connected to a pipe but nothing is
+// being piped in (this may happen in some environments like Cursor's integration terminal or CI), which is
+// why this function is a little more elaborate than it'd be otherwise.
 func isInputPiped() bool {
-	stat, _ := os.Stdin.Stat()
-	return (stat.Mode() & os.ModeCharDevice) == 0
+	stat, err := os.Stdin.Stat()
+	if err != nil {
+		return false
+	}
+
+	mode := stat.Mode()
+
+	// Regular file (redirect like < file.txt) — only if non-empty.
+	//
+	// Notably, on Unix the case like `< /dev/null` is handled below because `/dev/null` is not a regular
+	// file. On Windows, NUL appears as a regular file with size 0, so it's also handled correctly.
+	if mode.IsRegular() && stat.Size() > 0 {
+		return true
+	}
+
+	// For pipes/sockets (e.g. `echo foo | stainlesscli`), use an OS-specific check to determine whether
+	// data is actually available. Some environments like Cursor's integrated terminal connect stdin as a
+	// pipe even when nothing is being piped.
+	if mode&(os.ModeNamedPipe|os.ModeSocket) != 0 {
+		// Defined in either cmdutil_unix.go or cmdutil_windows.go.
+		return isPipedDataAvailableOSSpecific()
+	}
+
+	return false
 }
 
 func isTerminal(w io.Writer) bool {
@@ -158,7 +193,10 @@ func streamToStdout(generateOutput func(w *os.File) error) error {
 	return err
 }
 
-func writeBinaryResponse(response *http.Response, outfile string) (string, error) {
+// writeBinaryResponse writes a binary response to stdout or a file.
+//
+// Takes in a stdout reference so we can test this function without overriding os.Stdout in tests.
+func writeBinaryResponse(response *http.Response, stdout io.Writer, outfile string) (string, error) {
 	defer response.Body.Close()
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
@@ -166,13 +204,13 @@ func writeBinaryResponse(response *http.Response, outfile string) (string, error
 	}
 	switch outfile {
 	case "-", "/dev/stdout":
-		_, err := os.Stdout.Write(body)
+		_, err := stdout.Write(body)
 		return "", err
 	case "":
 		// If output file is unspecified, then print to stdout for plain text or
 		// if stdout is not a terminal:
 		if !isTerminal(os.Stdout) || isUTF8TextFile(body) {
-			_, err := os.Stdout.Write(body)
+			_, err := stdout.Write(body)
 			return "", err
 		}
 
@@ -274,7 +312,7 @@ func shouldUseColors(w io.Writer) bool {
 }
 
 func formatJSON(expectedOutput *os.File, title string, res gjson.Result, format string, transform string) ([]byte, error) {
-	if format != "raw" && transform != "" {
+	if transform != "" {
 		transformed := res.Get(transform)
 		if transformed.Exists() {
 			res = transformed
@@ -318,7 +356,7 @@ func formatJSON(expectedOutput *os.File, title string, res gjson.Result, format 
 
 // Display JSON to the user in various different formats
 func ShowJSON(out *os.File, title string, res gjson.Result, format string, transform string) error {
-	if format != "raw" && transform != "" {
+	if transform != "" {
 		transformed := res.Get(transform)
 		if transformed.Exists() {
 			res = transformed
@@ -346,12 +384,13 @@ func countTerminalLines(data []byte, terminalWidth int) int {
 	return bytes.Count([]byte(wrap.String(string(data), terminalWidth)), []byte("\n"))
 }
 
-type HasRawJSON interface {
+type hasRawJSON interface {
 	RawJSON() string
 }
 
 // For an iterator over different value types, display its values to the user in
 // different formats.
+// -1 is used to signal no limit of items to display
 func ShowJSONIterator[T any](stdout *os.File, title string, iter jsonview.Iterator[T], format string, transform string, itemsToDisplay int64) error {
 	if format == "explore" {
 		return jsonview.ExploreJSONStream(title, iter)
@@ -367,13 +406,11 @@ func ShowJSONIterator[T any](stdout *os.File, title string, iter jsonview.Iterat
 	usePager := false
 	output := []byte{}
 	numberOfNewlines := 0
-	for iter.Next() {
-		if itemsToDisplay == 0 {
-			break
-		}
+	// -1 is used to signal no limit of items to display
+	for itemsToDisplay != 0 && iter.Next() {
 		item := iter.Current()
 		var obj gjson.Result
-		if hasRaw, ok := any(item).(HasRawJSON); ok {
+		if hasRaw, ok := any(item).(hasRawJSON); ok {
 			obj = gjson.Parse(hasRaw.RawJSON())
 		} else {
 			jsonData, err := json.Marshal(item)
@@ -420,7 +457,7 @@ func ShowJSONIterator[T any](stdout *os.File, title string, iter jsonview.Iterat
 			}
 			item := iter.Current()
 			var obj gjson.Result
-			if hasRaw, ok := any(item).(HasRawJSON); ok {
+			if hasRaw, ok := any(item).(hasRawJSON); ok {
 				obj = gjson.Parse(hasRaw.RawJSON())
 			} else {
 				jsonData, err := json.Marshal(item)

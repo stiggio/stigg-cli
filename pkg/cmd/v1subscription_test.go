@@ -33,7 +33,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--applied-coupon", "{billingCouponId: billingCouponId, configuration: {startDate: '2019-12-27T18:11:19.117Z'}, couponId: couponId, discount: {amountsOff: [{amount: 0, currency: usd}], description: description, durationInMonths: 1, name: name, percentOff: 1}, promotionCode: promotionCode}",
 			"--await-payment-confirmation=true",
 			"--billing-cycle-anchor", "UNCHANGED",
-			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, couponId: couponId, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: bar}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
+			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, couponId: couponId, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
 			"--charge", "{id: id, quantity: 1, type: FEATURE}",
@@ -73,7 +73,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-information.invoice-days-until-due", "0",
 			"--billing-information.is-backdated=true",
 			"--billing-information.is-invoice-paid=true",
-			"--billing-information.metadata", "{foo: bar}",
+			"--billing-information.metadata", "{foo: string}",
 			"--billing-information.proration-behavior", "INVOICE_IMMEDIATELY",
 			"--billing-information.tax-ids", "[{type: type, value: value}]",
 			"--billing-information.tax-percentage", "0",
@@ -137,7 +137,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"  isBackdated: true\n" +
 			"  isInvoicePaid: true\n" +
 			"  metadata:\n" +
-			"    foo: bar\n" +
+			"    foo: string\n" +
 			"  prorationBehavior: INVOICE_IMMEDIATELY\n" +
 			"  taxIds:\n" +
 			"    - type: type\n" +
@@ -395,7 +395,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--billable-feature", "{featureId: featureId, quantity: 1}",
 			"--billing-country-code", "billingCountryCode",
 			"--billing-cycle-anchor", "UNCHANGED",
-			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
+			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--charge", "{id: id, quantity: 1, type: FEATURE}",
 			"--paying-customer-id", "payingCustomerId",
@@ -435,7 +435,7 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--billing-information.invoice-days-until-due", "0",
 			"--billing-information.is-backdated=true",
 			"--billing-information.is-invoice-paid=true",
-			"--billing-information.metadata", "{}",
+			"--billing-information.metadata", "{foo: string}",
 			"--billing-information.proration-behavior", "INVOICE_IMMEDIATELY",
 			"--billing-information.tax-ids", "[{type: type, value: value}]",
 			"--billing-information.tax-percentage", "0",
@@ -495,7 +495,8 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"  invoiceDaysUntilDue: 0\n" +
 			"  isBackdated: true\n" +
 			"  isInvoicePaid: true\n" +
-			"  metadata: {}\n" +
+			"  metadata:\n" +
+			"    foo: string\n" +
 			"  prorationBehavior: INVOICE_IMMEDIATELY\n" +
 			"  taxIds:\n" +
 			"    - type: type\n" +

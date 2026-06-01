@@ -21,7 +21,6 @@ func TestV1UsageHistory(t *testing.T) {
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--end-date", "'2019-12-27T18:11:19.117Z'",
 			"--group-by", "groupBy",
-			"--include-inactive-subscriptions=true",
 			"--resource-id", "resourceId",
 		)
 	})

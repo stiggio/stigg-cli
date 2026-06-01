@@ -37,6 +37,17 @@ type Flag[
 	BodyPath   string // location in the request body to put this flag's value
 	BodyRoot   bool   // if true, then use this value as the entire request body
 
+	// Const, when true, marks this flag as a constant. The flag's Default value is used as the fixed value
+	// and always included in the request (IsSet returns true). The user can still see and override the flag,
+	// but isn't required to provide it. This is used for single-value enums and `x-stainless-const`
+	// parameters.
+	Const bool
+
+	// FileInput, when true, indicates that the flag value is always treated as a file path. The file is read
+	// automatically without requiring the "@" prefix. This is used for parameters with `type: string, format:
+	// binary` in the OpenAPI spec.
+	FileInput bool
+
 	// unexported fields for internal use
 	count      int       // number of times the flag has been set
 	hasBeenSet bool      // whether the flag has been set from env or file
@@ -53,6 +64,7 @@ type InRequest interface {
 	GetHeaderPath() string
 	GetBodyPath() string
 	IsBodyRoot() bool
+	IsFileInput() bool
 }
 
 func (f Flag[T]) GetQueryPath() string {
@@ -69,6 +81,10 @@ func (f Flag[T]) GetBodyPath() string {
 
 func (f Flag[T]) IsBodyRoot() bool {
 	return f.BodyRoot
+}
+
+func (f Flag[T]) IsFileInput() bool {
+	return f.FileInput
 }
 
 // The values that will be sent in different parts of a request.
@@ -229,7 +245,7 @@ func (f *Flag[T]) String() string {
 }
 
 func (f *Flag[T]) IsSet() bool {
-	return f.hasBeenSet
+	return f.hasBeenSet || f.Const
 }
 
 func (f *Flag[T]) Names() []string {
@@ -255,6 +271,10 @@ func (f *Flag[T]) SetCategory(c string) {
 var _ cli.RequiredFlag = (*Flag[any])(nil) // Type assertion to ensure interface compliance
 
 func (f *Flag[T]) IsRequired() bool {
+	// Const flags are always auto-set, so never required from the user.
+	if f.Const {
+		return false
+	}
 	// Intentionally don't use `f.Required`, because request flags may be passed
 	// over stdin as well as by flag.
 	if f.BodyPath != "" || f.BodyRoot {
@@ -268,6 +288,10 @@ type RequiredFlagOrStdin interface {
 }
 
 func (f *Flag[T]) IsRequiredAsFlagOrStdin() bool {
+	// Const flags are always auto-set, so never required from the user.
+	if f.Const {
+		return false
+	}
 	return f.Required
 }
 

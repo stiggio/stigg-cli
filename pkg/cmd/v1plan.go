@@ -43,7 +43,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "default-trial-config",
 			Usage:    "Default trial configuration for the plan",
 			BodyPath: "defaultTrialConfig",
@@ -88,7 +88,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The time unit for the trial duration (DAY or MONTH)",
 			InnerField: "units",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[map[string]any]{
 			Name:       "default-trial-config.budget",
 			Usage:      "Budget configuration for the trial",
 			InnerField: "budget",
@@ -138,7 +138,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "compatible-addon-id",
 			BodyPath: "compatibleAddonIds",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "default-trial-config",
 			Usage:    "Default trial configuration for the plan",
 			BodyPath: "defaultTrialConfig",
@@ -210,7 +210,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The time unit for the trial duration (DAY or MONTH)",
 			InnerField: "units",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[map[string]any]{
 			Name:       "default-trial-config.budget",
 			Usage:      "Budget configuration for the trial",
 			InnerField: "budget",

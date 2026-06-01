@@ -51,7 +51,7 @@ var v1ProductsCreateProduct = cli.Command{
 			Usage:    "Description of the product",
 			BodyPath: "description",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Additional metadata for the product",
 			BodyPath: "metadata",
@@ -77,10 +77,10 @@ var v1ProductsDuplicateProduct = cli.Command{
 			Required: true,
 		},
 		&requestflag.Flag[string]{
-			Name:     "id",
+			Name:     "target-id",
 			Usage:    "The unique identifier for the entity",
 			Required: true,
-			BodyPath: "id",
+			BodyPath: "targetId",
 		},
 		&requestflag.Flag[any]{
 			Name:     "description",
@@ -198,7 +198,7 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Display name of the product",
 			BodyPath: "displayName",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
 			Usage:    "Additional metadata for the product",
 			BodyPath: "metadata",
@@ -244,6 +244,7 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[any]{
 			Name:       "product-settings.prorate-at-end-of-billing-period",
+			Usage:      "Indicates if the subscription should be prorated at the end of the billing period",
 			InnerField: "prorateAtEndOfBillingPeriod",
 		},
 		&requestflag.InnerFlag[any]{

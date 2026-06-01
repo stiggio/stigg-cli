@@ -39,6 +39,9 @@ func init() {
 				Name:        "base-url",
 				DefaultText: "url",
 				Usage:       "Override the base URL for API requests",
+				Validator: func(baseURL string) error {
+					return ValidateBaseURL(baseURL, "--base-url")
+				},
 			},
 			&cli.StringFlag{
 				Name:  "format",
@@ -88,6 +91,7 @@ func init() {
 					&v1CustomersImport,
 					&v1CustomersListResources,
 					&v1CustomersProvision,
+					&v1CustomersRetrieveEntitlements,
 					&v1CustomersUnarchive,
 				},
 			},
@@ -108,6 +112,18 @@ func init() {
 					&v1CustomersPromotionalEntitlementsCreate,
 					&v1CustomersPromotionalEntitlementsList,
 					&v1CustomersPromotionalEntitlementsRevoke,
+				},
+			},
+			{
+				Name:     "v1:customers:integrations",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CustomersIntegrationsRetrieve,
+					&v1CustomersIntegrationsUpdate,
+					&v1CustomersIntegrationsList,
+					&v1CustomersIntegrationsLink,
+					&v1CustomersIntegrationsUnlink,
 				},
 			},
 			{
@@ -278,6 +294,18 @@ func init() {
 					&v1ProductsListProducts,
 					&v1ProductsUnarchiveProduct,
 					&v1ProductsUpdateProduct,
+				},
+			},
+			{
+				Name:     "internal:beta:event-queues",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&internalBetaEventQueuesRetrieve,
+					&internalBetaEventQueuesUpdate,
+					&internalBetaEventQueuesList,
+					&internalBetaEventQueuesDelete,
+					&internalBetaEventQueuesProvision,
 				},
 			},
 			{
