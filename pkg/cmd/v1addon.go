@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -38,17 +37,17 @@ var v1AddonsCreate = cli.Command{
 			Required: true,
 			BodyPath: "productId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "The description of the package",
 			BodyPath: "description",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*int64]{
 			Name:     "max-quantity",
 			Usage:    "The maximum quantity of this addon that can be added to a subscription",
 			BodyPath: "maxQuantity",
@@ -58,7 +57,7 @@ var v1AddonsCreate = cli.Command{
 			Usage:    "Metadata associated with the entity",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "pricing-type",
 			Usage:    "The pricing type of the package",
 			BodyPath: "pricingType",
@@ -79,8 +78,9 @@ var v1AddonsRetrieve = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1AddonsRetrieve,
@@ -93,10 +93,11 @@ var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
@@ -111,7 +112,7 @@ var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "List of addons the addon is dependant on",
 			BodyPath: "dependencies",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "The description of the package",
 			BodyPath: "description",
@@ -121,7 +122,7 @@ var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The display name of the package",
 			BodyPath: "displayName",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*int64]{
 			Name:     "max-quantity",
 			Usage:    "The maximum quantity of this addon that can be added to a subscription",
 			BodyPath: "maxQuantity",
@@ -205,7 +206,7 @@ var v1AddonsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by product ID",
 			QueryPath: "productId",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
@@ -248,8 +249,9 @@ var v1AddonsArchive = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1AddonsArchive,
@@ -262,11 +264,47 @@ var v1AddonsCreateDraft = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1AddonsCreateDraft,
+	HideHelpCommand: true,
+}
+
+var v1AddonsListCharges = cli.Command{
+	Name:    "list-charges",
+	Usage:   "Retrieves the list of charges configured on an addon.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
+		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
+	},
+	Action:          handleV1AddonsListCharges,
 	HideHelpCommand: true,
 }
 
@@ -276,8 +314,9 @@ var v1AddonsPublish = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "migration-type",
@@ -296,8 +335,9 @@ var v1AddonsRemoveDraft = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1AddonsRemoveDraft,
@@ -312,8 +352,6 @@ func handleV1AddonsCreate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1AddonNewParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -325,6 +363,8 @@ func handleV1AddonsCreate(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1AddonNewParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Addons.New(ctx, params, options...)
@@ -334,8 +374,15 @@ func handleV1AddonsCreate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons create", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:addons create",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsRetrieve(ctx context.Context, cmd *cli.Command) error {
@@ -369,8 +416,15 @@ func handleV1AddonsRetrieve(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons retrieve", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:addons retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -384,8 +438,6 @@ func handleV1AddonsUpdate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1AddonUpdateParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -396,6 +448,8 @@ func handleV1AddonsUpdate(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1AddonUpdateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -411,8 +465,15 @@ func handleV1AddonsUpdate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons update", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:addons update",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsList(ctx context.Context, cmd *cli.Command) error {
@@ -422,8 +483,6 @@ func handleV1AddonsList(ctx context.Context, cmd *cli.Command) error {
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1AddonListParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -436,7 +495,10 @@ func handleV1AddonsList(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1AddonListParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -446,14 +508,26 @@ func handleV1AddonsList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:addons list", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:addons list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Addons.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:addons list", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:addons list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -488,8 +562,15 @@ func handleV1AddonsArchive(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons archive", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:addons archive",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsCreateDraft(ctx context.Context, cmd *cli.Command) error {
@@ -523,8 +604,83 @@ func handleV1AddonsCreateDraft(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons create-draft", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:addons create-draft",
+		Transform:      transform,
+	})
+}
+
+func handleV1AddonsListCharges(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1AddonListChargesParams{}
+
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	if format == "raw" {
+		var res []byte
+		options = append(options, option.WithResponseBodyInto(&res))
+		_, err = client.V1.Addons.ListCharges(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		if err != nil {
+			return err
+		}
+		obj := gjson.ParseBytes(res)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:addons list-charges",
+			Transform:      transform,
+		})
+	} else {
+		iter := client.V1.Addons.ListChargesAutoPaging(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:addons list-charges",
+			Transform:      transform,
+		})
+	}
 }
 
 func handleV1AddonsPublish(ctx context.Context, cmd *cli.Command) error {
@@ -538,8 +694,6 @@ func handleV1AddonsPublish(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1AddonPublishParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -550,6 +704,8 @@ func handleV1AddonsPublish(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1AddonPublishParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -565,8 +721,15 @@ func handleV1AddonsPublish(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons publish", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:addons publish",
+		Transform:      transform,
+	})
 }
 
 func handleV1AddonsRemoveDraft(ctx context.Context, cmd *cli.Command) error {
@@ -600,6 +763,13 @@ func handleV1AddonsRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:addons remove-draft", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:addons remove-draft",
+		Transform:      transform,
+	})
 }

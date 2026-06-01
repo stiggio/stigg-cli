@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -38,7 +37,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "productId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
@@ -48,7 +47,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Default trial configuration for the plan",
 			BodyPath: "defaultTrialConfig",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "The description of the package",
 			BodyPath: "description",
@@ -58,12 +57,12 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Metadata associated with the entity",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "parent-plan-id",
 			Usage:    "The ID of the parent plan, if applicable",
 			BodyPath: "parentPlanId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "pricing-type",
 			Usage:    "The pricing type of the package",
 			BodyPath: "pricingType",
@@ -93,7 +92,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Budget configuration for the trial",
 			InnerField: "budget",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "default-trial-config.trial-end-behavior",
 			Usage:      "Behavior when the trial ends (CONVERT_TO_PAID or CANCEL_SUBSCRIPTION)",
 			InnerField: "trialEndBehavior",
@@ -107,8 +106,9 @@ var v1PlansRetrieve = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansRetrieve,
@@ -121,10 +121,11 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "The unique identifier for the entity in the billing provider",
 			BodyPath: "billingId",
@@ -143,7 +144,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Default trial configuration for the plan",
 			BodyPath: "defaultTrialConfig",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "The description of the package",
 			BodyPath: "description",
@@ -158,7 +159,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Metadata associated with the entity",
 			BodyPath: "metadata",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "parent-plan-id",
 			Usage:    "The ID of the parent plan, if applicable",
 			BodyPath: "parentPlanId",
@@ -215,7 +216,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Budget configuration for the trial",
 			InnerField: "budget",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "default-trial-config.trial-end-behavior",
 			Usage:      "Behavior when the trial ends (CONVERT_TO_PAID or CANCEL_SUBSCRIPTION)",
 			InnerField: "trialEndBehavior",
@@ -254,7 +255,7 @@ var v1PlansList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by product ID",
 			QueryPath: "productId",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
@@ -297,8 +298,9 @@ var v1PlansArchive = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansArchive,
@@ -311,11 +313,82 @@ var v1PlansCreateDraft = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansCreateDraft,
+	HideHelpCommand: true,
+}
+
+var v1PlansListCharges = cli.Command{
+	Name:    "list-charges",
+	Usage:   "Retrieves the list of charges configured on a plan.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
+		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
+	},
+	Action:          handleV1PlansListCharges,
+	HideHelpCommand: true,
+}
+
+var v1PlansListOverageCharges = cli.Command{
+	Name:    "list-overage-charges",
+	Usage:   "Retrieves the list of overage charges configured on a plan.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
+		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
+	},
+	Action:          handleV1PlansListOverageCharges,
 	HideHelpCommand: true,
 }
 
@@ -325,8 +398,9 @@ var v1PlansPublish = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "migration-type",
@@ -345,8 +419,9 @@ var v1PlansRemoveDraft = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansRemoveDraft,
@@ -361,8 +436,6 @@ func handleV1PlansCreate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanNewParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -374,6 +447,8 @@ func handleV1PlansCreate(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1PlanNewParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Plans.New(ctx, params, options...)
@@ -383,8 +458,15 @@ func handleV1PlansCreate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans create", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans create",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansRetrieve(ctx context.Context, cmd *cli.Command) error {
@@ -418,8 +500,15 @@ func handleV1PlansRetrieve(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans retrieve", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -433,8 +522,6 @@ func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanUpdateParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -445,6 +532,8 @@ func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1PlanUpdateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -460,8 +549,15 @@ func handleV1PlansUpdate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans update", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans update",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
@@ -471,8 +567,6 @@ func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1PlanListParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -485,7 +579,10 @@ func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1PlanListParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -495,14 +592,26 @@ func handleV1PlansList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:plans list", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Plans.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:plans list", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -537,8 +646,15 @@ func handleV1PlansArchive(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans archive", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans archive",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansCreateDraft(ctx context.Context, cmd *cli.Command) error {
@@ -572,8 +688,151 @@ func handleV1PlansCreateDraft(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans create-draft", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans create-draft",
+		Transform:      transform,
+	})
+}
+
+func handleV1PlansListCharges(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1PlanListChargesParams{}
+
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	if format == "raw" {
+		var res []byte
+		options = append(options, option.WithResponseBodyInto(&res))
+		_, err = client.V1.Plans.ListCharges(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		if err != nil {
+			return err
+		}
+		obj := gjson.ParseBytes(res)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-charges",
+			Transform:      transform,
+		})
+	} else {
+		iter := client.V1.Plans.ListChargesAutoPaging(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-charges",
+			Transform:      transform,
+		})
+	}
+}
+
+func handleV1PlansListOverageCharges(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1PlanListOverageChargesParams{}
+
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	if format == "raw" {
+		var res []byte
+		options = append(options, option.WithResponseBodyInto(&res))
+		_, err = client.V1.Plans.ListOverageCharges(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		if err != nil {
+			return err
+		}
+		obj := gjson.ParseBytes(res)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-overage-charges",
+			Transform:      transform,
+		})
+	} else {
+		iter := client.V1.Plans.ListOverageChargesAutoPaging(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:plans list-overage-charges",
+			Transform:      transform,
+		})
+	}
 }
 
 func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
@@ -587,8 +846,6 @@ func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanPublishParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -599,6 +856,8 @@ func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1PlanPublishParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -614,8 +873,15 @@ func handleV1PlansPublish(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans publish", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans publish",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansRemoveDraft(ctx context.Context, cmd *cli.Command) error {
@@ -649,6 +915,13 @@ func handleV1PlansRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans remove-draft", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans remove-draft",
+		Transform:      transform,
+	})
 }

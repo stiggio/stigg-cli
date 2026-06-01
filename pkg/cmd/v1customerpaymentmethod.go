@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -21,8 +20,9 @@ var v1CustomersPaymentMethodAttach = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "integration-id",
@@ -42,7 +42,7 @@ var v1CustomersPaymentMethodAttach = cli.Command{
 			Required: true,
 			BodyPath: "vendorIdentifier",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-currency",
 			Usage:    "Customers selected currency",
 			BodyPath: "billingCurrency",
@@ -58,8 +58,9 @@ var v1CustomersPaymentMethodDetach = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1CustomersPaymentMethodDetach,
@@ -77,8 +78,6 @@ func handleV1CustomersPaymentMethodAttach(ctx context.Context, cmd *cli.Command)
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CustomerPaymentMethodAttachParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -89,6 +88,8 @@ func handleV1CustomersPaymentMethodAttach(ctx context.Context, cmd *cli.Command)
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CustomerPaymentMethodAttachParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -104,8 +105,15 @@ func handleV1CustomersPaymentMethodAttach(ctx context.Context, cmd *cli.Command)
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:payment-method attach", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:customers:payment-method attach",
+		Transform:      transform,
+	})
 }
 
 func handleV1CustomersPaymentMethodDetach(ctx context.Context, cmd *cli.Command) error {
@@ -139,6 +147,13 @@ func handleV1CustomersPaymentMethodDetach(ctx context.Context, cmd *cli.Command)
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:customers:payment-method detach", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:customers:payment-method detach",
+		Transform:      transform,
+	})
 }

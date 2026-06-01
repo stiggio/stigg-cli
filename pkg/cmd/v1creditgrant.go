@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -15,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsCreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
+var v1CreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "create",
 	Usage:   "Creates a new credit grant for a customer with specified amount, type, and\noptional billing configuration.",
 	Suggest: true,
@@ -46,7 +45,7 @@ var v1EventsCreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "grant-type",
-			Usage:    "The type of credit grant (PAID, PROMOTIONAL, RECURRING)",
+			Usage:    "The type of credit grant (PAID, PROMOTIONAL)",
 			Required: true,
 			BodyPath: "grantType",
 		},
@@ -101,7 +100,7 @@ var v1EventsCreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "resourceId",
 		},
 	},
-	Action:          handleV1EventsCreditsGrantsCreate,
+	Action:          handleV1CreditsGrantsCreate,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"billing-information": {
@@ -135,7 +134,7 @@ var v1EventsCreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsCreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
+var v1CreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
 	Name:    "list",
 	Usage:   "Retrieves a paginated list of credit grants for a customer.",
 	Suggest: true,
@@ -182,7 +181,7 @@ var v1EventsCreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1EventsCreditsGrantsList,
+	Action:          handleV1CreditsGrantsList,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"created-at": {
@@ -209,29 +208,28 @@ var v1EventsCreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-var v1EventsCreditsGrantsVoid = cli.Command{
+var v1CreditsGrantsVoid = cli.Command{
 	Name:    "void",
 	Usage:   "Voids an existing credit grant, preventing further consumption of the remaining\ncredits.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
-	Action:          handleV1EventsCreditsGrantsVoid,
+	Action:          handleV1CreditsGrantsVoid,
 	HideHelpCommand: true,
 }
 
-func handleV1EventsCreditsGrantsCreate(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsGrantsCreate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1EventCreditGrantNewParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -244,28 +242,35 @@ func handleV1EventsCreditsGrantsCreate(ctx context.Context, cmd *cli.Command) er
 		return err
 	}
 
+	params := stigg.V1CreditGrantNewParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.Grants.New(ctx, params, options...)
+	_, err = client.V1.Credits.Grants.New(ctx, params, options...)
 	if err != nil {
 		return err
 	}
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits:grants create", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:credits:grants create",
+		Transform:      transform,
+	})
 }
 
-func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsGrantsList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1EventCreditGrantListParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -278,28 +283,43 @@ func handleV1EventsCreditsGrantsList(ctx context.Context, cmd *cli.Command) erro
 		return err
 	}
 
+	params := stigg.V1CreditGrantListParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Credits.Grants.List(ctx, params, options...)
+		_, err = client.V1.Credits.Grants.List(ctx, params, options...)
 		if err != nil {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:events:credits:grants list", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:credits:grants list",
+			Transform:      transform,
+		})
 	} else {
-		iter := client.V1.Events.Credits.Grants.ListAutoPaging(ctx, params, options...)
+		iter := client.V1.Credits.Grants.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:events:credits:grants list", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:credits:grants list",
+			Transform:      transform,
+		})
 	}
 }
 
-func handleV1EventsCreditsGrantsVoid(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsGrantsVoid(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -323,13 +343,20 @@ func handleV1EventsCreditsGrantsVoid(ctx context.Context, cmd *cli.Command) erro
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.Grants.Void(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Credits.Grants.Void(ctx, cmd.Value("id").(string), options...)
 	if err != nil {
 		return err
 	}
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits:grants void", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:credits:grants void",
+		Transform:      transform,
+	})
 }

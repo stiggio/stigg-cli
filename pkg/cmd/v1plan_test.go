@@ -263,7 +263,7 @@ func TestV1PlansList(t *testing.T) {
 			"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
 			"--limit", "1",
 			"--product-id", "productId",
-			"--status", "status",
+			"--status", "DRAFT",
 		)
 	})
 
@@ -285,7 +285,7 @@ func TestV1PlansList(t *testing.T) {
 			"--created-at.lte", "2019-12-27T18:11:19.117Z",
 			"--limit", "1",
 			"--product-id", "productId",
-			"--status", "status",
+			"--status", "DRAFT",
 		)
 	})
 }
@@ -310,6 +310,38 @@ func TestV1PlansCreateDraft(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans", "create-draft",
 			"--id", "x",
+		)
+	})
+}
+
+func TestV1PlansListCharges(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:plans", "list-charges",
+			"--max-items", "10",
+			"--id", "x",
+			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--limit", "1",
+		)
+	})
+}
+
+func TestV1PlansListOverageCharges(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:plans", "list-overage-charges",
+			"--max-items", "10",
+			"--id", "x",
+			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--limit", "1",
 		)
 	})
 }

@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -32,13 +31,13 @@ var v1CouponsCreate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "amountsOff",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the coupon",
 			Required: true,
 			BodyPath: "description",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*int64]{
 			Name:     "duration-in-months",
 			Usage:    "Duration of the coupon validity in months",
 			Required: true,
@@ -56,7 +55,7 @@ var v1CouponsCreate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "name",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*float64]{
 			Name:     "percent-off",
 			Usage:    "Percentage discount off the original price",
 			Required: true,
@@ -68,14 +67,16 @@ var v1CouponsCreate = requestflag.WithInnerFlags(cli.Command{
 }, map[string][]requestflag.HasOuterFlag{
 	"amounts-off": {
 		&requestflag.InnerFlag[float64]{
-			Name:       "amounts-off.amount",
-			Usage:      "The price amount",
-			InnerField: "amount",
+			Name:                  "amounts-off.amount",
+			Usage:                 "The price amount",
+			InnerField:            "amount",
+			OuterIsArrayOfObjects: true,
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "amounts-off.currency",
-			Usage:      "ISO 4217 currency code",
-			InnerField: "currency",
+			Name:                  "amounts-off.currency",
+			Usage:                 "ISO 4217 currency code",
+			InnerField:            "currency",
+			OuterIsArrayOfObjects: true,
 		},
 	},
 })
@@ -86,8 +87,9 @@ var v1CouponsRetrieve = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1CouponsRetrieve,
@@ -125,7 +127,7 @@ var v1CouponsList = requestflag.WithInnerFlags(cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by coupon status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
@@ -173,8 +175,9 @@ var v1CouponsArchiveCoupon = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1CouponsArchiveCoupon,
@@ -187,10 +190,11 @@ var v1CouponsUpdateCoupon = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the coupon",
 			BodyPath: "description",
@@ -218,8 +222,6 @@ func handleV1CouponsCreate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CouponNewParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -231,6 +233,8 @@ func handleV1CouponsCreate(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CouponNewParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Coupons.New(ctx, params, options...)
@@ -240,8 +244,15 @@ func handleV1CouponsCreate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:coupons create", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:coupons create",
+		Transform:      transform,
+	})
 }
 
 func handleV1CouponsRetrieve(ctx context.Context, cmd *cli.Command) error {
@@ -275,8 +286,15 @@ func handleV1CouponsRetrieve(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:coupons retrieve", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:coupons retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleV1CouponsList(ctx context.Context, cmd *cli.Command) error {
@@ -286,8 +304,6 @@ func handleV1CouponsList(ctx context.Context, cmd *cli.Command) error {
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1CouponListParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -300,7 +316,10 @@ func handleV1CouponsList(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CouponListParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -310,14 +329,26 @@ func handleV1CouponsList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:coupons list", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:coupons list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Coupons.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:coupons list", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:coupons list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -352,8 +383,15 @@ func handleV1CouponsArchiveCoupon(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:coupons archive-coupon", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:coupons archive-coupon",
+		Transform:      transform,
+	})
 }
 
 func handleV1CouponsUpdateCoupon(ctx context.Context, cmd *cli.Command) error {
@@ -367,8 +405,6 @@ func handleV1CouponsUpdateCoupon(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1CouponUpdateCouponParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -379,6 +415,8 @@ func handleV1CouponsUpdateCoupon(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1CouponUpdateCouponParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -394,6 +432,13 @@ func handleV1CouponsUpdateCoupon(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:coupons update-coupon", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:coupons update-coupon",
+		Transform:      transform,
+	})
 }

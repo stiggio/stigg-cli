@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -51,7 +50,7 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Dimensions associated with the usage event",
 			InnerField: "dimensions",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "event.resource-id",
 			Usage:      "Resource id",
 			InnerField: "resourceId",
@@ -72,8 +71,6 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1EventReportParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -85,6 +82,8 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1EventReportParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Events.Report(ctx, params, options...)
@@ -94,6 +93,13 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events report", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:events report",
+		Transform:      transform,
+	})
 }
