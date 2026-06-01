@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.8.1 (2026-06-01)
+
+Full Changelog: [v0.8.0...v0.8.1](https://github.com/stiggio/stigg-cli/compare/v0.8.0...v0.8.1)
+
+### Chores
+
+* remove custom code ([e1bf90c](https://github.com/stiggio/stigg-cli/commit/e1bf90c39897dc670d495aa2a1c98379868ee1d1))
+
 ## 0.8.0 (2026-05-26)
 
 Full Changelog: [v0.7.1...v0.8.0](https://github.com/stiggio/stigg-cli/compare/v0.7.1...v0.8.0)

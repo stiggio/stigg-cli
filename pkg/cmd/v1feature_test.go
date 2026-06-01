@@ -110,10 +110,10 @@ func TestV1FeaturesListFeatures(t *testing.T) {
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
-			"--feature-type", "featureType",
+			"--feature-type", "BOOLEAN",
 			"--limit", "1",
-			"--meter-type", "meterType",
-			"--status", "status",
+			"--meter-type", "None",
+			"--status", "NEW",
 		)
 	})
 
@@ -134,10 +134,10 @@ func TestV1FeaturesListFeatures(t *testing.T) {
 			"--created-at.gte", "2019-12-27T18:11:19.117Z",
 			"--created-at.lt", "2019-12-27T18:11:19.117Z",
 			"--created-at.lte", "2019-12-27T18:11:19.117Z",
-			"--feature-type", "featureType",
+			"--feature-type", "BOOLEAN",
 			"--limit", "1",
-			"--meter-type", "meterType",
-			"--status", "status",
+			"--meter-type", "None",
+			"--status", "NEW",
 		)
 	})
 }

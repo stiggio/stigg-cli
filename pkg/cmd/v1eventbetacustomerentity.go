@@ -14,9 +14,9 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1CustomersIntegrationsRetrieve = cli.Command{
+var v1EventsBetaCustomersEntitiesRetrieve = cli.Command{
 	Name:    "retrieve",
-	Usage:   "Retrieves a specific integration for a customer by integration ID.",
+	Usage:   "Retrieves a single entity for the given customer by its identifier.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -25,44 +25,18 @@ var v1CustomersIntegrationsRetrieve = cli.Command{
 			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
-			Name:      "integration-id",
+			Name:      "entity-id",
 			Required:  true,
-			PathParam: "integrationId",
+			PathParam: "entityId",
 		},
 	},
-	Action:          handleV1CustomersIntegrationsRetrieve,
+	Action:          handleV1EventsBetaCustomersEntitiesRetrieve,
 	HideHelpCommand: true,
 }
 
-var v1CustomersIntegrationsUpdate = cli.Command{
-	Name:    "update",
-	Usage:   "Updates a customer's integration link, such as changing the synced external\nentity ID.",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "id",
-			Required:  true,
-			PathParam: "id",
-		},
-		&requestflag.Flag[string]{
-			Name:      "integration-id",
-			Required:  true,
-			PathParam: "integrationId",
-		},
-		&requestflag.Flag[*string]{
-			Name:     "synced-entity-id",
-			Usage:    "Synced entity id",
-			Required: true,
-			BodyPath: "syncedEntityId",
-		},
-	},
-	Action:          handleV1CustomersIntegrationsUpdate,
-	HideHelpCommand: true,
-}
-
-var v1CustomersIntegrationsList = cli.Command{
+var v1EventsBetaCustomersEntitiesList = cli.Command{
 	Name:    "list",
-	Usage:   "Retrieves a paginated list of a customer's external integrations (billing, CRM,\netc.).",
+	Usage:   "Retrieves a paginated list of entities for the given customer.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -80,29 +54,34 @@ var v1CustomersIntegrationsList = cli.Command{
 			Usage:     "Return items that come before this cursor",
 			QueryPath: "before",
 		},
+		&requestflag.Flag[string]{
+			Name:      "include-archived",
+			Usage:     "Whether to include archived entities. One of: true, false",
+			QueryPath: "includeArchived",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "limit",
 			Usage:     "Maximum number of items to return",
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[[]string]{
-			Name:      "vendor-identifier",
-			Usage:     "Filter by vendor identifier. Supports comma-separated values for multiple vendors (e.g., STRIPE,HUBSPOT)",
-			QueryPath: "vendorIdentifier",
+		&requestflag.Flag[string]{
+			Name:      "type-ref-id",
+			Usage:     "Filter results to entities of a specific entity type, by the type's refId",
+			QueryPath: "typeRefId",
 		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1CustomersIntegrationsList,
+	Action:          handleV1EventsBetaCustomersEntitiesList,
 	HideHelpCommand: true,
 }
 
-var v1CustomersIntegrationsLink = cli.Command{
-	Name:    "link",
-	Usage:   "Links a customer to an external integration by specifying the vendor and\nexternal entity ID.",
+var v1EventsBetaCustomersEntitiesArchive = cli.Command{
+	Name:    "archive",
+	Usage:   "Archives entities in bulk for the given customer by id.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -110,32 +89,20 @@ var v1CustomersIntegrationsLink = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:     "id",
-			Usage:    "Integration details",
+			Usage:    "Entity identifiers to act on",
 			Required: true,
-			BodyPath: "id",
-		},
-		&requestflag.Flag[string]{
-			Name:     "synced-entity-id",
-			Usage:    "Synced entity id",
-			Required: true,
-			BodyPath: "syncedEntityId",
-		},
-		&requestflag.Flag[string]{
-			Name:     "vendor-identifier",
-			Usage:    "The vendor identifier of integration",
-			Required: true,
-			BodyPath: "vendorIdentifier",
+			BodyPath: "ids",
 		},
 	},
-	Action:          handleV1CustomersIntegrationsLink,
+	Action:          handleV1EventsBetaCustomersEntitiesArchive,
 	HideHelpCommand: true,
 }
 
-var v1CustomersIntegrationsUnlink = cli.Command{
-	Name:    "unlink",
-	Usage:   "Removes the link between a customer and an external integration.",
+var v1EventsBetaCustomersEntitiesUnarchive = cli.Command{
+	Name:    "unarchive",
+	Usage:   "Restores previously archived entities in bulk for the given customer by id.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -143,21 +110,61 @@ var v1CustomersIntegrationsUnlink = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
-		&requestflag.Flag[string]{
-			Name:      "integration-id",
-			Required:  true,
-			PathParam: "integrationId",
+		&requestflag.Flag[[]string]{
+			Name:     "id",
+			Usage:    "Entity identifiers to act on",
+			Required: true,
+			BodyPath: "ids",
 		},
 	},
-	Action:          handleV1CustomersIntegrationsUnlink,
+	Action:          handleV1EventsBetaCustomersEntitiesUnarchive,
 	HideHelpCommand: true,
 }
 
-func handleV1CustomersIntegrationsRetrieve(ctx context.Context, cmd *cli.Command) error {
+var v1EventsBetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
+	Name:    "upsert",
+	Usage:   "Creates or updates entities in bulk for the given customer. Existing entities\nmatched by id are updated; new ids are created.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[[]map[string]any]{
+			Name:     "entity",
+			Usage:    "List of entities to create or update (1-100 entries)",
+			Required: true,
+			BodyPath: "entities",
+		},
+	},
+	Action:          handleV1EventsBetaCustomersEntitiesUpsert,
+	HideHelpCommand: true,
+}, map[string][]requestflag.HasOuterFlag{
+	"entity": {
+		&requestflag.InnerFlag[string]{
+			Name:       "entity.id",
+			Usage:      "The unique identifier for the entity",
+			InnerField: "id",
+		},
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "entity.metadata",
+			Usage:      "Free-form key/value metadata. Patch semantics: empty-string value removes a key, omitted keys are preserved.",
+			InnerField: "metadata",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "entity.type-ref-id",
+			Usage:      "The entity type refId this entity instantiates. Required when creating a new entity; on a re-upsert may be omitted to preserve the existing type. Governance returns 400 if missing on create.",
+			InnerField: "typeRefId",
+		},
+	},
+})
+
+func handleV1EventsBetaCustomersEntitiesRetrieve(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("integration-id") && len(unusedArgs) > 0 {
-		cmd.Set("integration-id", unusedArgs[0])
+	if !cmd.IsSet("entity-id") && len(unusedArgs) > 0 {
+		cmd.Set("entity-id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
@@ -175,15 +182,15 @@ func handleV1CustomersIntegrationsRetrieve(ctx context.Context, cmd *cli.Command
 		return err
 	}
 
-	params := stigg.V1CustomerIntegrationGetParams{
+	params := stigg.V1EventBetaCustomerEntityGetParams{
 		ID: cmd.Value("id").(string),
 	}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.Integrations.Get(
+	_, err = client.V1.Events.Beta.Customers.Entities.Get(
 		ctx,
-		cmd.Value("integration-id").(string),
+		cmd.Value("entity-id").(string),
 		params,
 		options...,
 	)
@@ -199,63 +206,12 @@ func handleV1CustomersIntegrationsRetrieve(ctx context.Context, cmd *cli.Command
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:customers:integrations retrieve",
+		Title:          "v1:events:beta:customers:entities retrieve",
 		Transform:      transform,
 	})
 }
 
-func handleV1CustomersIntegrationsUpdate(ctx context.Context, cmd *cli.Command) error {
-	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("integration-id") && len(unusedArgs) > 0 {
-		cmd.Set("integration-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatComma,
-		ApplicationJSON,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := stigg.V1CustomerIntegrationUpdateParams{
-		ID: cmd.Value("id").(string),
-	}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.Integrations.Update(
-		ctx,
-		cmd.Value("integration-id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:customers:integrations update",
-		Transform:      transform,
-	})
-}
-
-func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -277,7 +233,7 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 		return err
 	}
 
-	params := stigg.V1CustomerIntegrationListParams{}
+	params := stigg.V1EventBetaCustomerEntityListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -285,7 +241,7 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Customers.Integrations.List(
+		_, err = client.V1.Events.Beta.Customers.Entities.List(
 			ctx,
 			cmd.Value("id").(string),
 			params,
@@ -299,11 +255,11 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:customers:integrations list",
+			Title:          "v1:events:beta:customers:entities list",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1.Customers.Integrations.ListAutoPaging(
+		iter := client.V1.Events.Beta.Customers.Entities.ListAutoPaging(
 			ctx,
 			cmd.Value("id").(string),
 			params,
@@ -317,13 +273,13 @@ func handleV1CustomersIntegrationsList(ctx context.Context, cmd *cli.Command) er
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:customers:integrations list",
+			Title:          "v1:events:beta:customers:entities list",
 			Transform:      transform,
 		})
 	}
 }
 
-func handleV1CustomersIntegrationsLink(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesArchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -345,11 +301,11 @@ func handleV1CustomersIntegrationsLink(ctx context.Context, cmd *cli.Command) er
 		return err
 	}
 
-	params := stigg.V1CustomerIntegrationLinkParams{}
+	params := stigg.V1EventBetaCustomerEntityArchiveParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.Integrations.Link(
+	_, err = client.V1.Events.Beta.Customers.Entities.Archive(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -367,16 +323,16 @@ func handleV1CustomersIntegrationsLink(ctx context.Context, cmd *cli.Command) er
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:customers:integrations link",
+		Title:          "v1:events:beta:customers:entities archive",
 		Transform:      transform,
 	})
 }
 
-func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesUnarchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("integration-id") && len(unusedArgs) > 0 {
-		cmd.Set("integration-id", unusedArgs[0])
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
 		unusedArgs = unusedArgs[1:]
 	}
 	if len(unusedArgs) > 0 {
@@ -387,22 +343,20 @@ func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) 
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
 		apiquery.ArrayQueryFormatComma,
-		EmptyBody,
+		ApplicationJSON,
 		false,
 	)
 	if err != nil {
 		return err
 	}
 
-	params := stigg.V1CustomerIntegrationUnlinkParams{
-		ID: cmd.Value("id").(string),
-	}
+	params := stigg.V1EventBetaCustomerEntityUnarchiveParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.Integrations.Unlink(
+	_, err = client.V1.Events.Beta.Customers.Entities.Unarchive(
 		ctx,
-		cmd.Value("integration-id").(string),
+		cmd.Value("id").(string),
 		params,
 		options...,
 	)
@@ -418,7 +372,56 @@ func handleV1CustomersIntegrationsUnlink(ctx context.Context, cmd *cli.Command) 
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:customers:integrations unlink",
+		Title:          "v1:events:beta:customers:entities unarchive",
+		Transform:      transform,
+	})
+}
+
+func handleV1EventsBetaCustomersEntitiesUpsert(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1EventBetaCustomerEntityUpsertParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Events.Beta.Customers.Entities.Upsert(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:events:beta:customers:entities upsert",
 		Transform:      transform,
 	})
 }

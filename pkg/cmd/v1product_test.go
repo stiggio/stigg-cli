@@ -95,7 +95,7 @@ func TestV1ProductsListProducts(t *testing.T) {
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
 			"--limit", "1",
-			"--status", "status",
+			"--status", "PUBLISHED",
 		)
 	})
 
@@ -117,7 +117,7 @@ func TestV1ProductsListProducts(t *testing.T) {
 			"--created-at.lt", "2019-12-27T18:11:19.117Z",
 			"--created-at.lte", "2019-12-27T18:11:19.117Z",
 			"--limit", "1",
-			"--status", "status",
+			"--status", "PUBLISHED",
 		)
 	})
 }

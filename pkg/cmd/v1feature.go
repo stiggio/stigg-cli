@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -21,8 +20,9 @@ var v1FeaturesArchiveFeature = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1FeaturesArchiveFeature,
@@ -158,7 +158,7 @@ var v1FeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by creation date using range operators: gt, gte, lt, lte",
 			QueryPath: "createdAt",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "feature-type",
 			Usage:     "Filter by feature type. Supports comma-separated values for multiple types",
 			QueryPath: "featureType",
@@ -169,12 +169,12 @@ var v1FeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "meter-type",
 			Usage:     "Filter by meter type. Supports comma-separated values for multiple types",
 			QueryPath: "meterType",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by feature status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
@@ -217,8 +217,9 @@ var v1FeaturesRetrieveFeature = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1FeaturesRetrieveFeature,
@@ -231,8 +232,9 @@ var v1FeaturesUnarchiveFeature = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1FeaturesUnarchiveFeature,
@@ -245,8 +247,9 @@ var v1FeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "description",
@@ -368,8 +371,15 @@ func handleV1FeaturesArchiveFeature(ctx context.Context, cmd *cli.Command) error
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features archive-feature", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:features archive-feature",
+		Transform:      transform,
+	})
 }
 
 func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error {
@@ -379,8 +389,6 @@ func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error 
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1FeatureNewFeatureParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -393,6 +401,8 @@ func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error 
 		return err
 	}
 
+	params := stigg.V1FeatureNewFeatureParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Features.NewFeature(ctx, params, options...)
@@ -402,8 +412,15 @@ func handleV1FeaturesCreateFeature(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features create-feature", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:features create-feature",
+		Transform:      transform,
+	})
 }
 
 func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
@@ -413,8 +430,6 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1FeatureListFeaturesParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -427,7 +442,10 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1FeatureListFeaturesParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -437,14 +455,26 @@ func handleV1FeaturesListFeatures(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:features list-features", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:features list-features",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Features.ListFeaturesAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:features list-features", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:features list-features",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -479,8 +509,15 @@ func handleV1FeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features retrieve-feature", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:features retrieve-feature",
+		Transform:      transform,
+	})
 }
 
 func handleV1FeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) error {
@@ -514,8 +551,15 @@ func handleV1FeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) err
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features unarchive-feature", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:features unarchive-feature",
+		Transform:      transform,
+	})
 }
 
 func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error {
@@ -529,8 +573,6 @@ func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1FeatureUpdateFeatureParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -541,6 +583,8 @@ func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1FeatureUpdateFeatureParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -556,6 +600,13 @@ func handleV1FeaturesUpdateFeature(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:features update-feature", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:features update-feature",
+		Transform:      transform,
+	})
 }

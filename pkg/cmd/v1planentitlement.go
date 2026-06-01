@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -21,8 +20,9 @@ var v1PlansEntitlementsCreate = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
-			Required: true,
+			Name:      "plan-id",
+			Required:  true,
+			PathParam: "planId",
 		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "entitlement",
@@ -41,12 +41,14 @@ var v1PlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
-			Required: true,
+			Name:      "plan-id",
+			Required:  true,
+			PathParam: "planId",
 		},
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "type",
@@ -114,7 +116,7 @@ var v1PlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Period at which usage resets",
 			BodyPath: "resetPeriod",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*int64]{
 			Name:     "usage-limit",
 			Usage:    "Maximum allowed usage for the feature",
 			BodyPath: "usageLimit",
@@ -139,7 +141,7 @@ var v1PlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Credit grant cadence (MONTH or YEAR)",
 			BodyPath: "cadence",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "dependency-feature-id",
 			Usage:    "The feature ID this entitlement depends on. The entitlement value will be calculated as: base amount × dependency feature usage limit",
 			BodyPath: "dependencyFeatureId",
@@ -177,8 +179,9 @@ var v1PlansEntitlementsList = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
-			Required: true,
+			Name:      "plan-id",
+			Required:  true,
+			PathParam: "planId",
 		},
 	},
 	Action:          handleV1PlansEntitlementsList,
@@ -191,12 +194,14 @@ var v1PlansEntitlementsDelete = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "plan-id",
-			Required: true,
+			Name:      "plan-id",
+			Required:  true,
+			PathParam: "planId",
 		},
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1PlansEntitlementsDelete,
@@ -214,8 +219,6 @@ func handleV1PlansEntitlementsCreate(ctx context.Context, cmd *cli.Command) erro
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanEntitlementNewParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -226,6 +229,8 @@ func handleV1PlansEntitlementsCreate(ctx context.Context, cmd *cli.Command) erro
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1PlanEntitlementNewParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -241,8 +246,15 @@ func handleV1PlansEntitlementsCreate(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements create", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans:entitlements create",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -256,10 +268,6 @@ func handleV1PlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) erro
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanEntitlementUpdateParams{
-		PlanID: cmd.Value("plan-id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -269,6 +277,10 @@ func handleV1PlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) erro
 	)
 	if err != nil {
 		return err
+	}
+
+	params := stigg.V1PlanEntitlementUpdateParams{
+		PlanID: cmd.Value("plan-id").(string),
 	}
 
 	var res []byte
@@ -285,8 +297,15 @@ func handleV1PlansEntitlementsUpdate(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements update", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans:entitlements update",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansEntitlementsList(ctx context.Context, cmd *cli.Command) error {
@@ -320,8 +339,15 @@ func handleV1PlansEntitlementsList(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements list", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans:entitlements list",
+		Transform:      transform,
+	})
 }
 
 func handleV1PlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) error {
@@ -335,10 +361,6 @@ func handleV1PlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) erro
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1PlanEntitlementDeleteParams{
-		PlanID: cmd.Value("plan-id").(string),
-	}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -348,6 +370,10 @@ func handleV1PlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) erro
 	)
 	if err != nil {
 		return err
+	}
+
+	params := stigg.V1PlanEntitlementDeleteParams{
+		PlanID: cmd.Value("plan-id").(string),
 	}
 
 	var res []byte
@@ -364,6 +390,13 @@ func handleV1PlansEntitlementsDelete(ctx context.Context, cmd *cli.Command) erro
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:plans:entitlements delete", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:plans:entitlements delete",
+		Transform:      transform,
+	})
 }

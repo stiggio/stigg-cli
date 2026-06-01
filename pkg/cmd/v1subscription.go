@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -21,8 +20,9 @@ var v1SubscriptionsRetrieve = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1SubscriptionsRetrieve,
@@ -35,8 +35,9 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "addon",
@@ -140,7 +141,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:       "applied-coupon.discount",
 			InnerField: "discount",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "applied-coupon.promotion-code",
 			InnerField: "promotionCode",
 		},
@@ -308,7 +309,7 @@ var v1SubscriptionsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by plan ID",
 			QueryPath: "planId",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "pricing-type",
 			Usage:     "Filter by pricing type. Supports comma-separated values for multiple types",
 			QueryPath: "pricingType",
@@ -318,7 +319,7 @@ var v1SubscriptionsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by subscription status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
@@ -361,8 +362,9 @@ var v1SubscriptionsCancel = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "cancellation-action",
@@ -395,8 +397,9 @@ var v1SubscriptionsDelegate = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "target-customer-id",
@@ -420,7 +423,7 @@ var v1SubscriptionsImport = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "subscriptions",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "integration-id",
 			Usage:    "Integration ID to use for importing subscriptions",
 			BodyPath: "integrationId",
@@ -449,7 +452,7 @@ var v1SubscriptionsImport = requestflag.WithInnerFlags(cli.Command{
 			Name:       "subscription.addons",
 			InnerField: "addons",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "subscription.billing-id",
 			Usage:      "Billing ID",
 			InnerField: "billingId",
@@ -473,7 +476,7 @@ var v1SubscriptionsImport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Additional metadata for the subscription",
 			InnerField: "metadata",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "subscription.resource-id",
 			Usage:      "Resource ID",
 			InnerField: "resourceId",
@@ -492,8 +495,9 @@ var v1SubscriptionsMigrate = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "subscription-migration-time",
@@ -589,7 +593,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
-			Usage:    "Unit quantity for per-unit pricing",
+			Usage:    "Unit quantity for per-unit pricing. Minimum is 0 (zero is allowed).",
 			BodyPath: "unitQuantity",
 		},
 	},
@@ -643,7 +647,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "billable-feature.quantity",
-			Usage:      "Quantity of feature units",
+			Usage:      "Quantity of feature units. Minimum is 0 (zero is allowed).",
 			InnerField: "quantity",
 		},
 	},
@@ -712,7 +716,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "charge.quantity",
-			Usage:      "Charge quantity",
+			Usage:      "Charge quantity. Minimum is 0 (zero is allowed).",
 			InnerField: "quantity",
 		},
 		&requestflag.InnerFlag[string]{
@@ -777,7 +781,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Default:  true,
 			BodyPath: "awaitPaymentConfirmation",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-country-code",
 			Usage:    "The ISO 3166-1 alpha-2 country code for billing",
 			BodyPath: "billingCountryCode",
@@ -787,7 +791,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Billing cycle anchor behavior for the subscription",
 			BodyPath: "billingCycleAnchor",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "billing-id",
 			Usage:    "External billing system identifier",
 			BodyPath: "billingId",
@@ -828,7 +832,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Minimum spend amount",
 			BodyPath: "minimumSpend",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "paying-customer-id",
 			Usage:    "Optional paying customer ID for split billing scenarios",
 			BodyPath: "payingCustomerId",
@@ -843,12 +847,12 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "price-override",
 			BodyPath: "priceOverrides",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "resource-id",
 			Usage:    "Optional resource ID for multi-instance subscriptions",
 			BodyPath: "resourceId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "salesforce-id",
 			Usage:    "Salesforce ID",
 			BodyPath: "salesforceId",
@@ -870,7 +874,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[int64]{
 			Name:     "unit-quantity",
-			Usage:    "Unit quantity",
+			Usage:    "Unit quantity for per-unit pricing. Minimum is 0 (zero is allowed).",
 			BodyPath: "unitQuantity",
 		},
 	},
@@ -922,12 +926,12 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Billing address for the subscription",
 			InnerField: "billingAddress",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "billing-information.charge-on-behalf-of-account",
 			Usage:      "Stripe Connect account to charge on behalf of",
 			InnerField: "chargeOnBehalfOfAccount",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "billing-information.integration-id",
 			Usage:      "Billing integration identifier",
 			InnerField: "integrationId",
@@ -993,7 +997,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "charge.quantity",
-			Usage:      "Charge quantity",
+			Usage:      "Charge quantity. Minimum is 0 (zero is allowed).",
 			InnerField: "quantity",
 		},
 		&requestflag.InnerFlag[string]{
@@ -1033,7 +1037,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Collect phone number during checkout",
 			InnerField: "collectPhoneNumber",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "checkout-options.reference-id",
 			Usage:      "Optional reference ID for the checkout session",
 			InnerField: "referenceId",
@@ -1052,7 +1056,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 	},
 	"price-override": {
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "price-override.addon-id",
 			Usage:      "Addon identifier for the price override",
 			InnerField: "addonId",
@@ -1091,7 +1095,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The price currency",
 			InnerField: "currency",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "price-override.feature-id",
 			Usage:      "Feature identifier for the price override",
 			InnerField: "featureId",
@@ -1127,8 +1131,9 @@ var v1SubscriptionsTransfer = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "destination-resource-id",
@@ -1172,8 +1177,15 @@ func handleV1SubscriptionsRetrieve(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions retrieve", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions retrieve",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsUpdate(ctx context.Context, cmd *cli.Command) error {
@@ -1187,8 +1199,6 @@ func handleV1SubscriptionsUpdate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1SubscriptionUpdateParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -1199,6 +1209,8 @@ func handleV1SubscriptionsUpdate(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1SubscriptionUpdateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -1214,8 +1226,15 @@ func handleV1SubscriptionsUpdate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions update", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions update",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
@@ -1225,8 +1244,6 @@ func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1SubscriptionListParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -1239,7 +1256,10 @@ func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1SubscriptionListParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -1249,14 +1269,26 @@ func handleV1SubscriptionsList(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:subscriptions list", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:subscriptions list",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Subscriptions.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:subscriptions list", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:subscriptions list",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -1271,8 +1303,6 @@ func handleV1SubscriptionsCancel(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1SubscriptionCancelParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -1283,6 +1313,8 @@ func handleV1SubscriptionsCancel(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1SubscriptionCancelParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -1298,8 +1330,15 @@ func handleV1SubscriptionsCancel(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions cancel", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions cancel",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsDelegate(ctx context.Context, cmd *cli.Command) error {
@@ -1313,8 +1352,6 @@ func handleV1SubscriptionsDelegate(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1SubscriptionDelegateParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -1325,6 +1362,8 @@ func handleV1SubscriptionsDelegate(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1SubscriptionDelegateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -1340,8 +1379,15 @@ func handleV1SubscriptionsDelegate(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions delegate", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions delegate",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsImport(ctx context.Context, cmd *cli.Command) error {
@@ -1351,8 +1397,6 @@ func handleV1SubscriptionsImport(ctx context.Context, cmd *cli.Command) error {
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1SubscriptionImportParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -1365,6 +1409,8 @@ func handleV1SubscriptionsImport(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1SubscriptionImportParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Subscriptions.Import(ctx, params, options...)
@@ -1374,8 +1420,15 @@ func handleV1SubscriptionsImport(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions import", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions import",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsMigrate(ctx context.Context, cmd *cli.Command) error {
@@ -1389,8 +1442,6 @@ func handleV1SubscriptionsMigrate(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1SubscriptionMigrateParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -1401,6 +1452,8 @@ func handleV1SubscriptionsMigrate(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1SubscriptionMigrateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -1416,8 +1469,15 @@ func handleV1SubscriptionsMigrate(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions migrate", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions migrate",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsPreview(ctx context.Context, cmd *cli.Command) error {
@@ -1428,8 +1488,6 @@ func handleV1SubscriptionsPreview(ctx context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1SubscriptionPreviewParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -1440,6 +1498,8 @@ func handleV1SubscriptionsPreview(ctx context.Context, cmd *cli.Command) error {
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1SubscriptionPreviewParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -1450,8 +1510,15 @@ func handleV1SubscriptionsPreview(ctx context.Context, cmd *cli.Command) error {
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions preview", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions preview",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsProvision(ctx context.Context, cmd *cli.Command) error {
@@ -1461,8 +1528,6 @@ func handleV1SubscriptionsProvision(ctx context.Context, cmd *cli.Command) error
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1SubscriptionProvisionParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -1475,6 +1540,8 @@ func handleV1SubscriptionsProvision(ctx context.Context, cmd *cli.Command) error
 		return err
 	}
 
+	params := stigg.V1SubscriptionProvisionParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Subscriptions.Provision(ctx, params, options...)
@@ -1484,8 +1551,15 @@ func handleV1SubscriptionsProvision(ctx context.Context, cmd *cli.Command) error
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions provision", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions provision",
+		Transform:      transform,
+	})
 }
 
 func handleV1SubscriptionsTransfer(ctx context.Context, cmd *cli.Command) error {
@@ -1499,8 +1573,6 @@ func handleV1SubscriptionsTransfer(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1SubscriptionTransferParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -1511,6 +1583,8 @@ func handleV1SubscriptionsTransfer(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1SubscriptionTransferParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -1526,6 +1600,13 @@ func handleV1SubscriptionsTransfer(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:subscriptions transfer", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:subscriptions transfer",
+		Transform:      transform,
+	})
 }

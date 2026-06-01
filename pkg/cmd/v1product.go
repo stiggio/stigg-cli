@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -21,8 +20,9 @@ var v1ProductsArchiveProduct = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1ProductsArchiveProduct,
@@ -46,7 +46,7 @@ var v1ProductsCreateProduct = cli.Command{
 			Required: true,
 			BodyPath: "displayName",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the product",
 			BodyPath: "description",
@@ -73,8 +73,9 @@ var v1ProductsDuplicateProduct = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "target-id",
@@ -82,7 +83,7 @@ var v1ProductsDuplicateProduct = cli.Command{
 			Required: true,
 			BodyPath: "targetId",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the product",
 			BodyPath: "description",
@@ -128,7 +129,7 @@ var v1ProductsListProducts = requestflag.WithInnerFlags(cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
-		&requestflag.Flag[string]{
+		&requestflag.Flag[[]string]{
 			Name:      "status",
 			Usage:     "Filter by product status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
@@ -171,8 +172,9 @@ var v1ProductsUnarchiveProduct = cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
 	},
 	Action:          handleV1ProductsUnarchiveProduct,
@@ -185,10 +187,11 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
-			Name:     "id",
-			Required: true,
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
 		},
-		&requestflag.Flag[any]{
+		&requestflag.Flag[*string]{
 			Name:     "description",
 			Usage:    "Description of the product",
 			BodyPath: "description",
@@ -237,17 +240,17 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Setup for the start of the subscription",
 			InnerField: "subscriptionStartSetup",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "product-settings.downgrade-plan-id",
 			Usage:      "ID of the plan to downgrade to at the end of the billing period",
 			InnerField: "downgradePlanId",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*bool]{
 			Name:       "product-settings.prorate-at-end-of-billing-period",
 			Usage:      "Indicates if the subscription should be prorated at the end of the billing period",
 			InnerField: "prorateAtEndOfBillingPeriod",
 		},
-		&requestflag.InnerFlag[any]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "product-settings.subscription-start-plan-id",
 			Usage:      "ID of the plan to start the subscription with",
 			InnerField: "subscriptionStartPlanId",
@@ -293,8 +296,15 @@ func handleV1ProductsArchiveProduct(ctx context.Context, cmd *cli.Command) error
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products archive-product", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:products archive-product",
+		Transform:      transform,
+	})
 }
 
 func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error {
@@ -304,8 +314,6 @@ func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error 
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1ProductNewProductParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -318,6 +326,8 @@ func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error 
 		return err
 	}
 
+	params := stigg.V1ProductNewProductParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
 	_, err = client.V1.Products.NewProduct(ctx, params, options...)
@@ -327,8 +337,15 @@ func handleV1ProductsCreateProduct(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products create-product", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:products create-product",
+		Transform:      transform,
+	})
 }
 
 func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) error {
@@ -342,8 +359,6 @@ func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) err
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1ProductDuplicateProductParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -354,6 +369,8 @@ func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) err
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1ProductDuplicateProductParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -369,8 +386,15 @@ func handleV1ProductsDuplicateProduct(ctx context.Context, cmd *cli.Command) err
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products duplicate-product", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:products duplicate-product",
+		Transform:      transform,
+	})
 }
 
 func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
@@ -380,8 +404,6 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1ProductListProductsParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -394,7 +416,10 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1ProductListProductsParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
@@ -404,14 +429,26 @@ func handleV1ProductsListProducts(ctx context.Context, cmd *cli.Command) error {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:products list-products", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:products list-products",
+			Transform:      transform,
+		})
 	} else {
 		iter := client.V1.Products.ListProductsAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:products list-products", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:products list-products",
+			Transform:      transform,
+		})
 	}
 }
 
@@ -446,8 +483,15 @@ func handleV1ProductsUnarchiveProduct(ctx context.Context, cmd *cli.Command) err
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products unarchive-product", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:products unarchive-product",
+		Transform:      transform,
+	})
 }
 
 func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error {
@@ -461,8 +505,6 @@ func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error 
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
 
-	params := stigg.V1ProductUpdateProductParams{}
-
 	options, err := flagOptions(
 		cmd,
 		apiquery.NestedQueryFormatBrackets,
@@ -473,6 +515,8 @@ func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error 
 	if err != nil {
 		return err
 	}
+
+	params := stigg.V1ProductUpdateProductParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
@@ -488,6 +532,13 @@ func handleV1ProductsUpdateProduct(ctx context.Context, cmd *cli.Command) error 
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:products update-product", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:products update-product",
+		Transform:      transform,
+	})
 }

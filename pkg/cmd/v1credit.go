@@ -5,7 +5,6 @@ package cmd
 import (
 	"context"
 	"fmt"
-	"os"
 
 	"github.com/stiggio/stigg-cli/internal/apiquery"
 	"github.com/stiggio/stigg-cli/internal/requestflag"
@@ -15,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsCreditsGetAutoRecharge = cli.Command{
+var v1CreditsGetAutoRecharge = cli.Command{
 	Name:    "get-auto-recharge",
 	Usage:   "Retrieves the automatic recharge configuration for a customer and currency.\nReturns default settings if no configuration exists.",
 	Suggest: true,
@@ -33,11 +32,11 @@ var v1EventsCreditsGetAutoRecharge = cli.Command{
 			QueryPath: "customerId",
 		},
 	},
-	Action:          handleV1EventsCreditsGetAutoRecharge,
+	Action:          handleV1CreditsGetAutoRecharge,
 	HideHelpCommand: true,
 }
 
-var v1EventsCreditsGetUsage = cli.Command{
+var v1CreditsGetUsage = cli.Command{
 	Name:    "get-usage",
 	Usage:   "Retrieves credit usage time-series data for a customer, grouped by feature, over\na specified time range.",
 	Suggest: true,
@@ -53,10 +52,25 @@ var v1EventsCreditsGetUsage = cli.Command{
 			Usage:     "Filter by currency ID",
 			QueryPath: "currencyId",
 		},
+		&requestflag.Flag[any]{
+			Name:      "end-date",
+			Usage:     "End date for the credit usage time range (ISO 8601). Defaults to now when startDate is provided",
+			QueryPath: "endDate",
+		},
+		&requestflag.Flag[string]{
+			Name:      "group-by",
+			Usage:     "Comma-separated list of feature dimension keys to group usage series by (up to 3). Each key matches /^[a-zA-Z0-9_$-]+$/",
+			QueryPath: "groupBy",
+		},
 		&requestflag.Flag[string]{
 			Name:      "resource-id",
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
+		},
+		&requestflag.Flag[any]{
+			Name:      "start-date",
+			Usage:     "Start date for the credit usage time range (ISO 8601). Takes precedence over timeRange when provided",
+			QueryPath: "startDate",
 		},
 		&requestflag.Flag[string]{
 			Name:      "time-range",
@@ -64,11 +78,11 @@ var v1EventsCreditsGetUsage = cli.Command{
 			QueryPath: "timeRange",
 		},
 	},
-	Action:          handleV1EventsCreditsGetUsage,
+	Action:          handleV1CreditsGetUsage,
 	HideHelpCommand: true,
 }
 
-var v1EventsCreditsListLedger = cli.Command{
+var v1CreditsListLedger = cli.Command{
 	Name:    "list-ledger",
 	Usage:   "Retrieves a paginated list of credit ledger events for a customer.",
 	Suggest: true,
@@ -110,19 +124,17 @@ var v1EventsCreditsListLedger = cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1EventsCreditsListLedger,
+	Action:          handleV1CreditsListLedger,
 	HideHelpCommand: true,
 }
 
-func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1EventCreditGetAutoRechargeParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -135,28 +147,35 @@ func handleV1EventsCreditsGetAutoRecharge(ctx context.Context, cmd *cli.Command)
 		return err
 	}
 
+	params := stigg.V1CreditGetAutoRechargeParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.GetAutoRecharge(ctx, params, options...)
+	_, err = client.V1.Credits.GetAutoRecharge(ctx, params, options...)
 	if err != nil {
 		return err
 	}
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits get-auto-recharge", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:credits get-auto-recharge",
+		Transform:      transform,
+	})
 }
 
-func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsGetUsage(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1EventCreditGetUsageParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -169,28 +188,35 @@ func handleV1EventsCreditsGetUsage(ctx context.Context, cmd *cli.Command) error 
 		return err
 	}
 
+	params := stigg.V1CreditGetUsageParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Credits.GetUsage(ctx, params, options...)
+	_, err = client.V1.Credits.GetUsage(ctx, params, options...)
 	if err != nil {
 		return err
 	}
 
 	obj := gjson.ParseBytes(res)
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
-	return ShowJSON(os.Stdout, "v1:events:credits get-usage", obj, format, transform)
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:credits get-usage",
+		Transform:      transform,
+	})
 }
 
-func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsListLedger(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
-
-	params := stigg.V1EventCreditListLedgerParams{}
 
 	options, err := flagOptions(
 		cmd,
@@ -203,23 +229,38 @@ func handleV1EventsCreditsListLedger(ctx context.Context, cmd *cli.Command) erro
 		return err
 	}
 
+	params := stigg.V1CreditListLedgerParams{}
+
 	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
 	transform := cmd.Root().String("transform")
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Credits.ListLedger(ctx, params, options...)
+		_, err = client.V1.Credits.ListLedger(ctx, params, options...)
 		if err != nil {
 			return err
 		}
 		obj := gjson.ParseBytes(res)
-		return ShowJSON(os.Stdout, "v1:events:credits list-ledger", obj, format, transform)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:credits list-ledger",
+			Transform:      transform,
+		})
 	} else {
-		iter := client.V1.Events.Credits.ListLedgerAutoPaging(ctx, params, options...)
+		iter := client.V1.Credits.ListLedgerAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
 		}
-		return ShowJSONIterator(os.Stdout, "v1:events:credits list-ledger", iter, format, transform, maxItems)
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:credits list-ledger",
+			Transform:      transform,
+		})
 	}
 }
