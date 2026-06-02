@@ -9,13 +9,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
-func TestV1BetaEntityTypesList(t *testing.T) {
+func TestV1EventsBetaEntityTypesList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entity-types", "list",
+			"v1:events:beta:entity-types", "list",
 			"--max-items", "10",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -24,13 +24,13 @@ func TestV1BetaEntityTypesList(t *testing.T) {
 	})
 }
 
-func TestV1BetaEntityTypesUpsert(t *testing.T) {
+func TestV1EventsBetaEntityTypesUpsert(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entity-types", "upsert",
+			"v1:events:beta:entity-types", "upsert",
 			"--type", "{id: org, attributionKeys: [organizationId], displayName: Organization}",
 			"--type", "{id: team, attributionKeys: [teamId], displayName: Team}",
 		)
@@ -38,13 +38,13 @@ func TestV1BetaEntityTypesUpsert(t *testing.T) {
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1BetaEntityTypesUpsert)
+		requestflag.CheckInnerFlags(v1EventsBetaEntityTypesUpsert)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1-beta:entity-types", "upsert",
+			"v1:events:beta:entity-types", "upsert",
 			"--type.id", "org",
 			"--type.attribution-keys", "[organizationId]",
 			"--type.display-name", "Organization",
@@ -69,7 +69,7 @@ func TestV1BetaEntityTypesUpsert(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1-beta:entity-types", "upsert",
+			"v1:events:beta:entity-types", "upsert",
 		)
 	})
 }

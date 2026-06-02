@@ -48,6 +48,16 @@ var v1CreditsGetUsage = cli.Command{
 			QueryPath: "customerId",
 		},
 		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[string]{
 			Name:      "currency-id",
 			Usage:     "Filter by currency ID",
 			QueryPath: "currencyId",
@@ -61,6 +71,12 @@ var v1CreditsGetUsage = cli.Command{
 			Name:      "group-by",
 			Usage:     "Comma-separated list of feature dimension keys to group usage series by (up to 3). Each key matches /^[a-zA-Z0-9_$-]+$/",
 			QueryPath: "groupBy",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
 		},
 		&requestflag.Flag[string]{
 			Name:      "resource-id",
