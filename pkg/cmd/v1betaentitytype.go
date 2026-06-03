@@ -14,16 +14,11 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsBetaCustomersAssignmentsList = cli.Command{
+var v1BetaEntityTypesList = cli.Command{
 	Name:    "list",
-	Usage:   "Returns a cursor-paginated list of capability assignments for the given\ncustomer. An assignment ties an entity to a capability with a usage limit and\nreset cadence.",
+	Usage:   "Returns a cursor-paginated list of entity types defined in the environment.\nEntity types are vendor-defined categories of resource that can be governed\n(e.g. Org, Team, User).",
 	Suggest: true,
 	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "id",
-			Required:  true,
-			PathParam: "id",
-		},
 		&requestflag.Flag[string]{
 			Name:      "after",
 			Usage:     "Return items that come after this cursor",
@@ -33,16 +28,6 @@ var v1EventsBetaCustomersAssignmentsList = cli.Command{
 			Name:      "before",
 			Usage:     "Return items that come before this cursor",
 			QueryPath: "before",
-		},
-		&requestflag.Flag[string]{
-			Name:      "capability-id",
-			Usage:     "Filter assignments to a specific capability refId",
-			QueryPath: "capabilityId",
-		},
-		&requestflag.Flag[string]{
-			Name:      "entity-id",
-			Usage:     "Filter assignments to a specific entity refId",
-			QueryPath: "entityId",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "limit",
@@ -55,61 +40,48 @@ var v1EventsBetaCustomersAssignmentsList = cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1EventsBetaCustomersAssignmentsList,
+	Action:          handleV1BetaEntityTypesList,
 	HideHelpCommand: true,
 }
 
-var v1EventsBetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
+var v1BetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
-	Usage:   "Batched create-or-update of capability assignments. Existing assignments matched\nby (entityId, capabilityId) are updated; new pairs are created. On update,\nomitted fields (usageLimit, cadence) are preserved; on create both are required\nby the governance service.",
+	Usage:   "Batched create-or-update of entity types. Existing types matched by id are\nupdated; new ids are created. Idempotent — re-submitting the same payload\nconverges to the same state.",
 	Suggest: true,
 	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "id",
-			Required:  true,
-			PathParam: "id",
-		},
 		&requestflag.Flag[[]map[string]any]{
-			Name:     "assignment",
-			Usage:    "Assignments to upsert (1–100 per request)",
+			Name:     "type",
+			Usage:    "Entity types to upsert (1–100 per request)",
 			Required: true,
-			BodyPath: "assignments",
+			BodyPath: "types",
 		},
 	},
-	Action:          handleV1EventsBetaCustomersAssignmentsUpsert,
+	Action:          handleV1BetaEntityTypesUpsert,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
-	"assignment": {
+	"type": {
 		&requestflag.InnerFlag[string]{
-			Name:       "assignment.capability-id",
-			Usage:      "The capability refId this assignment grants",
-			InnerField: "capabilityId",
+			Name:       "type.id",
+			Usage:      "The unique identifier for the entity",
+			InnerField: "id",
+		},
+		&requestflag.InnerFlag[[]string]{
+			Name:       "type.attribution-keys",
+			Usage:      `Dimension keys used to attribute usage events to instances of this type (e.g. ["orgId"]). Empty array means no attribution.`,
+			InnerField: "attributionKeys",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "assignment.entity-id",
-			Usage:      "The entity refId this assignment is attached to",
-			InnerField: "entityId",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "assignment.cadence",
-			Usage:      "Usage-reset cadence (required on create). Currently only `MONTH` is supported",
-			InnerField: "cadence",
-		},
-		&requestflag.InnerFlag[float64]{
-			Name:       "assignment.usage-limit",
-			Usage:      "Maximum usage allowed within one cadence window (required on create)",
-			InnerField: "usageLimit",
+			Name:       "type.display-name",
+			Usage:      "The display name for the entity type",
+			InnerField: "displayName",
 		},
 	},
 })
 
-func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaEntityTypesList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
-		cmd.Set("id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
+
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
@@ -125,7 +97,7 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 		return err
 	}
 
-	params := stigg.V1EventBetaCustomerAssignmentListParams{}
+	params := stigg.V1BetaEntityTypeListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -133,12 +105,7 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Beta.Customers.Assignments.List(
-			ctx,
-			cmd.Value("id").(string),
-			params,
-			options...,
-		)
+		_, err = client.V1Beta.EntityTypes.List(ctx, params, options...)
 		if err != nil {
 			return err
 		}
@@ -147,16 +114,11 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:beta:customers:assignments list",
+			Title:          "v1-beta:entity-types list",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1.Events.Beta.Customers.Assignments.ListAutoPaging(
-			ctx,
-			cmd.Value("id").(string),
-			params,
-			options...,
-		)
+		iter := client.V1Beta.EntityTypes.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
@@ -165,19 +127,16 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:beta:customers:assignments list",
+			Title:          "v1-beta:entity-types list",
 			Transform:      transform,
 		})
 	}
 }
 
-func handleV1EventsBetaCustomersAssignmentsUpsert(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaEntityTypesUpsert(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
-		cmd.Set("id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
+
 	if len(unusedArgs) > 0 {
 		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
 	}
@@ -193,16 +152,11 @@ func handleV1EventsBetaCustomersAssignmentsUpsert(ctx context.Context, cmd *cli.
 		return err
 	}
 
-	params := stigg.V1EventBetaCustomerAssignmentUpsertParams{}
+	params := stigg.V1BetaEntityTypeUpsertParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Beta.Customers.Assignments.Upsert(
-		ctx,
-		cmd.Value("id").(string),
-		params,
-		options...,
-	)
+	_, err = client.V1Beta.EntityTypes.Upsert(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -215,7 +169,7 @@ func handleV1EventsBetaCustomersAssignmentsUpsert(ctx context.Context, cmd *cli.
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:beta:customers:assignments upsert",
+		Title:          "v1-beta:entity-types upsert",
 		Transform:      transform,
 	})
 }
