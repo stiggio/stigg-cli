@@ -234,6 +234,24 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:events:data-export",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsDataExportMintScopedToken,
+					&v1EventsDataExportTriggerSync,
+				},
+			},
+			{
+				Name:     "v1:events:data-export:destinations",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsDataExportDestinationsCreate,
+					&v1EventsDataExportDestinationsDelete,
+				},
+			},
+			{
 				Name:     "v1:credits",
 				Category: "API RESOURCE",
 				Suggest:  true,
