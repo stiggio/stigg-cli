@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1BetaCustomersEntitiesRetrieve = cli.Command{
+var v1EventsBetaCustomersEntitiesRetrieve = cli.Command{
 	Name:    "retrieve",
 	Usage:   "Retrieves a single entity for the given customer by its identifier.",
 	Suggest: true,
@@ -30,11 +30,11 @@ var v1BetaCustomersEntitiesRetrieve = cli.Command{
 			PathParam: "entityId",
 		},
 	},
-	Action:          handleV1BetaCustomersEntitiesRetrieve,
+	Action:          handleV1EventsBetaCustomersEntitiesRetrieve,
 	HideHelpCommand: true,
 }
 
-var v1BetaCustomersEntitiesList = cli.Command{
+var v1EventsBetaCustomersEntitiesList = cli.Command{
 	Name:    "list",
 	Usage:   "Retrieves a paginated list of entities for the given customer.",
 	Suggest: true,
@@ -75,11 +75,11 @@ var v1BetaCustomersEntitiesList = cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1BetaCustomersEntitiesList,
+	Action:          handleV1EventsBetaCustomersEntitiesList,
 	HideHelpCommand: true,
 }
 
-var v1BetaCustomersEntitiesArchive = cli.Command{
+var v1EventsBetaCustomersEntitiesArchive = cli.Command{
 	Name:    "archive",
 	Usage:   "Archives entities in bulk for the given customer by id.",
 	Suggest: true,
@@ -96,11 +96,11 @@ var v1BetaCustomersEntitiesArchive = cli.Command{
 			BodyPath: "ids",
 		},
 	},
-	Action:          handleV1BetaCustomersEntitiesArchive,
+	Action:          handleV1EventsBetaCustomersEntitiesArchive,
 	HideHelpCommand: true,
 }
 
-var v1BetaCustomersEntitiesUnarchive = cli.Command{
+var v1EventsBetaCustomersEntitiesUnarchive = cli.Command{
 	Name:    "unarchive",
 	Usage:   "Restores previously archived entities in bulk for the given customer by id.",
 	Suggest: true,
@@ -117,11 +117,11 @@ var v1BetaCustomersEntitiesUnarchive = cli.Command{
 			BodyPath: "ids",
 		},
 	},
-	Action:          handleV1BetaCustomersEntitiesUnarchive,
+	Action:          handleV1EventsBetaCustomersEntitiesUnarchive,
 	HideHelpCommand: true,
 }
 
-var v1BetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
+var v1EventsBetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
 	Usage:   "Creates or updates entities in bulk for the given customer. Existing entities\nmatched by id are updated; new ids are created.",
 	Suggest: true,
@@ -138,7 +138,7 @@ var v1BetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "entities",
 		},
 	},
-	Action:          handleV1BetaCustomersEntitiesUpsert,
+	Action:          handleV1EventsBetaCustomersEntitiesUpsert,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"entity": {
@@ -160,7 +160,7 @@ var v1BetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-func handleV1BetaCustomersEntitiesRetrieve(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesRetrieve(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("entity-id") && len(unusedArgs) > 0 {
@@ -182,13 +182,13 @@ func handleV1BetaCustomersEntitiesRetrieve(ctx context.Context, cmd *cli.Command
 		return err
 	}
 
-	params := stigg.V1BetaCustomerEntityGetParams{
+	params := stigg.V1EventBetaCustomerEntityGetParams{
 		ID: cmd.Value("id").(string),
 	}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1Beta.Customers.Entities.Get(
+	_, err = client.V1.Events.Beta.Customers.Entities.Get(
 		ctx,
 		cmd.Value("entity-id").(string),
 		params,
@@ -206,12 +206,12 @@ func handleV1BetaCustomersEntitiesRetrieve(ctx context.Context, cmd *cli.Command
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1-beta:customers:entities retrieve",
+		Title:          "v1:events:beta:customers:entities retrieve",
 		Transform:      transform,
 	})
 }
 
-func handleV1BetaCustomersEntitiesList(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -233,7 +233,7 @@ func handleV1BetaCustomersEntitiesList(ctx context.Context, cmd *cli.Command) er
 		return err
 	}
 
-	params := stigg.V1BetaCustomerEntityListParams{}
+	params := stigg.V1EventBetaCustomerEntityListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -241,7 +241,7 @@ func handleV1BetaCustomersEntitiesList(ctx context.Context, cmd *cli.Command) er
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1Beta.Customers.Entities.List(
+		_, err = client.V1.Events.Beta.Customers.Entities.List(
 			ctx,
 			cmd.Value("id").(string),
 			params,
@@ -255,11 +255,11 @@ func handleV1BetaCustomersEntitiesList(ctx context.Context, cmd *cli.Command) er
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1-beta:customers:entities list",
+			Title:          "v1:events:beta:customers:entities list",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1Beta.Customers.Entities.ListAutoPaging(
+		iter := client.V1.Events.Beta.Customers.Entities.ListAutoPaging(
 			ctx,
 			cmd.Value("id").(string),
 			params,
@@ -273,13 +273,13 @@ func handleV1BetaCustomersEntitiesList(ctx context.Context, cmd *cli.Command) er
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1-beta:customers:entities list",
+			Title:          "v1:events:beta:customers:entities list",
 			Transform:      transform,
 		})
 	}
 }
 
-func handleV1BetaCustomersEntitiesArchive(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesArchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -301,11 +301,11 @@ func handleV1BetaCustomersEntitiesArchive(ctx context.Context, cmd *cli.Command)
 		return err
 	}
 
-	params := stigg.V1BetaCustomerEntityArchiveParams{}
+	params := stigg.V1EventBetaCustomerEntityArchiveParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1Beta.Customers.Entities.Archive(
+	_, err = client.V1.Events.Beta.Customers.Entities.Archive(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -323,12 +323,12 @@ func handleV1BetaCustomersEntitiesArchive(ctx context.Context, cmd *cli.Command)
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1-beta:customers:entities archive",
+		Title:          "v1:events:beta:customers:entities archive",
 		Transform:      transform,
 	})
 }
 
-func handleV1BetaCustomersEntitiesUnarchive(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesUnarchive(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -350,11 +350,11 @@ func handleV1BetaCustomersEntitiesUnarchive(ctx context.Context, cmd *cli.Comman
 		return err
 	}
 
-	params := stigg.V1BetaCustomerEntityUnarchiveParams{}
+	params := stigg.V1EventBetaCustomerEntityUnarchiveParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1Beta.Customers.Entities.Unarchive(
+	_, err = client.V1.Events.Beta.Customers.Entities.Unarchive(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -372,12 +372,12 @@ func handleV1BetaCustomersEntitiesUnarchive(ctx context.Context, cmd *cli.Comman
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1-beta:customers:entities unarchive",
+		Title:          "v1:events:beta:customers:entities unarchive",
 		Transform:      transform,
 	})
 }
 
-func handleV1BetaCustomersEntitiesUpsert(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsBetaCustomersEntitiesUpsert(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -399,11 +399,11 @@ func handleV1BetaCustomersEntitiesUpsert(ctx context.Context, cmd *cli.Command) 
 		return err
 	}
 
-	params := stigg.V1BetaCustomerEntityUpsertParams{}
+	params := stigg.V1EventBetaCustomerEntityUpsertParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1Beta.Customers.Entities.Upsert(
+	_, err = client.V1.Events.Beta.Customers.Entities.Upsert(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -421,7 +421,7 @@ func handleV1BetaCustomersEntitiesUpsert(ctx context.Context, cmd *cli.Command) 
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1-beta:customers:entities upsert",
+		Title:          "v1:events:beta:customers:entities upsert",
 		Transform:      transform,
 	})
 }
