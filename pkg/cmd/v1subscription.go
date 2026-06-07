@@ -70,6 +70,11 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "budget",
 			BodyPath: "budget",
 		},
+		&requestflag.Flag[any]{
+			Name:     "cancellation-date",
+			Usage:    "Subscription cancellation date",
+			BodyPath: "cancellationDate",
+		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "charge",
 			BodyPath: "charges",
@@ -808,6 +813,11 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		&requestflag.Flag[map[string]any]{
 			Name:     "budget",
 			BodyPath: "budget",
+		},
+		&requestflag.Flag[any]{
+			Name:     "cancellation-date",
+			Usage:    "Subscription cancellation date",
+			BodyPath: "cancellationDate",
 		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "charge",

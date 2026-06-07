@@ -36,6 +36,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, couponId: couponId, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge", "{id: id, quantity: 0, type: FEATURE}",
 			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
@@ -81,6 +82,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-period", "MONTHLY",
 			"--budget.has-soft-limit=true",
 			"--budget.limit", "0",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge.id", "id",
 			"--charge.quantity", "0",
 			"--charge.type", "FEATURE",
@@ -149,6 +151,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"budget:\n" +
 			"  hasSoftLimit: true\n" +
 			"  limit: 0\n" +
+			"cancellationDate: '2019-12-27T18:11:19.117Z'\n" +
 			"charges:\n" +
 			"  - id: id\n" +
 			"    quantity: 0\n" +
@@ -545,6 +548,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge", "{id: id, quantity: 0, type: FEATURE}",
 			"--checkout-options", "{cancelUrl: https://example.com, successUrl: https://example.com, allowPromoCodes: true, allowTaxIdCollection: true, collectBillingAddress: true, collectPhoneNumber: true, referenceId: referenceId}",
 			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
@@ -599,6 +603,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--billing-period", "MONTHLY",
 			"--budget.has-soft-limit=true",
 			"--budget.limit", "0",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge.id", "id",
 			"--charge.quantity", "0",
 			"--charge.type", "FEATURE",
@@ -689,6 +694,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"budget:\n" +
 			"  hasSoftLimit: true\n" +
 			"  limit: 0\n" +
+			"cancellationDate: '2019-12-27T18:11:19.117Z'\n" +
 			"charges:\n" +
 			"  - id: id\n" +
 			"    quantity: 0\n" +
