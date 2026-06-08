@@ -20,6 +20,8 @@ func TestV1EventsBetaEntityTypesList(t *testing.T) {
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -33,6 +35,8 @@ func TestV1EventsBetaEntityTypesUpsert(t *testing.T) {
 			"v1:events:beta:entity-types", "upsert",
 			"--type", "{id: org, attributionKeys: [organizationId], displayName: Organization}",
 			"--type", "{id: team, attributionKeys: [teamId], displayName: Team}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -51,6 +55,8 @@ func TestV1EventsBetaEntityTypesUpsert(t *testing.T) {
 			"--type.id", "team",
 			"--type.attribution-keys", "[teamId]",
 			"--type.display-name", "Team",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -70,6 +76,8 @@ func TestV1EventsBetaEntityTypesUpsert(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:events:beta:entity-types", "upsert",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

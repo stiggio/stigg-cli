@@ -17,6 +17,8 @@ func TestV1SubscriptionsRetrieve(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "retrieve",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -45,6 +47,8 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--promotion-code", "promotionCode",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -99,6 +103,8 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--promotion-code", "promotionCode",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -189,6 +195,8 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "update",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -210,6 +218,8 @@ func TestV1SubscriptionsList(t *testing.T) {
 			"--pricing-type", "FREE",
 			"--resource-id", "resourceId",
 			"--status", "PAYMENT_PENDING",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -235,6 +245,8 @@ func TestV1SubscriptionsList(t *testing.T) {
 			"--pricing-type", "FREE",
 			"--resource-id", "resourceId",
 			"--status", "PAYMENT_PENDING",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -251,6 +263,8 @@ func TestV1SubscriptionsCancel(t *testing.T) {
 			"--cancellation-time", "END_OF_BILLING_PERIOD",
 			"--end-date", "'2019-12-27T18:11:19.117Z'",
 			"--prorate=true",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -266,6 +280,8 @@ func TestV1SubscriptionsCancel(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "cancel",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -279,6 +295,8 @@ func TestV1SubscriptionsDelegate(t *testing.T) {
 			"v1:subscriptions", "delegate",
 			"--id", "x",
 			"--target-customer-id", "targetCustomerId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -290,6 +308,8 @@ func TestV1SubscriptionsDelegate(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "delegate",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -303,6 +323,8 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			"v1:subscriptions", "import",
 			"--subscription", "{id: id, customerId: customerId, planId: planId, addons: [{id: id, quantity: 0}], billingId: billingId, billingPeriod: MONTHLY, charges: [{id: id, quantity: 0, type: FEATURE}], endDate: '2019-12-27T18:11:19.117Z', metadata: {foo: string}, resourceId: resourceId, startDate: '2019-12-27T18:11:19.117Z'}",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -327,6 +349,8 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			"--subscription.resource-id", "resourceId",
 			"--subscription.start-date", "2019-12-27T18:11:19.117Z",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -356,6 +380,8 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:subscriptions", "import",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -369,6 +395,8 @@ func TestV1SubscriptionsMigrate(t *testing.T) {
 			"v1:subscriptions", "migrate",
 			"--id", "x",
 			"--subscription-migration-time", "END_OF_BILLING_PERIOD",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -380,6 +408,8 @@ func TestV1SubscriptionsMigrate(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "migrate",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -407,6 +437,8 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -455,6 +487,8 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 			"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -525,6 +559,8 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:subscriptions", "preview",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -563,6 +599,8 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -638,6 +676,8 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 			"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -761,6 +801,8 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:subscriptions", "provision",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -774,6 +816,8 @@ func TestV1SubscriptionsTransfer(t *testing.T) {
 			"v1:subscriptions", "transfer",
 			"--id", "x",
 			"--destination-resource-id", "destinationResourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -785,6 +829,8 @@ func TestV1SubscriptionsTransfer(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "transfer",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

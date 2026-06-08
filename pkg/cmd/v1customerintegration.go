@@ -29,6 +29,14 @@ var v1CustomersIntegrationsRetrieve = cli.Command{
 			Required:  true,
 			PathParam: "integrationId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersIntegrationsRetrieve,
 	HideHelpCommand: true,
@@ -54,6 +62,14 @@ var v1CustomersIntegrationsUpdate = cli.Command{
 			Usage:    "Synced entity id",
 			Required: true,
 			BodyPath: "syncedEntityId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersIntegrationsUpdate,
@@ -90,6 +106,14 @@ var v1CustomersIntegrationsList = cli.Command{
 			Name:      "vendor-identifier",
 			Usage:     "Filter by vendor identifier. Supports comma-separated values for multiple vendors (e.g., STRIPE,HUBSPOT)",
 			QueryPath: "vendorIdentifier",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
@@ -128,6 +152,14 @@ var v1CustomersIntegrationsLink = cli.Command{
 			Required: true,
 			BodyPath: "vendorIdentifier",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersIntegrationsLink,
 	HideHelpCommand: true,
@@ -147,6 +179,14 @@ var v1CustomersIntegrationsUnlink = cli.Command{
 			Name:      "integration-id",
 			Required:  true,
 			PathParam: "integrationId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersIntegrationsUnlink,

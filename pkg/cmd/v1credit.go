@@ -31,6 +31,14 @@ var v1CreditsGetAutoRecharge = cli.Command{
 			Required:  true,
 			QueryPath: "customerId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsGetAutoRecharge,
 	HideHelpCommand: true,
@@ -93,6 +101,14 @@ var v1CreditsGetUsage = cli.Command{
 			Usage:     "Time range for usage data (LAST_DAY, LAST_WEEK, LAST_MONTH, LAST_YEAR). Defaults to LAST_MONTH",
 			QueryPath: "timeRange",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsGetUsage,
 	HideHelpCommand: true,
@@ -134,6 +150,14 @@ var v1CreditsListLedger = cli.Command{
 			Name:      "resource-id",
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",

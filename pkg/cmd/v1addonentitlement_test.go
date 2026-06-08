@@ -18,6 +18,8 @@ func TestV1AddonsEntitlementsCreate(t *testing.T) {
 			"v1:addons:entitlements", "create",
 			"--addon-id", "addonId",
 			"--entitlement", "{id: id, type: FEATURE, behavior: Increment, description: description, displayNameOverride: displayNameOverride, enumValues: [string], hasSoftLimit: true, hasUnlimitedUsage: true, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, order: 0, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -52,6 +54,8 @@ func TestV1AddonsEntitlementsCreate(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons:entitlements", "create",
 			"--addon-id", "addonId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -81,6 +85,8 @@ func TestV1AddonsEntitlementsUpdate(t *testing.T) {
 			"--usage-limit", "0",
 			"--weekly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
 			"--yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -111,6 +117,8 @@ func TestV1AddonsEntitlementsUpdate(t *testing.T) {
 			"--usage-limit", "0",
 			"--weekly-reset-period-configuration.according-to", "SubscriptionStart",
 			"--yearly-reset-period-configuration.according-to", "SubscriptionStart",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -144,6 +152,8 @@ func TestV1AddonsEntitlementsUpdate(t *testing.T) {
 			"v1:addons:entitlements", "update",
 			"--addon-id", "addonId",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -156,6 +166,8 @@ func TestV1AddonsEntitlementsList(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons:entitlements", "list",
 			"--addon-id", "addonId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -169,6 +181,8 @@ func TestV1AddonsEntitlementsDelete(t *testing.T) {
 			"v1:addons:entitlements", "delete",
 			"--addon-id", "addonId",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

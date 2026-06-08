@@ -17,6 +17,8 @@ func TestV1CreditsGetAutoRecharge(t *testing.T) {
 			"v1:credits", "get-auto-recharge",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -38,6 +40,8 @@ func TestV1CreditsGetUsage(t *testing.T) {
 			"--resource-id", "resourceId",
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--time-range", "LAST_DAY",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -56,6 +60,8 @@ func TestV1CreditsListLedger(t *testing.T) {
 			"--currency-id", "currencyId",
 			"--limit", "1",
 			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

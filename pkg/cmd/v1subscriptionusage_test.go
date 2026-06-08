@@ -17,6 +17,8 @@ func TestV1SubscriptionsUsageChargeUsage(t *testing.T) {
 			"v1:subscriptions:usage", "charge-usage",
 			"--id", "x",
 			"--until-date", "'2019-12-27T18:11:19.117Z'",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -28,6 +30,8 @@ func TestV1SubscriptionsUsageChargeUsage(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions:usage", "charge-usage",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -40,6 +44,8 @@ func TestV1SubscriptionsUsageSync(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions:usage", "sync",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

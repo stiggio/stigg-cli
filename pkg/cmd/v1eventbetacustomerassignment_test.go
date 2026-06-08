@@ -23,6 +23,8 @@ func TestV1EventsBetaCustomersAssignmentsList(t *testing.T) {
 			"--capability-id", "capabilityId",
 			"--entity-id", "entityId",
 			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -37,6 +39,8 @@ func TestV1EventsBetaCustomersAssignmentsUpsert(t *testing.T) {
 			"--id", "id",
 			"--assignment", "{capabilityId: compute-minutes, entityId: workspace-001, cadence: MONTH, usageLimit: 1000}",
 			"--assignment", "{capabilityId: compute-minutes, entityId: workspace-002, cadence: MONTH, usageLimit: 2000}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -58,6 +62,8 @@ func TestV1EventsBetaCustomersAssignmentsUpsert(t *testing.T) {
 			"--assignment.entity-id", "workspace-002",
 			"--assignment.cadence", "MONTH",
 			"--assignment.usage-limit", "2000",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -78,6 +84,8 @@ func TestV1EventsBetaCustomersAssignmentsUpsert(t *testing.T) {
 			"--api-key", "string",
 			"v1:events:beta:customers:assignments", "upsert",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

@@ -24,6 +24,14 @@ var v1SubscriptionsInvoiceMarkAsPaid = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1SubscriptionsInvoiceMarkAsPaid,
 	HideHelpCommand: true,
@@ -51,9 +59,16 @@ func handleV1SubscriptionsInvoiceMarkAsPaid(ctx context.Context, cmd *cli.Comman
 		return err
 	}
 
+	params := stigg.V1SubscriptionInvoiceMarkAsPaidParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Subscriptions.Invoice.MarkAsPaid(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Subscriptions.Invoice.MarkAsPaid(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

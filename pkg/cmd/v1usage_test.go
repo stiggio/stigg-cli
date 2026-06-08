@@ -22,6 +22,8 @@ func TestV1UsageHistory(t *testing.T) {
 			"--end-date", "'2019-12-27T18:11:19.117Z'",
 			"--group-by", "groupBy",
 			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -34,6 +36,8 @@ func TestV1UsageReport(t *testing.T) {
 			"--api-key", "string",
 			"v1:usage", "report",
 			"--usage", "{customerId: customerId, featureId: featureId, value: -9007199254740991, createdAt: '2019-12-27T18:11:19.117Z', dimensions: {foo: string}, resourceId: resourceId, updateBehavior: DELTA}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -53,6 +57,8 @@ func TestV1UsageReport(t *testing.T) {
 			"--usage.dimensions", "{foo: string}",
 			"--usage.resource-id", "resourceId",
 			"--usage.update-behavior", "DELTA",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -72,6 +78,8 @@ func TestV1UsageReport(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:usage", "report",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

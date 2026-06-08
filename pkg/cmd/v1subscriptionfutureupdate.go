@@ -24,6 +24,14 @@ var v1SubscriptionsFutureUpdateCancelPendingPayment = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1SubscriptionsFutureUpdateCancelPendingPayment,
 	HideHelpCommand: true,
@@ -38,6 +46,14 @@ var v1SubscriptionsFutureUpdateCancelSchedule = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1SubscriptionsFutureUpdateCancelSchedule,
@@ -66,9 +82,16 @@ func handleV1SubscriptionsFutureUpdateCancelPendingPayment(ctx context.Context, 
 		return err
 	}
 
+	params := stigg.V1SubscriptionFutureUpdateCancelPendingPaymentParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Subscriptions.FutureUpdate.CancelPendingPayment(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Subscriptions.FutureUpdate.CancelPendingPayment(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -108,9 +131,16 @@ func handleV1SubscriptionsFutureUpdateCancelSchedule(ctx context.Context, cmd *c
 		return err
 	}
 
+	params := stigg.V1SubscriptionFutureUpdateCancelScheduleParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Subscriptions.FutureUpdate.CancelSchedule(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Subscriptions.FutureUpdate.CancelSchedule(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

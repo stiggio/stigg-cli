@@ -25,6 +25,8 @@ func TestV1AddonsCreate(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--pricing-type", "FREE",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -45,6 +47,8 @@ func TestV1AddonsCreate(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:addons", "create",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -57,6 +61,8 @@ func TestV1AddonsRetrieve(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons", "retrieve",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -77,6 +83,8 @@ func TestV1AddonsUpdate(t *testing.T) {
 			"--max-quantity", "0",
 			"--metadata", "{foo: string}",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -103,6 +111,8 @@ func TestV1AddonsUpdate(t *testing.T) {
 			"--max-quantity", "0",
 			"--metadata", "{foo: string}",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -204,6 +214,8 @@ func TestV1AddonsUpdate(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons", "update",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -222,6 +234,8 @@ func TestV1AddonsList(t *testing.T) {
 			"--limit", "1",
 			"--product-id", "productId",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -244,6 +258,8 @@ func TestV1AddonsList(t *testing.T) {
 			"--limit", "1",
 			"--product-id", "productId",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -256,6 +272,8 @@ func TestV1AddonsArchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons", "archive",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -268,6 +286,8 @@ func TestV1AddonsCreateDraft(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons", "create-draft",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -284,6 +304,8 @@ func TestV1AddonsListCharges(t *testing.T) {
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -297,6 +319,8 @@ func TestV1AddonsPublish(t *testing.T) {
 			"v1:addons", "publish",
 			"--id", "x",
 			"--migration-type", "NEW_CUSTOMERS",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -308,6 +332,8 @@ func TestV1AddonsPublish(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons", "publish",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -320,6 +346,8 @@ func TestV1AddonsRemoveDraft(t *testing.T) {
 			"--api-key", "string",
 			"v1:addons", "remove-draft",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

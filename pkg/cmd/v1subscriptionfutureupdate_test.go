@@ -16,6 +16,8 @@ func TestV1SubscriptionsFutureUpdateCancelPendingPayment(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions:future-update", "cancel-pending-payment",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -28,6 +30,8 @@ func TestV1SubscriptionsFutureUpdateCancelSchedule(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions:future-update", "cancel-schedule",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

@@ -50,6 +50,14 @@ var v1EventsBetaCustomersAssignmentsList = cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -74,6 +82,14 @@ var v1EventsBetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Comm
 			Usage:    "Assignments to upsert (1–100 per request)",
 			Required: true,
 			BodyPath: "assignments",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1EventsBetaCustomersAssignmentsUpsert,

@@ -22,6 +22,8 @@ func TestV1CreditsCustomCurrenciesCreate(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--symbol", "symbol",
 			"--units", "{plural: plural, singular: singular}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -41,6 +43,8 @@ func TestV1CreditsCustomCurrenciesCreate(t *testing.T) {
 			"--symbol", "symbol",
 			"--units.plural", "plural",
 			"--units.singular", "singular",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -60,6 +64,8 @@ func TestV1CreditsCustomCurrenciesCreate(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:credits:custom-currencies", "create",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -77,6 +83,8 @@ func TestV1CreditsCustomCurrenciesUpdate(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--symbol", "symbol",
 			"--units", "{plural: plural, singular: singular}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -96,6 +104,8 @@ func TestV1CreditsCustomCurrenciesUpdate(t *testing.T) {
 			"--symbol", "symbol",
 			"--units.plural", "plural",
 			"--units.singular", "singular",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -115,6 +125,8 @@ func TestV1CreditsCustomCurrenciesUpdate(t *testing.T) {
 			"--api-key", "string",
 			"v1:credits:custom-currencies", "update",
 			"--currency-id", "currencyId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -131,6 +143,8 @@ func TestV1CreditsCustomCurrenciesList(t *testing.T) {
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
 			"--status", "ACTIVE",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -143,6 +157,8 @@ func TestV1CreditsCustomCurrenciesArchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:credits:custom-currencies", "archive",
 			"--currency-id", "currencyId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -155,6 +171,8 @@ func TestV1CreditsCustomCurrenciesListAssociatedEntities(t *testing.T) {
 			"--api-key", "string",
 			"v1:credits:custom-currencies", "list-associated-entities",
 			"--currency-id", "currencyId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -167,6 +185,8 @@ func TestV1CreditsCustomCurrenciesUnarchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:credits:custom-currencies", "unarchive",
 			"--currency-id", "currencyId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

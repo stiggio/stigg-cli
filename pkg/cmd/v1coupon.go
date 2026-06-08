@@ -61,6 +61,14 @@ var v1CouponsCreate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "percentOff",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CouponsCreate,
 	HideHelpCommand: true,
@@ -90,6 +98,14 @@ var v1CouponsRetrieve = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CouponsRetrieve,
@@ -137,6 +153,14 @@ var v1CouponsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by coupon type (FIXED or PERCENTAGE)",
 			QueryPath: "type",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -179,6 +203,14 @@ var v1CouponsArchiveCoupon = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CouponsArchiveCoupon,
 	HideHelpCommand: true,
@@ -208,6 +240,14 @@ var v1CouponsUpdateCoupon = cli.Command{
 			Name:     "name",
 			Usage:    "Name of the coupon",
 			BodyPath: "name",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CouponsUpdateCoupon,
@@ -277,9 +317,16 @@ func handleV1CouponsRetrieve(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CouponGetParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Coupons.Get(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Coupons.Get(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -374,9 +421,16 @@ func handleV1CouponsArchiveCoupon(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CouponArchiveCouponParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Coupons.ArchiveCoupon(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Coupons.ArchiveCoupon(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

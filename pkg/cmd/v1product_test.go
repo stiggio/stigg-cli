@@ -17,6 +17,8 @@ func TestV1ProductsArchiveProduct(t *testing.T) {
 			"--api-key", "string",
 			"v1:products", "archive-product",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -33,6 +35,8 @@ func TestV1ProductsCreateProduct(t *testing.T) {
 			"--description", "description",
 			"--metadata", "{foo: string}",
 			"--multiple-subscriptions=true",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -49,6 +53,8 @@ func TestV1ProductsCreateProduct(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:products", "create-product",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -64,6 +70,8 @@ func TestV1ProductsDuplicateProduct(t *testing.T) {
 			"--target-id", "targetId",
 			"--description", "description",
 			"--display-name", "displayName",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -78,6 +86,8 @@ func TestV1ProductsDuplicateProduct(t *testing.T) {
 			"--api-key", "string",
 			"v1:products", "duplicate-product",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -96,6 +106,8 @@ func TestV1ProductsListProducts(t *testing.T) {
 			"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
 			"--limit", "1",
 			"--status", "PUBLISHED",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -118,6 +130,8 @@ func TestV1ProductsListProducts(t *testing.T) {
 			"--created-at.lte", "2019-12-27T18:11:19.117Z",
 			"--limit", "1",
 			"--status", "PUBLISHED",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -130,6 +144,8 @@ func TestV1ProductsUnarchiveProduct(t *testing.T) {
 			"--api-key", "string",
 			"v1:products", "unarchive-product",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -148,6 +164,8 @@ func TestV1ProductsUpdateProduct(t *testing.T) {
 			"--multiple-subscriptions=true",
 			"--product-settings", "{subscriptionCancellationTime: END_OF_BILLING_PERIOD, subscriptionEndSetup: DOWNGRADE_TO_FREE, subscriptionStartSetup: PLAN_SELECTION, downgradePlanId: downgradePlanId, prorateAtEndOfBillingPeriod: true, subscriptionStartPlanId: subscriptionStartPlanId}",
 			"--usage-reset-cutoff-rule", "{behavior: NEVER_RESET}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -172,6 +190,8 @@ func TestV1ProductsUpdateProduct(t *testing.T) {
 			"--product-settings.prorate-at-end-of-billing-period=true",
 			"--product-settings.subscription-start-plan-id", "subscriptionStartPlanId",
 			"--usage-reset-cutoff-rule.behavior", "NEVER_RESET",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -197,6 +217,8 @@ func TestV1ProductsUpdateProduct(t *testing.T) {
 			"--api-key", "string",
 			"v1:products", "update-product",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

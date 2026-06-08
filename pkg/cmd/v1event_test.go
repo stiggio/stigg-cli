@@ -17,6 +17,8 @@ func TestV1EventsReport(t *testing.T) {
 			"--api-key", "string",
 			"v1:events", "report",
 			"--event", "{customerId: customerId, eventName: x, idempotencyKey: x, dimensions: {foo: string}, resourceId: resourceId, timestamp: '2019-12-27T18:11:19.117Z'}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -35,6 +37,8 @@ func TestV1EventsReport(t *testing.T) {
 			"--event.dimensions", "{foo: string}",
 			"--event.resource-id", "resourceId",
 			"--event.timestamp", "2019-12-27T18:11:19.117Z",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -53,6 +57,8 @@ func TestV1EventsReport(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:events", "report",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

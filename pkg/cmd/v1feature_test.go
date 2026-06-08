@@ -17,6 +17,8 @@ func TestV1FeaturesArchiveFeature(t *testing.T) {
 			"--api-key", "string",
 			"v1:features", "archive-feature",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -39,6 +41,8 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--meter-type", "None",
 			"--unit-transformation", "{divide: 0, featureUnits: featureUnits, featureUnitsPlural: featureUnitsPlural, round: UP}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -66,6 +70,8 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 			"--unit-transformation.feature-units", "featureUnits",
 			"--unit-transformation.feature-units-plural", "featureUnitsPlural",
 			"--unit-transformation.round", "UP",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -94,6 +100,8 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:features", "create-feature",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -114,6 +122,8 @@ func TestV1FeaturesListFeatures(t *testing.T) {
 			"--limit", "1",
 			"--meter-type", "None",
 			"--status", "NEW",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -138,6 +148,8 @@ func TestV1FeaturesListFeatures(t *testing.T) {
 			"--limit", "1",
 			"--meter-type", "None",
 			"--status", "NEW",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -150,6 +162,8 @@ func TestV1FeaturesRetrieveFeature(t *testing.T) {
 			"--api-key", "string",
 			"v1:features", "retrieve-feature",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -162,6 +176,8 @@ func TestV1FeaturesUnarchiveFeature(t *testing.T) {
 			"--api-key", "string",
 			"v1:features", "unarchive-feature",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -182,6 +198,8 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--meter", "{aggregation: {function: SUM, field: field}, filters: [{conditions: [{field: field, operation: EQUALS, value: value, values: [string]}]}]}",
 			"--unit-transformation", "{divide: 0, featureUnits: featureUnits, featureUnitsPlural: featureUnitsPlural, round: UP}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -208,6 +226,8 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 			"--unit-transformation.feature-units", "featureUnits",
 			"--unit-transformation.feature-units-plural", "featureUnitsPlural",
 			"--unit-transformation.round", "UP",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -244,6 +264,8 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 			"--api-key", "string",
 			"v1:features", "update-feature",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

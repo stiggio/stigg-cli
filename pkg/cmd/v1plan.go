@@ -72,6 +72,14 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The status of the package",
 			BodyPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1PlansCreate,
 	HideHelpCommand: true,
@@ -109,6 +117,14 @@ var v1PlansRetrieve = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1PlansRetrieve,
@@ -163,6 +179,14 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "parent-plan-id",
 			Usage:    "The ID of the parent plan, if applicable",
 			BodyPath: "parentPlanId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1PlansUpdate,
@@ -260,6 +284,14 @@ var v1PlansList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -302,6 +334,14 @@ var v1PlansArchive = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1PlansArchive,
 	HideHelpCommand: true,
@@ -316,6 +356,14 @@ var v1PlansCreateDraft = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1PlansCreateDraft,
@@ -347,6 +395,14 @@ var v1PlansListCharges = cli.Command{
 			Usage:     "Maximum number of items to return",
 			Default:   20,
 			QueryPath: "limit",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
@@ -383,6 +439,14 @@ var v1PlansListOverageCharges = cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -408,6 +472,14 @@ var v1PlansPublish = cli.Command{
 			Required: true,
 			BodyPath: "migrationType",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1PlansPublish,
 	HideHelpCommand: true,
@@ -422,6 +494,14 @@ var v1PlansRemoveDraft = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1PlansRemoveDraft,
@@ -491,9 +571,16 @@ func handleV1PlansRetrieve(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1PlanGetParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Plans.Get(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Plans.Get(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -637,9 +724,16 @@ func handleV1PlansArchive(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1PlanArchiveParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Plans.Archive(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Plans.Archive(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -679,9 +773,16 @@ func handleV1PlansCreateDraft(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1PlanNewDraftParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Plans.NewDraft(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Plans.NewDraft(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -906,9 +1007,16 @@ func handleV1PlansRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1PlanRemoveDraftParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Plans.RemoveDraft(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Plans.RemoveDraft(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

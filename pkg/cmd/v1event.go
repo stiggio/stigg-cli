@@ -25,6 +25,14 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "events",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1EventsReport,
 	HideHelpCommand: true,

@@ -24,6 +24,14 @@ var v1CustomersRetrieve = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersRetrieve,
 	HideHelpCommand: true,
@@ -88,6 +96,14 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "timezone",
 			Usage:    "Timezone to use for this customer",
 			BodyPath: "timezone",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersUpdate,
@@ -160,6 +176,14 @@ var v1CustomersList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by exact customer name",
 			QueryPath: "name",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -202,6 +226,14 @@ var v1CustomersArchive = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersArchive,
 	HideHelpCommand: true,
@@ -242,6 +274,14 @@ var v1CustomersCheckEntitlement = cli.Command{
 			Usage:     "Resource ID to scope the entitlement check to a specific resource",
 			QueryPath: "resourceId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersCheckEntitlement,
 	HideHelpCommand: true,
@@ -262,6 +302,14 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 			Name:     "integration-id",
 			Usage:    "Integration details",
 			BodyPath: "integrationId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersImport,
@@ -337,6 +385,14 @@ var v1CustomersListResources = cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -411,6 +467,14 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "timezone",
 			Usage:    "Timezone to use for this customer",
 			BodyPath: "timezone",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersProvision,
@@ -489,6 +553,14 @@ var v1CustomersRetrieveEntitlements = cli.Command{
 			Usage:     "Resource ID to scope entitlements to a specific resource",
 			QueryPath: "resourceId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersRetrieveEntitlements,
 	HideHelpCommand: true,
@@ -503,6 +575,14 @@ var v1CustomersUnarchive = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersUnarchive,
@@ -531,9 +611,16 @@ func handleV1CustomersRetrieve(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CustomerGetParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.Get(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Customers.Get(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -677,9 +764,16 @@ func handleV1CustomersArchive(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CustomerArchiveParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.Archive(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Customers.Archive(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -967,9 +1061,16 @@ func handleV1CustomersUnarchive(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CustomerUnarchiveParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.Unarchive(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Customers.Unarchive(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

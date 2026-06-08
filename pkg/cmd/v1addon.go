@@ -67,6 +67,14 @@ var v1AddonsCreate = cli.Command{
 			Usage:    "The status of the package",
 			BodyPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1AddonsCreate,
 	HideHelpCommand: true,
@@ -81,6 +89,14 @@ var v1AddonsRetrieve = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1AddonsRetrieve,
@@ -136,6 +152,14 @@ var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "status",
 			Usage:    "The status of the package",
 			BodyPath: "status",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1AddonsUpdate,
@@ -211,6 +235,14 @@ var v1AddonsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -253,6 +285,14 @@ var v1AddonsArchive = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1AddonsArchive,
 	HideHelpCommand: true,
@@ -267,6 +307,14 @@ var v1AddonsCreateDraft = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1AddonsCreateDraft,
@@ -299,6 +347,14 @@ var v1AddonsListCharges = cli.Command{
 			Default:   20,
 			QueryPath: "limit",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -324,6 +380,14 @@ var v1AddonsPublish = cli.Command{
 			Required: true,
 			BodyPath: "migrationType",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1AddonsPublish,
 	HideHelpCommand: true,
@@ -338,6 +402,14 @@ var v1AddonsRemoveDraft = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1AddonsRemoveDraft,
@@ -407,9 +479,16 @@ func handleV1AddonsRetrieve(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1AddonGetParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Addons.Get(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Addons.Get(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -553,9 +632,16 @@ func handleV1AddonsArchive(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1AddonArchiveParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Addons.Archive(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Addons.Archive(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -595,9 +681,16 @@ func handleV1AddonsCreateDraft(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1AddonNewDraftParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Addons.NewDraft(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Addons.NewDraft(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -754,9 +847,16 @@ func handleV1AddonsRemoveDraft(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1AddonRemoveDraftParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Addons.RemoveDraft(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Addons.RemoveDraft(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

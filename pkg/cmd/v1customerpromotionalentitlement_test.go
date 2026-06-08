@@ -18,6 +18,8 @@ func TestV1CustomersPromotionalEntitlementsCreate(t *testing.T) {
 			"v1:customers:promotional-entitlements", "create",
 			"--id", "x",
 			"--promotional-entitlement", "{customEndDate: '2019-12-27T18:11:19.117Z', enumValues: [string], featureId: featureId, hasSoftLimit: true, hasUnlimitedUsage: true, isVisible: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, period: 1 week, resetPeriod: YEAR, usageLimit: -9007199254740991, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -43,6 +45,8 @@ func TestV1CustomersPromotionalEntitlementsCreate(t *testing.T) {
 			"--promotional-entitlement.usage-limit", "-9007199254740991",
 			"--promotional-entitlement.weekly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
 			"--promotional-entitlement.yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -71,6 +75,8 @@ func TestV1CustomersPromotionalEntitlementsCreate(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers:promotional-entitlements", "create",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -89,6 +95,8 @@ func TestV1CustomersPromotionalEntitlementsList(t *testing.T) {
 			"--created-at", "{gt: '2019-12-27T18:11:19.117Z', gte: '2019-12-27T18:11:19.117Z', lt: '2019-12-27T18:11:19.117Z', lte: '2019-12-27T18:11:19.117Z'}",
 			"--limit", "1",
 			"--status", "Active",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -111,6 +119,8 @@ func TestV1CustomersPromotionalEntitlementsList(t *testing.T) {
 			"--created-at.lte", "2019-12-27T18:11:19.117Z",
 			"--limit", "1",
 			"--status", "Active",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -124,6 +134,8 @@ func TestV1CustomersPromotionalEntitlementsRevoke(t *testing.T) {
 			"v1:customers:promotional-entitlements", "revoke",
 			"--id", "id",
 			"--feature-id", "featureId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

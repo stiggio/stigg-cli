@@ -22,6 +22,8 @@ func TestV1EventsBetaCustomersEntitlementsCheck(t *testing.T) {
 			"--requested-usage", "0",
 			"--requested-value", "string",
 			"--resource-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

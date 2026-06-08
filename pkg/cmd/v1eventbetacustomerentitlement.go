@@ -54,6 +54,14 @@ var v1EventsBetaCustomersEntitlementsCheck = cli.Command{
 			Usage:     "Resource ID to scope the entitlement check to a specific resource",
 			QueryPath: "resourceId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1EventsBetaCustomersEntitlementsCheck,
 	HideHelpCommand: true,

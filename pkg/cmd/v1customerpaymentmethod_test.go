@@ -20,6 +20,8 @@ func TestV1CustomersPaymentMethodAttach(t *testing.T) {
 			"--payment-method-id", "paymentMethodId",
 			"--vendor-identifier", "AUTH0",
 			"--billing-currency", "usd",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -35,6 +37,8 @@ func TestV1CustomersPaymentMethodAttach(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers:payment-method", "attach",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -47,6 +51,8 @@ func TestV1CustomersPaymentMethodDetach(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers:payment-method", "detach",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

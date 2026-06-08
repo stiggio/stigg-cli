@@ -26,6 +26,8 @@ func TestV1PlansCreate(t *testing.T) {
 			"--parent-plan-id", "parentPlanId",
 			"--pricing-type", "FREE",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -51,6 +53,8 @@ func TestV1PlansCreate(t *testing.T) {
 			"--parent-plan-id", "parentPlanId",
 			"--pricing-type", "FREE",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -78,6 +82,8 @@ func TestV1PlansCreate(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:plans", "create",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -90,6 +96,8 @@ func TestV1PlansRetrieve(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans", "retrieve",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -110,6 +118,8 @@ func TestV1PlansUpdate(t *testing.T) {
 			"--display-name", "displayName",
 			"--metadata", "{foo: string}",
 			"--parent-plan-id", "parentPlanId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -139,6 +149,8 @@ func TestV1PlansUpdate(t *testing.T) {
 			"--display-name", "displayName",
 			"--metadata", "{foo: string}",
 			"--parent-plan-id", "parentPlanId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -246,6 +258,8 @@ func TestV1PlansUpdate(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans", "update",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -264,6 +278,8 @@ func TestV1PlansList(t *testing.T) {
 			"--limit", "1",
 			"--product-id", "productId",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -286,6 +302,8 @@ func TestV1PlansList(t *testing.T) {
 			"--limit", "1",
 			"--product-id", "productId",
 			"--status", "DRAFT",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -298,6 +316,8 @@ func TestV1PlansArchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans", "archive",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -310,6 +330,8 @@ func TestV1PlansCreateDraft(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans", "create-draft",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -326,6 +348,8 @@ func TestV1PlansListCharges(t *testing.T) {
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -342,6 +366,8 @@ func TestV1PlansListOverageCharges(t *testing.T) {
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -355,6 +381,8 @@ func TestV1PlansPublish(t *testing.T) {
 			"v1:plans", "publish",
 			"--id", "x",
 			"--migration-type", "NEW_CUSTOMERS",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -366,6 +394,8 @@ func TestV1PlansPublish(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans", "publish",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -378,6 +408,8 @@ func TestV1PlansRemoveDraft(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans", "remove-draft",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

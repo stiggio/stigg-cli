@@ -29,6 +29,14 @@ var v1EventsBetaCustomersEntitiesRetrieve = cli.Command{
 			Required:  true,
 			PathParam: "entityId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1EventsBetaCustomersEntitiesRetrieve,
 	HideHelpCommand: true,
@@ -70,6 +78,14 @@ var v1EventsBetaCustomersEntitiesList = cli.Command{
 			Usage:     "Filter results to entities of a specific entity type, by the type's refId",
 			QueryPath: "typeRefId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -95,6 +111,14 @@ var v1EventsBetaCustomersEntitiesArchive = cli.Command{
 			Required: true,
 			BodyPath: "ids",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1EventsBetaCustomersEntitiesArchive,
 	HideHelpCommand: true,
@@ -116,6 +140,14 @@ var v1EventsBetaCustomersEntitiesUnarchive = cli.Command{
 			Required: true,
 			BodyPath: "ids",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1EventsBetaCustomersEntitiesUnarchive,
 	HideHelpCommand: true,
@@ -136,6 +168,14 @@ var v1EventsBetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command
 			Usage:    "List of entities to create or update (1-100 entries)",
 			Required: true,
 			BodyPath: "entities",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1EventsBetaCustomersEntitiesUpsert,

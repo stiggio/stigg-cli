@@ -29,6 +29,14 @@ var v1SubscriptionsUsageChargeUsage = cli.Command{
 			Usage:    "Cutoff date for usage calculation. If not provided, the current time is used.",
 			BodyPath: "untilDate",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1SubscriptionsUsageChargeUsage,
 	HideHelpCommand: true,
@@ -43,6 +51,14 @@ var v1SubscriptionsUsageSync = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1SubscriptionsUsageSync,
@@ -120,9 +136,16 @@ func handleV1SubscriptionsUsageSync(ctx context.Context, cmd *cli.Command) error
 		return err
 	}
 
+	params := stigg.V1SubscriptionUsageSyncParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Subscriptions.Usage.Sync(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Subscriptions.Usage.Sync(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

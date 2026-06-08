@@ -24,6 +24,14 @@ var v1FeaturesArchiveFeature = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1FeaturesArchiveFeature,
 	HideHelpCommand: true,
@@ -92,6 +100,14 @@ var v1FeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
 			Name:     "unit-transformation",
 			Usage:    "Unit transformation to be applied to the reported usage",
 			BodyPath: "unitTransformation",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1FeaturesCreateFeature,
@@ -179,6 +195,14 @@ var v1FeaturesListFeatures = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by feature status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -221,6 +245,14 @@ var v1FeaturesRetrieveFeature = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1FeaturesRetrieveFeature,
 	HideHelpCommand: true,
@@ -235,6 +267,14 @@ var v1FeaturesUnarchiveFeature = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1FeaturesUnarchiveFeature,
@@ -289,6 +329,14 @@ var v1FeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 			Name:     "unit-transformation",
 			Usage:    "Unit transformation to be applied to the reported usage",
 			BodyPath: "unitTransformation",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1FeaturesUpdateFeature,
@@ -362,9 +410,16 @@ func handleV1FeaturesArchiveFeature(ctx context.Context, cmd *cli.Command) error
 		return err
 	}
 
+	params := stigg.V1FeatureArchiveFeatureParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Features.ArchiveFeature(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Features.ArchiveFeature(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -500,9 +555,16 @@ func handleV1FeaturesRetrieveFeature(ctx context.Context, cmd *cli.Command) erro
 		return err
 	}
 
+	params := stigg.V1FeatureGetFeatureParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Features.GetFeature(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Features.GetFeature(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -542,9 +604,16 @@ func handleV1FeaturesUnarchiveFeature(ctx context.Context, cmd *cli.Command) err
 		return err
 	}
 
+	params := stigg.V1FeatureUnarchiveFeatureParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Features.UnarchiveFeature(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Features.UnarchiveFeature(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

@@ -16,6 +16,8 @@ func TestV1SubscriptionsInvoiceMarkAsPaid(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions:invoice", "mark-as-paid",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

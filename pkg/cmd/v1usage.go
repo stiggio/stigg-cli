@@ -50,6 +50,14 @@ var v1UsageHistory = cli.Command{
 			Usage:     "Resource id",
 			QueryPath: "resourceId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1UsageHistory,
 	HideHelpCommand: true,
@@ -65,6 +73,14 @@ var v1UsageReport = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "A list of usage reports to be submitted in bulk",
 			Required: true,
 			BodyPath: "usages",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1UsageReport,

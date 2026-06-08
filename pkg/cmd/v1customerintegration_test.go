@@ -17,6 +17,8 @@ func TestV1CustomersIntegrationsRetrieve(t *testing.T) {
 			"v1:customers:integrations", "retrieve",
 			"--id", "id",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -31,6 +33,8 @@ func TestV1CustomersIntegrationsUpdate(t *testing.T) {
 			"--id", "id",
 			"--integration-id", "integrationId",
 			"--synced-entity-id", "syncedEntityId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -43,6 +47,8 @@ func TestV1CustomersIntegrationsUpdate(t *testing.T) {
 			"v1:customers:integrations", "update",
 			"--id", "id",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -60,6 +66,8 @@ func TestV1CustomersIntegrationsList(t *testing.T) {
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
 			"--vendor-identifier", "AUTH0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -75,6 +83,8 @@ func TestV1CustomersIntegrationsLink(t *testing.T) {
 			"--id", "id",
 			"--synced-entity-id", "syncedEntityId",
 			"--vendor-identifier", "AUTH0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -89,6 +99,8 @@ func TestV1CustomersIntegrationsLink(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers:integrations", "link",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -102,6 +114,8 @@ func TestV1CustomersIntegrationsUnlink(t *testing.T) {
 			"v1:customers:integrations", "unlink",
 			"--id", "id",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

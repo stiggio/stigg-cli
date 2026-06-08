@@ -18,6 +18,8 @@ func TestV1EventsBetaCustomersEntitiesRetrieve(t *testing.T) {
 			"v1:events:beta:customers:entities", "retrieve",
 			"--id", "id",
 			"--entity-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -36,6 +38,8 @@ func TestV1EventsBetaCustomersEntitiesList(t *testing.T) {
 			"--include-archived", "true",
 			"--limit", "1",
 			"--type-ref-id", "typeRefId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -50,6 +54,8 @@ func TestV1EventsBetaCustomersEntitiesArchive(t *testing.T) {
 			"--id", "id",
 			"--id", "user-7f3a0c1d",
 			"--id", "user-c4d1b2e9",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -64,6 +70,8 @@ func TestV1EventsBetaCustomersEntitiesArchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:events:beta:customers:entities", "archive",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -78,6 +86,8 @@ func TestV1EventsBetaCustomersEntitiesUnarchive(t *testing.T) {
 			"--id", "id",
 			"--id", "user-7f3a0c1d",
 			"--id", "user-c4d1b2e9",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -92,6 +102,8 @@ func TestV1EventsBetaCustomersEntitiesUnarchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:events:beta:customers:entities", "unarchive",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -106,6 +118,8 @@ func TestV1EventsBetaCustomersEntitiesUpsert(t *testing.T) {
 			"--id", "id",
 			"--entity", "{id: user-7f3a0c1d, metadata: {email: jane@acme.com, role: admin}, typeRefId: user}",
 			"--entity", "{id: user-c4d1b2e9, metadata: {email: john@acme.com}, typeRefId: user}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -125,6 +139,8 @@ func TestV1EventsBetaCustomersEntitiesUpsert(t *testing.T) {
 			"--entity.id", "user-c4d1b2e9",
 			"--entity.metadata", "{email: john@acme.com}",
 			"--entity.type-ref-id", "user",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -146,6 +162,8 @@ func TestV1EventsBetaCustomersEntitiesUpsert(t *testing.T) {
 			"--api-key", "string",
 			"v1:events:beta:customers:entities", "upsert",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
