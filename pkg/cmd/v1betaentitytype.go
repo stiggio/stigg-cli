@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsBetaEntityTypesList = cli.Command{
+var v1BetaEntityTypesList = cli.Command{
 	Name:    "list",
 	Usage:   "Returns a cursor-paginated list of entity types defined in the environment.\nEntity types are vendor-defined categories of resource that can be governed\n(e.g. Org, Team, User).",
 	Suggest: true,
@@ -48,11 +48,11 @@ var v1EventsBetaEntityTypesList = cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1EventsBetaEntityTypesList,
+	Action:          handleV1BetaEntityTypesList,
 	HideHelpCommand: true,
 }
 
-var v1EventsBetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
+var v1BetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
 	Usage:   "Batched create-or-update of entity types. Existing types matched by id are\nupdated; new ids are created. Idempotent — re-submitting the same payload\nconverges to the same state.",
 	Suggest: true,
@@ -72,7 +72,7 @@ var v1EventsBetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1EventsBetaEntityTypesUpsert,
+	Action:          handleV1BetaEntityTypesUpsert,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"type": {
@@ -94,7 +94,7 @@ var v1EventsBetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-func handleV1EventsBetaEntityTypesList(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaEntityTypesList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -113,7 +113,7 @@ func handleV1EventsBetaEntityTypesList(ctx context.Context, cmd *cli.Command) er
 		return err
 	}
 
-	params := stigg.V1EventBetaEntityTypeListParams{}
+	params := stigg.V1BetaEntityTypeListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -121,7 +121,7 @@ func handleV1EventsBetaEntityTypesList(ctx context.Context, cmd *cli.Command) er
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Beta.EntityTypes.List(ctx, params, options...)
+		_, err = client.V1Beta.EntityTypes.List(ctx, params, options...)
 		if err != nil {
 			return err
 		}
@@ -130,11 +130,11 @@ func handleV1EventsBetaEntityTypesList(ctx context.Context, cmd *cli.Command) er
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:beta:entity-types list",
+			Title:          "v1-beta:entity-types list",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1.Events.Beta.EntityTypes.ListAutoPaging(ctx, params, options...)
+		iter := client.V1Beta.EntityTypes.ListAutoPaging(ctx, params, options...)
 		maxItems := int64(-1)
 		if cmd.IsSet("max-items") {
 			maxItems = cmd.Value("max-items").(int64)
@@ -143,13 +143,13 @@ func handleV1EventsBetaEntityTypesList(ctx context.Context, cmd *cli.Command) er
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:beta:entity-types list",
+			Title:          "v1-beta:entity-types list",
 			Transform:      transform,
 		})
 	}
 }
 
-func handleV1EventsBetaEntityTypesUpsert(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaEntityTypesUpsert(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -168,11 +168,11 @@ func handleV1EventsBetaEntityTypesUpsert(ctx context.Context, cmd *cli.Command) 
 		return err
 	}
 
-	params := stigg.V1EventBetaEntityTypeUpsertParams{}
+	params := stigg.V1BetaEntityTypeUpsertParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Beta.EntityTypes.Upsert(ctx, params, options...)
+	_, err = client.V1Beta.EntityTypes.Upsert(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -185,7 +185,7 @@ func handleV1EventsBetaEntityTypesUpsert(ctx context.Context, cmd *cli.Command) 
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:beta:entity-types upsert",
+		Title:          "v1-beta:entity-types upsert",
 		Transform:      transform,
 	})
 }

@@ -17,6 +17,8 @@ func TestV1EventsDataExportMintScopedToken(t *testing.T) {
 			"v1:events:data-export", "mint-scoped-token",
 			"--application-origin", "x",
 			"--destination-type", "destinationType",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -29,6 +31,8 @@ func TestV1EventsDataExportMintScopedToken(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:events:data-export", "mint-scoped-token",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -41,6 +45,8 @@ func TestV1EventsDataExportTriggerSync(t *testing.T) {
 			"--api-key", "string",
 			"v1:events:data-export", "trigger-sync",
 			"--destination-id", "destinationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -51,6 +57,8 @@ func TestV1EventsDataExportTriggerSync(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:events:data-export", "trigger-sync",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

@@ -31,6 +31,14 @@ var v1EventsDataExportDestinationsCreate = cli.Command{
 			Required: true,
 			BodyPath: "destinationType",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1EventsDataExportDestinationsCreate,
 	HideHelpCommand: true,
@@ -45,6 +53,14 @@ var v1EventsDataExportDestinationsDelete = cli.Command{
 			Name:      "destination-id",
 			Required:  true,
 			PathParam: "destinationId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1EventsDataExportDestinationsDelete,
@@ -114,9 +130,16 @@ func handleV1EventsDataExportDestinationsDelete(ctx context.Context, cmd *cli.Co
 		return err
 	}
 
+	params := stigg.V1EventDataExportDestinationDeleteParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.DataExport.Destinations.Delete(ctx, cmd.Value("destination-id").(string), options...)
+	_, err = client.V1.Events.DataExport.Destinations.Delete(
+		ctx,
+		cmd.Value("destination-id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

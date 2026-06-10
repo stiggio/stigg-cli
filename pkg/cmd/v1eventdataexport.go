@@ -30,6 +30,14 @@ var v1EventsDataExportMintScopedToken = cli.Command{
 			Usage:    "Pin the token to a specific warehouse connect flow",
 			BodyPath: "destinationType",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1EventsDataExportMintScopedToken,
 	HideHelpCommand: true,
@@ -44,6 +52,14 @@ var v1EventsDataExportTriggerSync = cli.Command{
 			Name:     "destination-id",
 			Usage:    "Provider destination ID to sync. Omit to sync all destinations.",
 			BodyPath: "destinationId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1EventsDataExportTriggerSync,

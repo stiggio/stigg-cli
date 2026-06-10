@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsBetaCustomersAssignmentsList = cli.Command{
+var v1BetaCustomersAssignmentsList = cli.Command{
 	Name:    "list",
 	Usage:   "Returns a cursor-paginated list of capability assignments for the given\ncustomer. An assignment ties an entity to a capability with a usage limit and\nreset cadence.",
 	Suggest: true,
@@ -63,11 +63,11 @@ var v1EventsBetaCustomersAssignmentsList = cli.Command{
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
 		},
 	},
-	Action:          handleV1EventsBetaCustomersAssignmentsList,
+	Action:          handleV1BetaCustomersAssignmentsList,
 	HideHelpCommand: true,
 }
 
-var v1EventsBetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
+var v1BetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
 	Usage:   "Batched create-or-update of capability assignments. Existing assignments matched\nby (entityId, capabilityId) are updated; new pairs are created. On update,\nomitted fields (usageLimit, cadence) are preserved; on create both are required\nby the governance service.",
 	Suggest: true,
@@ -92,15 +92,10 @@ var v1EventsBetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Comm
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1EventsBetaCustomersAssignmentsUpsert,
+	Action:          handleV1BetaCustomersAssignmentsUpsert,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
 	"assignment": {
-		&requestflag.InnerFlag[string]{
-			Name:       "assignment.capability-id",
-			Usage:      "The capability refId this assignment grants",
-			InnerField: "capabilityId",
-		},
 		&requestflag.InnerFlag[string]{
 			Name:       "assignment.entity-id",
 			Usage:      "The entity refId this assignment is attached to",
@@ -111,6 +106,25 @@ var v1EventsBetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Comm
 			Usage:      "Usage-reset cadence (required on create). Currently only `MONTH` is supported",
 			InnerField: "cadence",
 		},
+		&requestflag.InnerFlag[string]{
+			Name:       "assignment.currency-id",
+			Usage:      "Currency refId this assignment grants (credit budgets). Mutually exclusive with `featureId`.",
+			InnerField: "currencyId",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "assignment.feature-id",
+			Usage:      "Feature refId this assignment grants. Mutually exclusive with `currencyId`.",
+			InnerField: "featureId",
+		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "assignment.parent-id",
+			Usage:      "Parent entity refId in the hierarchy. Omit to leave the current parent untouched (a new node defaults to a root); `null` detaches to a root; a refId sets or changes the parent. Reparenting an existing node is leaf-only.",
+			InnerField: "parentId",
+		},
+		&requestflag.InnerFlag[[]string]{
+			Name:       "assignment.scope-entity-ids",
+			InnerField: "scopeEntityIds",
+		},
 		&requestflag.InnerFlag[float64]{
 			Name:       "assignment.usage-limit",
 			Usage:      "Maximum usage allowed within one cadence window (required on create)",
@@ -119,7 +133,7 @@ var v1EventsBetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Comm
 	},
 })
 
-func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -141,7 +155,7 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 		return err
 	}
 
-	params := stigg.V1EventBetaCustomerAssignmentListParams{}
+	params := stigg.V1BetaCustomerAssignmentListParams{}
 
 	format := cmd.Root().String("format")
 	explicitFormat := cmd.Root().IsSet("format")
@@ -149,7 +163,7 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 	if format == "raw" {
 		var res []byte
 		options = append(options, option.WithResponseBodyInto(&res))
-		_, err = client.V1.Events.Beta.Customers.Assignments.List(
+		_, err = client.V1Beta.Customers.Assignments.List(
 			ctx,
 			cmd.Value("id").(string),
 			params,
@@ -163,11 +177,11 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:beta:customers:assignments list",
+			Title:          "v1-beta:customers:assignments list",
 			Transform:      transform,
 		})
 	} else {
-		iter := client.V1.Events.Beta.Customers.Assignments.ListAutoPaging(
+		iter := client.V1Beta.Customers.Assignments.ListAutoPaging(
 			ctx,
 			cmd.Value("id").(string),
 			params,
@@ -181,13 +195,13 @@ func handleV1EventsBetaCustomersAssignmentsList(ctx context.Context, cmd *cli.Co
 			ExplicitFormat: explicitFormat,
 			Format:         format,
 			RawOutput:      cmd.Root().Bool("raw-output"),
-			Title:          "v1:events:beta:customers:assignments list",
+			Title:          "v1-beta:customers:assignments list",
 			Transform:      transform,
 		})
 	}
 }
 
-func handleV1EventsBetaCustomersAssignmentsUpsert(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaCustomersAssignmentsUpsert(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -209,11 +223,11 @@ func handleV1EventsBetaCustomersAssignmentsUpsert(ctx context.Context, cmd *cli.
 		return err
 	}
 
-	params := stigg.V1EventBetaCustomerAssignmentUpsertParams{}
+	params := stigg.V1BetaCustomerAssignmentUpsertParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Beta.Customers.Assignments.Upsert(
+	_, err = client.V1Beta.Customers.Assignments.Upsert(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -231,7 +245,7 @@ func handleV1EventsBetaCustomersAssignmentsUpsert(ctx context.Context, cmd *cli.
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:beta:customers:assignments upsert",
+		Title:          "v1-beta:customers:assignments upsert",
 		Transform:      transform,
 	})
 }

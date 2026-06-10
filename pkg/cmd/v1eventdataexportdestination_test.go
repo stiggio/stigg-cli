@@ -17,6 +17,8 @@ func TestV1EventsDataExportDestinationsCreate(t *testing.T) {
 			"v1:events:data-export:destinations", "create",
 			"--destination-id", "x",
 			"--destination-type", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -29,6 +31,8 @@ func TestV1EventsDataExportDestinationsCreate(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:events:data-export:destinations", "create",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -41,6 +45,8 @@ func TestV1EventsDataExportDestinationsDelete(t *testing.T) {
 			"--api-key", "string",
 			"v1:events:data-export:destinations", "delete",
 			"--destination-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
