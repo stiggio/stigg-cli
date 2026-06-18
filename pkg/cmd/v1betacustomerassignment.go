@@ -125,7 +125,7 @@ var v1BetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
 			Name:       "assignment.scope-entity-ids",
 			InnerField: "scopeEntityIds",
 		},
-		&requestflag.InnerFlag[float64]{
+		&requestflag.InnerFlag[*float64]{
 			Name:       "assignment.usage-limit",
 			Usage:      "Maximum usage allowed within one cadence window (required on create)",
 			InnerField: "usageLimit",
