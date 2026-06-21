@@ -37,8 +37,8 @@ func TestV1BetaCustomersAssignmentsUpsert(t *testing.T) {
 			"--api-key", "string",
 			"v1-beta:customers:assignments", "upsert",
 			"--id", "id",
-			"--assignment", "{entityId: workspace-001, cadence: MONTH, currencyId: currencyId, featureId: compute-minutes, parentId: parentId, scopeEntityIds: [NxI], usageLimit: 1000}",
-			"--assignment", "{entityId: workspace-002, cadence: MONTH, currencyId: cred-type-tokens, featureId: featureId, parentId: workspace-001, scopeEntityIds: [user-1], usageLimit: 2000}",
+			"--assignment", "{entityId: workspace-001, cadence: P1M, currencyId: currencyId, featureId: compute-minutes, parentId: parentId, scopeEntityIds: [NxI], usageLimit: 1000}",
+			"--assignment", "{entityId: workspace-002, cadence: P1M, currencyId: cred-type-tokens, featureId: featureId, parentId: workspace-001, scopeEntityIds: [user-1], usageLimit: 2000}",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -55,14 +55,14 @@ func TestV1BetaCustomersAssignmentsUpsert(t *testing.T) {
 			"v1-beta:customers:assignments", "upsert",
 			"--id", "id",
 			"--assignment.entity-id", "workspace-001",
-			"--assignment.cadence", "MONTH",
+			"--assignment.cadence", "P1M",
 			"--assignment.currency-id", "currencyId",
 			"--assignment.feature-id", "compute-minutes",
 			"--assignment.parent-id", "parentId",
 			"--assignment.scope-entity-ids", "[NxI]",
 			"--assignment.usage-limit", "1000",
 			"--assignment.entity-id", "workspace-002",
-			"--assignment.cadence", "MONTH",
+			"--assignment.cadence", "P1M",
 			"--assignment.currency-id", "cred-type-tokens",
 			"--assignment.feature-id", "featureId",
 			"--assignment.parent-id", "workspace-001",
@@ -78,7 +78,7 @@ func TestV1BetaCustomersAssignmentsUpsert(t *testing.T) {
 		pipeData := []byte("" +
 			"assignments:\n" +
 			"  - entityId: workspace-001\n" +
-			"    cadence: MONTH\n" +
+			"    cadence: P1M\n" +
 			"    currencyId: currencyId\n" +
 			"    featureId: compute-minutes\n" +
 			"    parentId: parentId\n" +
@@ -86,7 +86,7 @@ func TestV1BetaCustomersAssignmentsUpsert(t *testing.T) {
 			"      - NxI\n" +
 			"    usageLimit: 1000\n" +
 			"  - entityId: workspace-002\n" +
-			"    cadence: MONTH\n" +
+			"    cadence: P1M\n" +
 			"    currencyId: cred-type-tokens\n" +
 			"    featureId: featureId\n" +
 			"    parentId: workspace-001\n" +

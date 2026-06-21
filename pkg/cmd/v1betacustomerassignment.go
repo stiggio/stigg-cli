@@ -103,7 +103,7 @@ var v1BetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "assignment.cadence",
-			Usage:      "Usage-reset cadence (required on create). Currently only `MONTH` is supported",
+			Usage:      "Usage-reset cadence (required on create) as an ISO-8601 single-unit duration, e.g. `P1M`, `P30D`, `PT1M`.",
 			InnerField: "cadence",
 		},
 		&requestflag.InnerFlag[string]{
