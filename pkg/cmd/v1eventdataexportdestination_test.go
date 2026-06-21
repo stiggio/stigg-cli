@@ -17,6 +17,7 @@ func TestV1EventsDataExportDestinationsCreate(t *testing.T) {
 			"v1:events:data-export:destinations", "create",
 			"--destination-id", "x",
 			"--destination-type", "x",
+			"--enabled-model", "x",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -26,7 +27,9 @@ func TestV1EventsDataExportDestinationsCreate(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
 			"destinationId: x\n" +
-			"destinationType: x\n")
+			"destinationType: x\n" +
+			"enabledModels:\n" +
+			"  - x\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",

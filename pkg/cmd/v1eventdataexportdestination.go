@@ -31,6 +31,10 @@ var v1EventsDataExportDestinationsCreate = cli.Command{
 			Required: true,
 			BodyPath: "destinationType",
 		},
+		&requestflag.Flag[[]string]{
+			Name:     "enabled-model",
+			BodyPath: "enabledModels",
+		},
 		&requestflag.Flag[string]{
 			Name:       "x-account-id",
 			HeaderPath: "X-ACCOUNT-ID",

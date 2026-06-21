@@ -14,6 +14,24 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
+var v1EventsDataExportListModels = cli.Command{
+	Name:    "list-models",
+	Usage:   "List the catalog of data-export models the customer can opt into when connecting\na destination.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
+	},
+	Action:          handleV1EventsDataExportListModels,
+	HideHelpCommand: true,
+}
+
 var v1EventsDataExportMintScopedToken = cli.Command{
 	Name:    "mint-scoped-token",
 	Usage:   "Mint a scoped JWT for the FE embedded SDK. Lazy-creates the DATA_EXPORT\nintegration if needed.",
@@ -29,6 +47,10 @@ var v1EventsDataExportMintScopedToken = cli.Command{
 			Name:     "destination-type",
 			Usage:    "Pin the token to a specific warehouse connect flow",
 			BodyPath: "destinationType",
+		},
+		&requestflag.Flag[[]string]{
+			Name:     "enabled-model",
+			BodyPath: "enabledModels",
 		},
 		&requestflag.Flag[string]{
 			Name:       "x-account-id",
@@ -64,6 +86,47 @@ var v1EventsDataExportTriggerSync = cli.Command{
 	},
 	Action:          handleV1EventsDataExportTriggerSync,
 	HideHelpCommand: true,
+}
+
+func handleV1EventsDataExportListModels(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1EventDataExportListModelsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Events.DataExport.ListModels(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:events:data-export list-models",
+		Transform:      transform,
+	})
 }
 
 func handleV1EventsDataExportMintScopedToken(ctx context.Context, cmd *cli.Command) error {
