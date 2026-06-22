@@ -45,6 +45,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--minimum-spend", "{amount: 0, currency: usd}",
 			"--price-override", "{addonId: addonId, amount: 0, baseCharge: true, currency: usd, currencyId: currencyId, featureId: featureId}",
 			"--promotion-code", "promotionCode",
+			"--salesforce-id", "salesforceId",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
 			"--x-account-id", "X-ACCOUNT-ID",
@@ -101,6 +102,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--price-override.currency-id", "currencyId",
 			"--price-override.feature-id", "featureId",
 			"--promotion-code", "promotionCode",
+			"--salesforce-id", "salesforceId",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
 			"--x-account-id", "X-ACCOUNT-ID",
@@ -188,6 +190,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"    currencyId: currencyId\n" +
 			"    featureId: featureId\n" +
 			"promotionCode: promotionCode\n" +
+			"salesforceId: salesforceId\n" +
 			"scheduleStrategy: END_OF_BILLING_PERIOD\n" +
 			"trialEndDate: '2019-12-27T18:11:19.117Z'\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(

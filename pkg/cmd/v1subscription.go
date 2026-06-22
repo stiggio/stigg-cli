@@ -110,6 +110,11 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Promotion code",
 			BodyPath: "promotionCode",
 		},
+		&requestflag.Flag[*string]{
+			Name:     "salesforce-id",
+			Usage:    "Salesforce ID",
+			BodyPath: "salesforceId",
+		},
 		&requestflag.Flag[string]{
 			Name:     "schedule-strategy",
 			Usage:    `Allowed values: "END_OF_BILLING_PERIOD", "END_OF_BILLING_MONTH", "IMMEDIATE".`,
