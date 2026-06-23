@@ -211,6 +211,7 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1EventsDataExportDestinationsCreate,
+					&v1EventsDataExportDestinationsUpdate,
 					&v1EventsDataExportDestinationsDelete,
 				},
 			},
