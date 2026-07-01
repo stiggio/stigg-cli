@@ -257,6 +257,15 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:credits:consumption",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CreditsConsumptionConsume,
+					&v1CreditsConsumptionConsumeAsync,
+				},
+			},
+			{
 				Name:     "v1:features",
 				Category: "API RESOURCE",
 				Suggest:  true,
