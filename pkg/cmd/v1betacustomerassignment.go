@@ -35,14 +35,19 @@ var v1BetaCustomersAssignmentsList = cli.Command{
 			QueryPath: "before",
 		},
 		&requestflag.Flag[string]{
-			Name:      "capability-id",
-			Usage:     "Filter assignments to a specific capability ID",
-			QueryPath: "capabilityId",
+			Name:      "currency-id",
+			Usage:     "Filter assignments to a specific currency, by its ID. Mutually exclusive with `featureId`.",
+			QueryPath: "currencyId",
 		},
 		&requestflag.Flag[string]{
 			Name:      "entity-id",
 			Usage:     "Filter assignments to a specific entity ID",
 			QueryPath: "entityId",
+		},
+		&requestflag.Flag[string]{
+			Name:      "feature-id",
+			Usage:     "Filter assignments to a specific feature, by its ID. Mutually exclusive with `currencyId`.",
+			QueryPath: "featureId",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "limit",
