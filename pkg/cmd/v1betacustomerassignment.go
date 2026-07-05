@@ -36,12 +36,12 @@ var v1BetaCustomersAssignmentsList = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "capability-id",
-			Usage:     "Filter assignments to a specific capability refId",
+			Usage:     "Filter assignments to a specific capability ID",
 			QueryPath: "capabilityId",
 		},
 		&requestflag.Flag[string]{
 			Name:      "entity-id",
-			Usage:     "Filter assignments to a specific entity refId",
+			Usage:     "Filter assignments to a specific entity ID",
 			QueryPath: "entityId",
 		},
 		&requestflag.Flag[int64]{
@@ -98,7 +98,7 @@ var v1BetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
 	"assignment": {
 		&requestflag.InnerFlag[string]{
 			Name:       "assignment.entity-id",
-			Usage:      "The entity refId this assignment is attached to",
+			Usage:      "The entity ID this assignment is attached to",
 			InnerField: "entityId",
 		},
 		&requestflag.InnerFlag[string]{
@@ -108,17 +108,17 @@ var v1BetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "assignment.currency-id",
-			Usage:      "Currency refId this assignment grants (credit budgets). Mutually exclusive with `featureId`.",
+			Usage:      "Currency ID this assignment grants (credit budgets). Mutually exclusive with `featureId`.",
 			InnerField: "currencyId",
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "assignment.feature-id",
-			Usage:      "Feature refId this assignment grants. Mutually exclusive with `currencyId`.",
+			Usage:      "Feature ID this assignment grants. Mutually exclusive with `currencyId`.",
 			InnerField: "featureId",
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "assignment.parent-id",
-			Usage:      "Parent entity refId in the hierarchy. Omit to leave the current parent untouched (a new node defaults to a root); `null` detaches to a root; a refId sets or changes the parent. Reparenting an existing node is leaf-only.",
+			Usage:      "Parent entity ID in the hierarchy. Omit to leave the current parent untouched (a new node defaults to a root); `null` detaches to a root; an ID sets or changes the parent. Reparenting an existing node is leaf-only.",
 			InnerField: "parentId",
 		},
 		&requestflag.InnerFlag[[]string]{

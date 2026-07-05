@@ -63,6 +63,11 @@ var v1BetaCustomersEntitiesList = cli.Command{
 			QueryPath: "before",
 		},
 		&requestflag.Flag[string]{
+			Name:      "entity-type-id",
+			Usage:     "Filter results to entities of a specific entity type, by the type's ID",
+			QueryPath: "entityTypeId",
+		},
+		&requestflag.Flag[string]{
 			Name:      "include-archived",
 			Usage:     "Whether to include archived entities. One of: true, false",
 			QueryPath: "includeArchived",
@@ -72,11 +77,6 @@ var v1BetaCustomersEntitiesList = cli.Command{
 			Usage:     "Maximum number of items to return",
 			Default:   20,
 			QueryPath: "limit",
-		},
-		&requestflag.Flag[string]{
-			Name:      "type-ref-id",
-			Usage:     "Filter results to entities of a specific entity type, by the type's refId",
-			QueryPath: "typeRefId",
 		},
 		&requestflag.Flag[string]{
 			Name:       "x-account-id",
@@ -187,15 +187,15 @@ var v1BetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The unique identifier for the entity",
 			InnerField: "id",
 		},
+		&requestflag.InnerFlag[string]{
+			Name:       "entity.entity-type-id",
+			Usage:      "The entity type ID this entity instantiates. Required when creating a new entity; on a re-upsert may be omitted to preserve the existing type. Governance returns 400 if missing on create.",
+			InnerField: "entityTypeId",
+		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "entity.metadata",
 			Usage:      "Free-form key/value metadata. Patch semantics: empty-string value removes a key, omitted keys are preserved.",
 			InnerField: "metadata",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "entity.type-ref-id",
-			Usage:      "The entity type refId this entity instantiates. Required when creating a new entity; on a re-upsert may be omitted to preserve the existing type. Governance returns 400 if missing on create.",
-			InnerField: "typeRefId",
 		},
 	},
 })
