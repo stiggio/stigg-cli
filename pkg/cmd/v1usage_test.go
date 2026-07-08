@@ -35,7 +35,7 @@ func TestV1UsageReport(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:usage", "report",
-			"--usage", "{customerId: customerId, featureId: featureId, value: -9007199254740991, createdAt: '2019-12-27T18:11:19.117Z', dimensions: {foo: string}, resourceId: resourceId, updateBehavior: DELTA}",
+			"--usage", "{customerId: customerId, featureId: featureId, value: -9007199254740991, createdAt: '2019-12-27T18:11:19.117Z', dimensions: {foo: string}, idempotencyKey: x, resourceId: resourceId, updateBehavior: DELTA}",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -55,6 +55,7 @@ func TestV1UsageReport(t *testing.T) {
 			"--usage.value", "-9007199254740991",
 			"--usage.created-at", "2019-12-27T18:11:19.117Z",
 			"--usage.dimensions", "{foo: string}",
+			"--usage.idempotency-key", "x",
 			"--usage.resource-id", "resourceId",
 			"--usage.update-behavior", "DELTA",
 			"--x-account-id", "X-ACCOUNT-ID",
@@ -72,6 +73,7 @@ func TestV1UsageReport(t *testing.T) {
 			"    createdAt: '2019-12-27T18:11:19.117Z'\n" +
 			"    dimensions:\n" +
 			"      foo: string\n" +
+			"    idempotencyKey: x\n" +
 			"    resourceId: resourceId\n" +
 			"    updateBehavior: DELTA\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(

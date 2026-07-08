@@ -112,6 +112,11 @@ var v1UsageReport = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "Additional dimensions for the usage report",
 			InnerField: "dimensions",
 		},
+		&requestflag.InnerFlag[string]{
+			Name:       "usage.idempotency-key",
+			Usage:      "Idempotency key",
+			InnerField: "idempotencyKey",
+		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "usage.resource-id",
 			Usage:      "Resource id",
