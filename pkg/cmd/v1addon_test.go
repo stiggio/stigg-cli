@@ -21,7 +21,7 @@ func TestV1AddonsCreate(t *testing.T) {
 			"--product-id", "productId",
 			"--billing-id", "billingId",
 			"--description", "description",
-			"--max-quantity", "0",
+			"--max-quantity", "1",
 			"--metadata", "{foo: string}",
 			"--pricing-type", "FREE",
 			"--status", "DRAFT",
@@ -38,7 +38,7 @@ func TestV1AddonsCreate(t *testing.T) {
 			"productId: productId\n" +
 			"billingId: billingId\n" +
 			"description: description\n" +
-			"maxQuantity: 0\n" +
+			"maxQuantity: 1\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
 			"pricingType: FREE\n" +
@@ -80,7 +80,7 @@ func TestV1AddonsUpdate(t *testing.T) {
 			"--dependency", "[string]",
 			"--description", "description",
 			"--display-name", "displayName",
-			"--max-quantity", "0",
+			"--max-quantity", "1",
 			"--metadata", "{foo: string}",
 			"--status", "DRAFT",
 			"--x-account-id", "X-ACCOUNT-ID",
@@ -108,7 +108,7 @@ func TestV1AddonsUpdate(t *testing.T) {
 			"--dependency", "[string]",
 			"--description", "description",
 			"--display-name", "displayName",
-			"--max-quantity", "0",
+			"--max-quantity", "1",
 			"--metadata", "{foo: string}",
 			"--status", "DRAFT",
 			"--x-account-id", "X-ACCOUNT-ID",
@@ -205,7 +205,7 @@ func TestV1AddonsUpdate(t *testing.T) {
 			"  - string\n" +
 			"description: description\n" +
 			"displayName: displayName\n" +
-			"maxQuantity: 0\n" +
+			"maxQuantity: 1\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
 			"status: DRAFT\n")
