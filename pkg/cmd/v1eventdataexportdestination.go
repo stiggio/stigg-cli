@@ -84,7 +84,7 @@ var v1EventsDataExportDestinationsUpdate = cli.Command{
 
 var v1EventsDataExportDestinationsDelete = cli.Command{
 	Name:    "delete",
-	Usage:   "Remove a destination from the DATA_EXPORT integration metadata. Idempotent.",
+	Usage:   "Disconnect a destination: stops the provider sync (deletes the provider\ndestination) and removes it from the DATA_EXPORT integration. Non-destructive —\nthe warehouse table is left intact. Idempotent.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
