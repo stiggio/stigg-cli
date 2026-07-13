@@ -404,7 +404,7 @@ var v1CustomersListResources = cli.Command{
 
 var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 	Name:    "provision",
-	Usage:   "Creates a new customer and optionally provisions an initial subscription in a\nsingle operation.",
+	Usage:   "Creates a new customer.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
