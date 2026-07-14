@@ -217,14 +217,6 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1:events:beta:customers",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1EventsBetaCustomersRetrieveGovernance,
-				},
-			},
-			{
 				Name:     "v1:credits",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -355,6 +347,14 @@ func init() {
 					&v1ProductsListProducts,
 					&v1ProductsUnarchiveProduct,
 					&v1ProductsUpdateProduct,
+				},
+			},
+			{
+				Name:     "v1-beta:customers",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersRetrieveGovernance,
 				},
 			},
 			{

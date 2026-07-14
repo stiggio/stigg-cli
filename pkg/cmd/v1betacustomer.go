@@ -14,7 +14,7 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsBetaCustomersRetrieveGovernance = cli.Command{
+var v1BetaCustomersRetrieveGovernance = cli.Command{
 	Name:    "retrieve-governance",
 	Usage:   "Queries the customer's governance hierarchy tree, returning a cursor-paginated\nlist of nodes with their usage configuration (limit, cadence, scope) and current\nusage, sortable and filterable by usage. Each node carries `parentId` so the\ntree can be rebuilt client-side. Usage is read from a periodically-refreshed\nread model and never gates access.",
 	Suggest: true,
@@ -87,11 +87,11 @@ var v1EventsBetaCustomersRetrieveGovernance = cli.Command{
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1EventsBetaCustomersRetrieveGovernance,
+	Action:          handleV1BetaCustomersRetrieveGovernance,
 	HideHelpCommand: true,
 }
 
-func handleV1EventsBetaCustomersRetrieveGovernance(ctx context.Context, cmd *cli.Command) error {
+func handleV1BetaCustomersRetrieveGovernance(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
@@ -113,11 +113,11 @@ func handleV1EventsBetaCustomersRetrieveGovernance(ctx context.Context, cmd *cli
 		return err
 	}
 
-	params := stigg.V1EventBetaCustomerGetGovernanceParams{}
+	params := stigg.V1BetaCustomerGetGovernanceParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Beta.Customers.GetGovernance(
+	_, err = client.V1Beta.Customers.GetGovernance(
 		ctx,
 		cmd.Value("id").(string),
 		params,
@@ -135,7 +135,7 @@ func handleV1EventsBetaCustomersRetrieveGovernance(ctx context.Context, cmd *cli
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:beta:customers retrieve-governance",
+		Title:          "v1-beta:customers retrieve-governance",
 		Transform:      transform,
 	})
 }

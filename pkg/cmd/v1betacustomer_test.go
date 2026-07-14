@@ -8,13 +8,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/mocktest"
 )
 
-func TestV1EventsBetaCustomersRetrieveGovernance(t *testing.T) {
+func TestV1BetaCustomersRetrieveGovernance(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers", "retrieve-governance",
+			"v1-beta:customers", "retrieve-governance",
 			"--id", "id",
 			"--after", "after",
 			"--currency-id", "string",
