@@ -14,6 +14,58 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
+var v1UsageEstimateCost = cli.Command{
+	Name:    "estimate-cost",
+	Usage:   "Estimates the credit cost of a usage report without recording it. Returns the\nestimated cost per credit currency, the current balance, and the balance after\nthe estimated consumption.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "customer-id",
+			Usage:    "Customer id",
+			Required: true,
+			BodyPath: "customerId",
+		},
+		&requestflag.Flag[string]{
+			Name:     "feature-id",
+			Usage:    "Feature id",
+			Required: true,
+			BodyPath: "featureId",
+		},
+		&requestflag.Flag[int64]{
+			Name:     "value",
+			Usage:    "The value to report for usage",
+			Required: true,
+			BodyPath: "value",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "dimensions",
+			Usage:    "Additional dimensions for the usage report",
+			BodyPath: "dimensions",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "resource-id",
+			Usage:    "Resource id",
+			BodyPath: "resourceId",
+		},
+		&requestflag.Flag[string]{
+			Name:     "update-behavior",
+			Usage:    "The method by which the usage value should be updated",
+			Default:  "DELTA",
+			BodyPath: "updateBehavior",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
+	},
+	Action:          handleV1UsageEstimateCost,
+	HideHelpCommand: true,
+}
+
 var v1UsageHistory = cli.Command{
 	Name:    "history",
 	Usage:   "Retrieves historical usage data for a customer's metered feature over time.",
@@ -129,6 +181,47 @@ var v1UsageReport = requestflag.WithInnerFlags(cli.Command{
 		},
 	},
 })
+
+func handleV1UsageEstimateCost(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1UsageEstimateCostParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Usage.EstimateCost(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:usage estimate-cost",
+		Transform:      transform,
+	})
+}
 
 func handleV1UsageHistory(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)

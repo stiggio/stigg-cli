@@ -192,6 +192,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&v1EventsEstimateCost,
 					&v1EventsReport,
 				},
 			},
@@ -338,6 +339,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&v1UsageEstimateCost,
 					&v1UsageHistory,
 					&v1UsageReport,
 				},

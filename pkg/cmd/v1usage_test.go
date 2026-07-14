@@ -9,6 +9,44 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
+func TestV1UsageEstimateCost(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:usage", "estimate-cost",
+			"--customer-id", "customerId",
+			"--feature-id", "featureId",
+			"--value", "-9007199254740991",
+			"--dimensions", "{foo: string}",
+			"--resource-id", "resourceId",
+			"--update-behavior", "DELTA",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"customerId: customerId\n" +
+			"featureId: featureId\n" +
+			"value: -9007199254740991\n" +
+			"dimensions:\n" +
+			"  foo: string\n" +
+			"resourceId: resourceId\n" +
+			"updateBehavior: DELTA\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:usage", "estimate-cost",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
 func TestV1UsageHistory(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {

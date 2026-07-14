@@ -14,6 +14,46 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
+var v1EventsEstimateCost = cli.Command{
+	Name:    "estimate-cost",
+	Usage:   "Estimates the credit cost of a usage event without ingesting it. Returns the\nestimated cost per credit currency, the current balance, and the balance after\nthe estimated consumption.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:     "customer-id",
+			Usage:    "Customer id",
+			Required: true,
+			BodyPath: "customerId",
+		},
+		&requestflag.Flag[string]{
+			Name:     "event-name",
+			Usage:    "The name of the usage event",
+			Required: true,
+			BodyPath: "eventName",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "dimensions",
+			Usage:    "Dimensions associated with the usage event",
+			BodyPath: "dimensions",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "resource-id",
+			Usage:    "Resource id",
+			BodyPath: "resourceId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
+	},
+	Action:          handleV1EventsEstimateCost,
+	HideHelpCommand: true,
+}
+
 var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 	Name:    "report",
 	Usage:   "Reports raw usage events for event-based metering. Events are ingested\nasynchronously and aggregated into usage totals.",
@@ -70,6 +110,47 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 		},
 	},
 })
+
+func handleV1EventsEstimateCost(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1EventEstimateCostParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Events.EstimateCost(ctx, params, options...)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:events estimate-cost",
+		Transform:      transform,
+	})
+}
 
 func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
