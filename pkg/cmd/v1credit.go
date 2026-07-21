@@ -140,6 +140,11 @@ var v1CreditsListLedger = cli.Command{
 			Usage:     "Filter by currency ID",
 			QueryPath: "currencyId",
 		},
+		&requestflag.Flag[string]{
+			Name:      "event-type",
+			Usage:     "Filter by event type(s), comma-separated",
+			QueryPath: "eventType",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "limit",
 			Usage:     "Maximum number of items to return",
