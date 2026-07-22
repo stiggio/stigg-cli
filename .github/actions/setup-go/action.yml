@@ -1,5 +1,5 @@
 name: Setup Go
-description: 'Sets up Go environment'
+description: "Sets up Go environment"
 inputs:
   go-version:
     required: false
@@ -7,9 +7,17 @@ inputs:
   cache-dependency-path:
     required: false
     description: path to dependency files for caching
+  go-repo-read-token:
+    required: false
+    description: token with read access to the private Go SDK staging repo
 runs:
   using: composite
   steps:
+    - name: Authenticate git for the private Go SDK repo
+      if: github.repository == 'stainless-sdks/stigg-cli-staging' && inputs.go-repo-read-token != ''
+      shell: bash
+      run: git config --global url."https://x-access-token:${{ inputs.go-repo-read-token }}@github.com/stainless-sdks/stigg-go-staging".insteadOf "https://github.com/stainless-sdks/stigg-go-staging"
+
     - name: Verify Go SDK module is accessible
       shell: bash
       env:

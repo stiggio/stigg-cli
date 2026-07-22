@@ -29,12 +29,12 @@ jobs:
 
       - uses: ./.github/actions/setup-go
         with:
-          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
+          go-repo-read-token: ${{ secrets.GO_REPO_READ_TOKEN }}
 
       - name: Link staging branch
-        if: github.repository == 'stainless-sdks/stigg-cli'
+        if: github.repository == 'stainless-sdks/stigg-cli-staging'
         run: |
-          ./scripts/link 'github.com/stainless-sdks/stigg-go@${{ github.ref_name }}' || true
+          ./scripts/link 'github.com/stainless-sdks/stigg-go-staging@${{ github.ref_name }}' || true
 
       - name: Bootstrap
         run: ./scripts/bootstrap
@@ -55,12 +55,12 @@ jobs:
 
       - uses: ./.github/actions/setup-go
         with:
-          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
+          go-repo-read-token: ${{ secrets.GO_REPO_READ_TOKEN }}
 
       - name: Link staging branch
-        if: github.repository == 'stainless-sdks/stigg-cli'
+        if: github.repository == 'stainless-sdks/stigg-cli-staging'
         run: |
-          ./scripts/link 'github.com/stainless-sdks/stigg-go@${{ github.ref_name }}' || true
+          ./scripts/link 'github.com/stainless-sdks/stigg-go-staging@${{ github.ref_name }}' || true
 
       - name: Bootstrap
         run: ./scripts/bootstrap
@@ -102,12 +102,12 @@ jobs:
 
       - uses: ./.github/actions/setup-go
         with:
-          stainless-api-key: ${{ secrets.STAINLESS_API_KEY }}
+          go-repo-read-token: ${{ secrets.GO_REPO_READ_TOKEN }}
 
       - name: Link staging branch
-        if: github.repository == 'stainless-sdks/stigg-cli'
+        if: github.repository == 'stainless-sdks/stigg-cli-staging'
         run: |
-          ./scripts/link 'github.com/stainless-sdks/stigg-go@${{ github.ref_name }}' || true
+          ./scripts/link 'github.com/stainless-sdks/stigg-go-staging@${{ github.ref_name }}' || true
 
       - name: Bootstrap
         run: ./scripts/bootstrap
