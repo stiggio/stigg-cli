@@ -47,6 +47,14 @@ var v1CustomersPaymentMethodAttach = cli.Command{
 			Usage:    "Customers selected currency",
 			BodyPath: "billingCurrency",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersPaymentMethodAttach,
 	HideHelpCommand: true,
@@ -61,6 +69,14 @@ var v1CustomersPaymentMethodDetach = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersPaymentMethodDetach,
@@ -138,9 +154,16 @@ func handleV1CustomersPaymentMethodDetach(ctx context.Context, cmd *cli.Command)
 		return err
 	}
 
+	params := stigg.V1CustomerPaymentMethodDetachParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Customers.PaymentMethod.Detach(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Customers.PaymentMethod.Detach(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

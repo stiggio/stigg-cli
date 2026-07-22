@@ -24,6 +24,14 @@ var v1ProductsArchiveProduct = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1ProductsArchiveProduct,
 	HideHelpCommand: true,
@@ -62,6 +70,14 @@ var v1ProductsCreateProduct = cli.Command{
 			Default:  false,
 			BodyPath: "multipleSubscriptions",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1ProductsCreateProduct,
 	HideHelpCommand: true,
@@ -92,6 +108,14 @@ var v1ProductsDuplicateProduct = cli.Command{
 			Name:     "display-name",
 			Usage:    "Display name of the product",
 			BodyPath: "displayName",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1ProductsDuplicateProduct,
@@ -134,6 +158,14 @@ var v1ProductsListProducts = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by product status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -175,6 +207,14 @@ var v1ProductsUnarchiveProduct = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1ProductsUnarchiveProduct,
@@ -219,6 +259,14 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 			Name:     "usage-reset-cutoff-rule",
 			Usage:    "Rule defining when usage resets upon subscription update.",
 			BodyPath: "usageResetCutoffRule",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1ProductsUpdateProduct,
@@ -287,9 +335,16 @@ func handleV1ProductsArchiveProduct(ctx context.Context, cmd *cli.Command) error
 		return err
 	}
 
+	params := stigg.V1ProductArchiveProductParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Products.ArchiveProduct(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Products.ArchiveProduct(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -474,9 +529,16 @@ func handleV1ProductsUnarchiveProduct(ctx context.Context, cmd *cli.Command) err
 		return err
 	}
 
+	params := stigg.V1ProductUnarchiveProductParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Products.UnarchiveProduct(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Products.UnarchiveProduct(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

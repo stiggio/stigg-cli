@@ -31,6 +31,14 @@ var v1CreditsGetAutoRecharge = cli.Command{
 			Required:  true,
 			QueryPath: "customerId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsGetAutoRecharge,
 	HideHelpCommand: true,
@@ -48,6 +56,16 @@ var v1CreditsGetUsage = cli.Command{
 			QueryPath: "customerId",
 		},
 		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[string]{
 			Name:      "currency-id",
 			Usage:     "Filter by currency ID",
 			QueryPath: "currencyId",
@@ -61,6 +79,12 @@ var v1CreditsGetUsage = cli.Command{
 			Name:      "group-by",
 			Usage:     "Comma-separated list of feature dimension keys to group usage series by (up to 3). Each key matches /^[a-zA-Z0-9_$-]+$/",
 			QueryPath: "groupBy",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
 		},
 		&requestflag.Flag[string]{
 			Name:      "resource-id",
@@ -76,6 +100,14 @@ var v1CreditsGetUsage = cli.Command{
 			Name:      "time-range",
 			Usage:     "Time range for usage data (LAST_DAY, LAST_WEEK, LAST_MONTH, LAST_YEAR). Defaults to LAST_MONTH",
 			QueryPath: "timeRange",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CreditsGetUsage,
@@ -108,6 +140,11 @@ var v1CreditsListLedger = cli.Command{
 			Usage:     "Filter by currency ID",
 			QueryPath: "currencyId",
 		},
+		&requestflag.Flag[string]{
+			Name:      "event-type",
+			Usage:     "Filter by event type(s), comma-separated",
+			QueryPath: "eventType",
+		},
 		&requestflag.Flag[int64]{
 			Name:      "limit",
 			Usage:     "Maximum number of items to return",
@@ -118,6 +155,14 @@ var v1CreditsListLedger = cli.Command{
 			Name:      "resource-id",
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",

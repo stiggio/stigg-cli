@@ -17,6 +17,8 @@ func TestV1CustomersRetrieve(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers", "retrieve",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -39,6 +41,8 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--name", "name",
 			"--passthrough", "{stripe: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}, zuora: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}}",
 			"--timezone", "timezone",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -65,6 +69,8 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--passthrough.stripe", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}",
 			"--passthrough.zuora", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}",
 			"--timezone", "timezone",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -126,6 +132,8 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers", "update",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -144,6 +152,8 @@ func TestV1CustomersList(t *testing.T) {
 			"--email", "email",
 			"--limit", "1",
 			"--name", "name",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -166,6 +176,8 @@ func TestV1CustomersList(t *testing.T) {
 			"--email", "email",
 			"--limit", "1",
 			"--name", "name",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -178,6 +190,8 @@ func TestV1CustomersArchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers", "archive",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -195,6 +209,8 @@ func TestV1CustomersCheckEntitlement(t *testing.T) {
 			"--requested-usage", "0",
 			"--requested-value", "string",
 			"--resource-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -208,6 +224,8 @@ func TestV1CustomersImport(t *testing.T) {
 			"v1:customers", "import",
 			"--customer", "{id: id, email: dev@stainless.com, name: name, billingId: billingId, metadata: {foo: string}, paymentMethodId: paymentMethodId, salesforceId: salesforceId, updatedAt: '2019-12-27T18:11:19.117Z'}",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -229,6 +247,8 @@ func TestV1CustomersImport(t *testing.T) {
 			"--customer.salesforce-id", "salesforceId",
 			"--customer.updated-at", "2019-12-27T18:11:19.117Z",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -250,6 +270,8 @@ func TestV1CustomersImport(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:customers", "import",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -266,6 +288,8 @@ func TestV1CustomersListResources(t *testing.T) {
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -289,6 +313,8 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--name", "name",
 			"--passthrough", "{stripe: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}, zuora: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}}",
 			"--timezone", "timezone",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -320,6 +346,8 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--passthrough.stripe", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}",
 			"--passthrough.zuora", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}",
 			"--timezone", "timezone",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -387,6 +415,8 @@ func TestV1CustomersProvision(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:customers", "provision",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -400,6 +430,8 @@ func TestV1CustomersRetrieveEntitlements(t *testing.T) {
 			"v1:customers", "retrieve-entitlements",
 			"--id", "x",
 			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -412,6 +444,8 @@ func TestV1CustomersUnarchive(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers", "unarchive",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

@@ -9,47 +9,53 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
-func TestV1EventsBetaCustomersEntitiesRetrieve(t *testing.T) {
+func TestV1BetaCustomersEntitiesRetrieve(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "retrieve",
+			"v1-beta:customers:entities", "retrieve",
 			"--id", "id",
 			"--entity-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
 
-func TestV1EventsBetaCustomersEntitiesList(t *testing.T) {
+func TestV1BetaCustomersEntitiesList(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "list",
+			"v1-beta:customers:entities", "list",
 			"--max-items", "10",
 			"--id", "id",
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--entity-type-id", "entityTypeId",
 			"--include-archived", "true",
 			"--limit", "1",
-			"--type-ref-id", "typeRefId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
 
-func TestV1EventsBetaCustomersEntitiesArchive(t *testing.T) {
+func TestV1BetaCustomersEntitiesArchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "archive",
+			"v1-beta:customers:entities", "archive",
 			"--id", "id",
 			"--id", "user-7f3a0c1d",
 			"--id", "user-c4d1b2e9",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -62,22 +68,26 @@ func TestV1EventsBetaCustomersEntitiesArchive(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "archive",
+			"v1-beta:customers:entities", "archive",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
 
-func TestV1EventsBetaCustomersEntitiesUnarchive(t *testing.T) {
+func TestV1BetaCustomersEntitiesUnarchive(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "unarchive",
+			"v1-beta:customers:entities", "unarchive",
 			"--id", "id",
 			"--id", "user-7f3a0c1d",
 			"--id", "user-c4d1b2e9",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -90,41 +100,47 @@ func TestV1EventsBetaCustomersEntitiesUnarchive(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "unarchive",
+			"v1-beta:customers:entities", "unarchive",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
 
-func TestV1EventsBetaCustomersEntitiesUpsert(t *testing.T) {
+func TestV1BetaCustomersEntitiesUpsert(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "upsert",
+			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
-			"--entity", "{id: user-7f3a0c1d, metadata: {email: jane@acme.com, role: admin}, typeRefId: user}",
-			"--entity", "{id: user-c4d1b2e9, metadata: {email: john@acme.com}, typeRefId: user}",
+			"--entity", "{id: user-7f3a0c1d, entityTypeId: user, metadata: {email: jane@acme.com, role: admin}}",
+			"--entity", "{id: user-c4d1b2e9, entityTypeId: user, metadata: {email: john@acme.com}}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
 	t.Run("inner flags", func(t *testing.T) {
 		// Check that inner flags have been set up correctly
-		requestflag.CheckInnerFlags(v1EventsBetaCustomersEntitiesUpsert)
+		requestflag.CheckInnerFlags(v1BetaCustomersEntitiesUpsert)
 
 		// Alternative argument passing style using inner flags
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "upsert",
+			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
 			"--entity.id", "user-7f3a0c1d",
+			"--entity.entity-type-id", "user",
 			"--entity.metadata", "{email: jane@acme.com, role: admin}",
-			"--entity.type-ref-id", "user",
 			"--entity.id", "user-c4d1b2e9",
+			"--entity.entity-type-id", "user",
 			"--entity.metadata", "{email: john@acme.com}",
-			"--entity.type-ref-id", "user",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -133,19 +149,21 @@ func TestV1EventsBetaCustomersEntitiesUpsert(t *testing.T) {
 		pipeData := []byte("" +
 			"entities:\n" +
 			"  - id: user-7f3a0c1d\n" +
+			"    entityTypeId: user\n" +
 			"    metadata:\n" +
 			"      email: jane@acme.com\n" +
 			"      role: admin\n" +
-			"    typeRefId: user\n" +
 			"  - id: user-c4d1b2e9\n" +
+			"    entityTypeId: user\n" +
 			"    metadata:\n" +
-			"      email: john@acme.com\n" +
-			"    typeRefId: user\n")
+			"      email: john@acme.com\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:events:beta:customers:entities", "upsert",
+			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

@@ -14,31 +14,48 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsEstimateCost = cli.Command{
-	Name:    "estimate-cost",
-	Usage:   "Estimates the credit cost of a usage event without ingesting it. Returns the\nestimated cost per credit currency, the current balance, and the balance after\nthe estimated consumption.",
+var v1CreditsConsumptionConsume = cli.Command{
+	Name:    "consume",
+	Usage:   "Consumes a specified amount of credits directly from a customer wallet, with no\nfeature mapping. Returns the optimistic balance.",
 	Suggest: true,
 	Flags: []cli.Flag{
+		&requestflag.Flag[float64]{
+			Name:     "amount",
+			Usage:    "The amount of credits to consume",
+			Required: true,
+			BodyPath: "amount",
+		},
+		&requestflag.Flag[string]{
+			Name:     "currency-id",
+			Usage:    "The credit currency to consume from (required)",
+			Required: true,
+			BodyPath: "currencyId",
+		},
 		&requestflag.Flag[string]{
 			Name:     "customer-id",
-			Usage:    "Customer id",
+			Usage:    "The customer to consume credits from (required)",
 			Required: true,
 			BodyPath: "customerId",
 		},
 		&requestflag.Flag[string]{
-			Name:     "event-name",
-			Usage:    "The name of the usage event",
+			Name:     "idempotency-key",
+			Usage:    "A unique key used to deduplicate the consumption (required)",
 			Required: true,
-			BodyPath: "eventName",
+			BodyPath: "idempotencyKey",
+		},
+		&requestflag.Flag[any]{
+			Name:     "created-at",
+			Usage:    "Optional timestamp the consumption is attributed to",
+			BodyPath: "createdAt",
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "dimensions",
-			Usage:    "Dimensions associated with the usage event",
+			Usage:    "Optional dimensions describing the consumption",
 			BodyPath: "dimensions",
 		},
-		&requestflag.Flag[*string]{
+		&requestflag.Flag[string]{
 			Name:     "resource-id",
-			Usage:    "Resource id",
+			Usage:    "Optional resource the consumption is attributed to",
 			BodyPath: "resourceId",
 		},
 		&requestflag.Flag[string]{
@@ -50,20 +67,20 @@ var v1EventsEstimateCost = cli.Command{
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1EventsEstimateCost,
+	Action:          handleV1CreditsConsumptionConsume,
 	HideHelpCommand: true,
 }
 
-var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
-	Name:    "report",
-	Usage:   "Reports raw usage events for event-based metering. Events are ingested\nasynchronously and aggregated into usage totals.",
+var v1CreditsConsumptionConsumeAsync = requestflag.WithInnerFlags(cli.Command{
+	Name:    "consume-async",
+	Usage:   "Consumes credits directly from customer wallets asynchronously. Consumptions are\nreconciled asynchronously into the credit balances.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]map[string]any]{
-			Name:     "event",
-			Usage:    "A list of usage events to report",
+			Name:     "consumption",
+			Usage:    "The credit consumptions to report (up to 1000)",
 			Required: true,
-			BodyPath: "events",
+			BodyPath: "consumptions",
 		},
 		&requestflag.Flag[string]{
 			Name:       "x-account-id",
@@ -74,44 +91,49 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1EventsReport,
+	Action:          handleV1CreditsConsumptionConsumeAsync,
 	HideHelpCommand: true,
 }, map[string][]requestflag.HasOuterFlag{
-	"event": {
+	"consumption": {
+		&requestflag.InnerFlag[float64]{
+			Name:       "consumption.amount",
+			Usage:      "The amount of credits to consume",
+			InnerField: "amount",
+		},
 		&requestflag.InnerFlag[string]{
-			Name:       "event.customer-id",
-			Usage:      "Customer id",
+			Name:       "consumption.currency-id",
+			Usage:      "The credit currency to consume from (required)",
+			InnerField: "currencyId",
+		},
+		&requestflag.InnerFlag[string]{
+			Name:       "consumption.customer-id",
+			Usage:      "The customer to consume credits from (required)",
 			InnerField: "customerId",
 		},
 		&requestflag.InnerFlag[string]{
-			Name:       "event.event-name",
-			Usage:      "The name of the usage event",
-			InnerField: "eventName",
-		},
-		&requestflag.InnerFlag[string]{
-			Name:       "event.idempotency-key",
-			Usage:      "Idempotency key",
+			Name:       "consumption.idempotency-key",
+			Usage:      "A unique key used to deduplicate the consumption (required)",
 			InnerField: "idempotencyKey",
 		},
+		&requestflag.InnerFlag[any]{
+			Name:       "consumption.created-at",
+			Usage:      "Optional timestamp the consumption is attributed to",
+			InnerField: "createdAt",
+		},
 		&requestflag.InnerFlag[map[string]any]{
-			Name:       "event.dimensions",
-			Usage:      "Dimensions associated with the usage event",
+			Name:       "consumption.dimensions",
+			Usage:      "Optional dimensions describing the consumption",
 			InnerField: "dimensions",
 		},
-		&requestflag.InnerFlag[*string]{
-			Name:       "event.resource-id",
-			Usage:      "Resource id",
+		&requestflag.InnerFlag[string]{
+			Name:       "consumption.resource-id",
+			Usage:      "Optional resource the consumption is attributed to",
 			InnerField: "resourceId",
-		},
-		&requestflag.InnerFlag[any]{
-			Name:       "event.timestamp",
-			Usage:      "Timestamp",
-			InnerField: "timestamp",
 		},
 	},
 })
 
-func handleV1EventsEstimateCost(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsConsumptionConsume(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -130,11 +152,11 @@ func handleV1EventsEstimateCost(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1EventEstimateCostParams{}
+	params := stigg.V1CreditConsumptionConsumeParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.EstimateCost(ctx, params, options...)
+	_, err = client.V1.Credits.Consumption.Consume(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -147,12 +169,12 @@ func handleV1EventsEstimateCost(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events estimate-cost",
+		Title:          "v1:credits:consumption consume",
 		Transform:      transform,
 	})
 }
 
-func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
+func handleV1CreditsConsumptionConsumeAsync(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -171,11 +193,11 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1EventReportParams{}
+	params := stigg.V1CreditConsumptionConsumeAsyncParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.Report(ctx, params, options...)
+	_, err = client.V1.Credits.Consumption.ConsumeAsync(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -188,7 +210,7 @@ func handleV1EventsReport(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events report",
+		Title:          "v1:credits:consumption consume-async",
 		Transform:      transform,
 	})
 }

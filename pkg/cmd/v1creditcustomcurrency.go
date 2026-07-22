@@ -51,6 +51,14 @@ var v1CreditsCustomCurrenciesCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Singular and plural unit labels for a custom currency. Both fields are required when supplied.",
 			BodyPath: "units",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsCustomCurrenciesCreate,
 	HideHelpCommand: true,
@@ -104,6 +112,14 @@ var v1CreditsCustomCurrenciesUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Singular and plural unit labels for a custom currency. Both fields are required when supplied.",
 			BodyPath: "units",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsCustomCurrenciesUpdate,
 	HideHelpCommand: true,
@@ -148,6 +164,14 @@ var v1CreditsCustomCurrenciesList = cli.Command{
 			Usage:     "Filter by custom currency status. Supports comma-separated values (e.g., `ACTIVE,ARCHIVED`). Defaults to `ACTIVE`.",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -167,6 +191,14 @@ var v1CreditsCustomCurrenciesArchive = cli.Command{
 			Required:  true,
 			PathParam: "currencyId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsCustomCurrenciesArchive,
 	HideHelpCommand: true,
@@ -182,6 +214,14 @@ var v1CreditsCustomCurrenciesListAssociatedEntities = cli.Command{
 			Required:  true,
 			PathParam: "currencyId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsCustomCurrenciesListAssociatedEntities,
 	HideHelpCommand: true,
@@ -196,6 +236,14 @@ var v1CreditsCustomCurrenciesUnarchive = cli.Command{
 			Name:      "currency-id",
 			Required:  true,
 			PathParam: "currencyId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CreditsCustomCurrenciesUnarchive,
@@ -369,9 +417,16 @@ func handleV1CreditsCustomCurrenciesArchive(ctx context.Context, cmd *cli.Comman
 		return err
 	}
 
+	params := stigg.V1CreditCustomCurrencyArchiveParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Credits.CustomCurrencies.Archive(ctx, cmd.Value("currency-id").(string), options...)
+	_, err = client.V1.Credits.CustomCurrencies.Archive(
+		ctx,
+		cmd.Value("currency-id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -411,9 +466,16 @@ func handleV1CreditsCustomCurrenciesListAssociatedEntities(ctx context.Context, 
 		return err
 	}
 
+	params := stigg.V1CreditCustomCurrencyListAssociatedEntitiesParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Credits.CustomCurrencies.ListAssociatedEntities(ctx, cmd.Value("currency-id").(string), options...)
+	_, err = client.V1.Credits.CustomCurrencies.ListAssociatedEntities(
+		ctx,
+		cmd.Value("currency-id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}
@@ -453,9 +515,16 @@ func handleV1CreditsCustomCurrenciesUnarchive(ctx context.Context, cmd *cli.Comm
 		return err
 	}
 
+	params := stigg.V1CreditCustomCurrencyUnarchiveParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Credits.CustomCurrencies.Unarchive(ctx, cmd.Value("currency-id").(string), options...)
+	_, err = client.V1.Credits.CustomCurrencies.Unarchive(
+		ctx,
+		cmd.Value("currency-id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

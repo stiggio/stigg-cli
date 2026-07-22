@@ -9,6 +9,40 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
+func TestV1EventsEstimateCost(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:events", "estimate-cost",
+			"--customer-id", "customerId",
+			"--event-name", "x",
+			"--dimensions", "{foo: string}",
+			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"customerId: customerId\n" +
+			"eventName: x\n" +
+			"dimensions:\n" +
+			"  foo: string\n" +
+			"resourceId: resourceId\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:events", "estimate-cost",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
 func TestV1EventsReport(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
@@ -17,6 +51,8 @@ func TestV1EventsReport(t *testing.T) {
 			"--api-key", "string",
 			"v1:events", "report",
 			"--event", "{customerId: customerId, eventName: x, idempotencyKey: x, dimensions: {foo: string}, resourceId: resourceId, timestamp: '2019-12-27T18:11:19.117Z'}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -35,6 +71,8 @@ func TestV1EventsReport(t *testing.T) {
 			"--event.dimensions", "{foo: string}",
 			"--event.resource-id", "resourceId",
 			"--event.timestamp", "2019-12-27T18:11:19.117Z",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -53,6 +91,8 @@ func TestV1EventsReport(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:events", "report",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

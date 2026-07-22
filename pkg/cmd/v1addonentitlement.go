@@ -30,6 +30,14 @@ var v1AddonsEntitlementsCreate = cli.Command{
 			Required: true,
 			BodyPath: "entitlements",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1AddonsEntitlementsCreate,
 	HideHelpCommand: true,
@@ -131,6 +139,14 @@ var v1AddonsEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Configuration for yearly reset period",
 			BodyPath: "yearlyResetPeriodConfiguration",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[float64]{
 			Name:     "amount",
 			Usage:    "Credit grant amount",
@@ -183,6 +199,14 @@ var v1AddonsEntitlementsList = cli.Command{
 			Required:  true,
 			PathParam: "addonId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1AddonsEntitlementsList,
 	HideHelpCommand: true,
@@ -202,6 +226,14 @@ var v1AddonsEntitlementsDelete = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1AddonsEntitlementsDelete,
@@ -330,9 +362,16 @@ func handleV1AddonsEntitlementsList(ctx context.Context, cmd *cli.Command) error
 		return err
 	}
 
+	params := stigg.V1AddonEntitlementListParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Addons.Entitlements.List(ctx, cmd.Value("addon-id").(string), options...)
+	_, err = client.V1.Addons.Entitlements.List(
+		ctx,
+		cmd.Value("addon-id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

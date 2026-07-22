@@ -24,6 +24,14 @@ var v1SubscriptionsRetrieve = cli.Command{
 			Required:  true,
 			PathParam: "id",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1SubscriptionsRetrieve,
 	HideHelpCommand: true,
@@ -70,6 +78,11 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "budget",
 			BodyPath: "budget",
 		},
+		&requestflag.Flag[any]{
+			Name:     "cancellation-date",
+			Usage:    "Subscription cancellation date",
+			BodyPath: "cancellationDate",
+		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "charge",
 			BodyPath: "charges",
@@ -97,6 +110,11 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Promotion code",
 			BodyPath: "promotionCode",
 		},
+		&requestflag.Flag[*string]{
+			Name:     "salesforce-id",
+			Usage:    "Salesforce ID",
+			BodyPath: "salesforceId",
+		},
 		&requestflag.Flag[string]{
 			Name:     "schedule-strategy",
 			Usage:    `Allowed values: "END_OF_BILLING_PERIOD", "END_OF_BILLING_MONTH", "IMMEDIATE".`,
@@ -106,6 +124,14 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "trial-end-date",
 			Usage:    "Subscription trial end date",
 			BodyPath: "trialEndDate",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1SubscriptionsUpdate,
@@ -324,6 +350,14 @@ var v1SubscriptionsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by subscription status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -386,6 +420,14 @@ var v1SubscriptionsCancel = cli.Command{
 			Usage:    "If set, enables or disables prorating of credits on subscription cancellation.",
 			BodyPath: "prorate",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1SubscriptionsCancel,
 	HideHelpCommand: true,
@@ -407,6 +449,14 @@ var v1SubscriptionsDelegate = cli.Command{
 			Required: true,
 			BodyPath: "targetCustomerId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1SubscriptionsDelegate,
 	HideHelpCommand: true,
@@ -427,6 +477,14 @@ var v1SubscriptionsImport = requestflag.WithInnerFlags(cli.Command{
 			Name:     "integration-id",
 			Usage:    "Integration ID to use for importing subscriptions",
 			BodyPath: "integrationId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1SubscriptionsImport,
@@ -503,6 +561,14 @@ var v1SubscriptionsMigrate = cli.Command{
 			Name:     "subscription-migration-time",
 			Usage:    "When to migrate (immediate or period end)",
 			BodyPath: "subscriptionMigrationTime",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1SubscriptionsMigrate,
@@ -595,6 +661,14 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 			Name:     "unit-quantity",
 			Usage:    "Unit quantity for per-unit pricing. Minimum is 0 (zero is allowed).",
 			BodyPath: "unitQuantity",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1SubscriptionsPreview,
@@ -809,6 +883,11 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "budget",
 			BodyPath: "budget",
 		},
+		&requestflag.Flag[any]{
+			Name:     "cancellation-date",
+			Usage:    "Subscription cancellation date",
+			BodyPath: "cancellationDate",
+		},
 		&requestflag.Flag[[]map[string]any]{
 			Name:     "charge",
 			BodyPath: "charges",
@@ -876,6 +955,14 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "unit-quantity",
 			Usage:    "Unit quantity for per-unit pricing. Minimum is 0 (zero is allowed).",
 			BodyPath: "unitQuantity",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1SubscriptionsProvision,
@@ -1141,6 +1228,14 @@ var v1SubscriptionsTransfer = cli.Command{
 			Required: true,
 			BodyPath: "destinationResourceId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1SubscriptionsTransfer,
 	HideHelpCommand: true,
@@ -1168,9 +1263,16 @@ func handleV1SubscriptionsRetrieve(ctx context.Context, cmd *cli.Command) error 
 		return err
 	}
 
+	params := stigg.V1SubscriptionGetParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Subscriptions.Get(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Subscriptions.Get(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

@@ -31,6 +31,8 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 			"--payment-collection-method", "CHARGE",
 			"--priority", "0",
 			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -61,6 +63,8 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 			"--payment-collection-method", "CHARGE",
 			"--priority", "0",
 			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -98,6 +102,8 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:credits:grants", "create",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -117,6 +123,8 @@ func TestV1CreditsGrantsList(t *testing.T) {
 			"--currency-id", "currencyId",
 			"--limit", "1",
 			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -140,6 +148,8 @@ func TestV1CreditsGrantsList(t *testing.T) {
 			"--currency-id", "currencyId",
 			"--limit", "1",
 			"--resource-id", "resourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -152,6 +162,8 @@ func TestV1CreditsGrantsVoid(t *testing.T) {
 			"--api-key", "string",
 			"v1:credits:grants", "void",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

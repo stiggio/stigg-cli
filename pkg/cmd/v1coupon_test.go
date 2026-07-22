@@ -23,6 +23,8 @@ func TestV1CouponsCreate(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--name", "name",
 			"--percent-off", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -43,6 +45,8 @@ func TestV1CouponsCreate(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--name", "name",
 			"--percent-off", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -63,6 +67,8 @@ func TestV1CouponsCreate(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:coupons", "create",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -75,6 +81,8 @@ func TestV1CouponsRetrieve(t *testing.T) {
 			"--api-key", "string",
 			"v1:coupons", "retrieve",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -94,6 +102,8 @@ func TestV1CouponsList(t *testing.T) {
 			"--limit", "1",
 			"--status", "ACTIVE",
 			"--type", "FIXED",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -117,6 +127,8 @@ func TestV1CouponsList(t *testing.T) {
 			"--limit", "1",
 			"--status", "ACTIVE",
 			"--type", "FIXED",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -129,6 +141,8 @@ func TestV1CouponsArchiveCoupon(t *testing.T) {
 			"--api-key", "string",
 			"v1:coupons", "archive-coupon",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -144,6 +158,8 @@ func TestV1CouponsUpdateCoupon(t *testing.T) {
 			"--description", "description",
 			"--metadata", "{foo: string}",
 			"--name", "name",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -159,6 +175,8 @@ func TestV1CouponsUpdateCoupon(t *testing.T) {
 			"--api-key", "string",
 			"v1:coupons", "update-coupon",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

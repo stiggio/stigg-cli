@@ -30,6 +30,14 @@ var v1PlansEntitlementsCreate = cli.Command{
 			Required: true,
 			BodyPath: "entitlements",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1PlansEntitlementsCreate,
 	HideHelpCommand: true,
@@ -131,6 +139,14 @@ var v1PlansEntitlementsUpdate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Configuration for yearly reset period",
 			BodyPath: "yearlyResetPeriodConfiguration",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[float64]{
 			Name:     "amount",
 			Usage:    "Credit grant amount",
@@ -183,6 +199,14 @@ var v1PlansEntitlementsList = cli.Command{
 			Required:  true,
 			PathParam: "planId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1PlansEntitlementsList,
 	HideHelpCommand: true,
@@ -202,6 +226,14 @@ var v1PlansEntitlementsDelete = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1PlansEntitlementsDelete,
@@ -330,9 +362,16 @@ func handleV1PlansEntitlementsList(ctx context.Context, cmd *cli.Command) error 
 		return err
 	}
 
+	params := stigg.V1PlanEntitlementListParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Plans.Entitlements.List(ctx, cmd.Value("plan-id").(string), options...)
+	_, err = client.V1.Plans.Entitlements.List(
+		ctx,
+		cmd.Value("plan-id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

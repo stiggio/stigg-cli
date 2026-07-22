@@ -18,6 +18,8 @@ func TestV1PlansEntitlementsCreate(t *testing.T) {
 			"v1:plans:entitlements", "create",
 			"--plan-id", "planId",
 			"--entitlement", "{id: id, type: FEATURE, behavior: Increment, description: description, displayNameOverride: displayNameOverride, enumValues: [string], hasSoftLimit: true, hasUnlimitedUsage: true, hiddenFromWidgets: [PAYWALL], isCustom: true, isGranted: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, order: 0, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -52,6 +54,8 @@ func TestV1PlansEntitlementsCreate(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans:entitlements", "create",
 			"--plan-id", "planId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -81,6 +85,8 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 			"--usage-limit", "0",
 			"--weekly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
 			"--yearly-reset-period-configuration", "{accordingTo: SubscriptionStart}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -111,6 +117,8 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 			"--usage-limit", "0",
 			"--weekly-reset-period-configuration.according-to", "SubscriptionStart",
 			"--yearly-reset-period-configuration.according-to", "SubscriptionStart",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -144,6 +152,8 @@ func TestV1PlansEntitlementsUpdate(t *testing.T) {
 			"v1:plans:entitlements", "update",
 			"--plan-id", "planId",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -156,6 +166,8 @@ func TestV1PlansEntitlementsList(t *testing.T) {
 			"--api-key", "string",
 			"v1:plans:entitlements", "list",
 			"--plan-id", "planId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -169,6 +181,8 @@ func TestV1PlansEntitlementsDelete(t *testing.T) {
 			"v1:plans:entitlements", "delete",
 			"--plan-id", "planId",
 			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

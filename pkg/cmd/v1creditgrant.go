@@ -99,6 +99,14 @@ var v1CreditsGrantsCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The resource ID to scope the grant to",
 			BodyPath: "resourceId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CreditsGrantsCreate,
 	HideHelpCommand: true,
@@ -176,6 +184,14 @@ var v1CreditsGrantsList = requestflag.WithInnerFlags(cli.Command{
 			Usage:     "Filter by resource ID. When omitted, only grants without a resource are returned",
 			QueryPath: "resourceId",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -217,6 +233,14 @@ var v1CreditsGrantsVoid = cli.Command{
 			Name:      "id",
 			Required:  true,
 			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CreditsGrantsVoid,
@@ -341,9 +365,16 @@ func handleV1CreditsGrantsVoid(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
+	params := stigg.V1CreditGrantVoidParams{}
+
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Credits.Grants.Void(ctx, cmd.Value("id").(string), options...)
+	_, err = client.V1.Credits.Grants.Void(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
 	if err != nil {
 		return err
 	}

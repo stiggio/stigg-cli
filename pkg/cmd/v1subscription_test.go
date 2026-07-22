@@ -17,6 +17,8 @@ func TestV1SubscriptionsRetrieve(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "retrieve",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -36,14 +38,18 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, couponId: couponId, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge", "{id: id, quantity: 0, type: FEATURE}",
 			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
 			"--metadata", "{foo: string}",
 			"--minimum-spend", "{amount: 0, currency: usd}",
 			"--price-override", "{addonId: addonId, amount: 0, baseCharge: true, currency: usd, currencyId: currencyId, featureId: featureId}",
 			"--promotion-code", "promotionCode",
+			"--salesforce-id", "salesforceId",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -81,6 +87,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--billing-period", "MONTHLY",
 			"--budget.has-soft-limit=true",
 			"--budget.limit", "0",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge.id", "id",
 			"--charge.quantity", "0",
 			"--charge.type", "FEATURE",
@@ -95,8 +102,11 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--price-override.currency-id", "currencyId",
 			"--price-override.feature-id", "featureId",
 			"--promotion-code", "promotionCode",
+			"--salesforce-id", "salesforceId",
 			"--schedule-strategy", "END_OF_BILLING_PERIOD",
 			"--trial-end-date", "'2019-12-27T18:11:19.117Z'",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -149,6 +159,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"budget:\n" +
 			"  hasSoftLimit: true\n" +
 			"  limit: 0\n" +
+			"cancellationDate: '2019-12-27T18:11:19.117Z'\n" +
 			"charges:\n" +
 			"  - id: id\n" +
 			"    quantity: 0\n" +
@@ -179,6 +190,7 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"    currencyId: currencyId\n" +
 			"    featureId: featureId\n" +
 			"promotionCode: promotionCode\n" +
+			"salesforceId: salesforceId\n" +
 			"scheduleStrategy: END_OF_BILLING_PERIOD\n" +
 			"trialEndDate: '2019-12-27T18:11:19.117Z'\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
@@ -186,6 +198,8 @@ func TestV1SubscriptionsUpdate(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "update",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -207,6 +221,8 @@ func TestV1SubscriptionsList(t *testing.T) {
 			"--pricing-type", "FREE",
 			"--resource-id", "resourceId",
 			"--status", "PAYMENT_PENDING",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -232,6 +248,8 @@ func TestV1SubscriptionsList(t *testing.T) {
 			"--pricing-type", "FREE",
 			"--resource-id", "resourceId",
 			"--status", "PAYMENT_PENDING",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -248,6 +266,8 @@ func TestV1SubscriptionsCancel(t *testing.T) {
 			"--cancellation-time", "END_OF_BILLING_PERIOD",
 			"--end-date", "'2019-12-27T18:11:19.117Z'",
 			"--prorate=true",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -263,6 +283,8 @@ func TestV1SubscriptionsCancel(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "cancel",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -276,6 +298,8 @@ func TestV1SubscriptionsDelegate(t *testing.T) {
 			"v1:subscriptions", "delegate",
 			"--id", "x",
 			"--target-customer-id", "targetCustomerId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -287,6 +311,8 @@ func TestV1SubscriptionsDelegate(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "delegate",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -300,6 +326,8 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			"v1:subscriptions", "import",
 			"--subscription", "{id: id, customerId: customerId, planId: planId, addons: [{id: id, quantity: 0}], billingId: billingId, billingPeriod: MONTHLY, charges: [{id: id, quantity: 0, type: FEATURE}], endDate: '2019-12-27T18:11:19.117Z', metadata: {foo: string}, resourceId: resourceId, startDate: '2019-12-27T18:11:19.117Z'}",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -324,6 +352,8 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			"--subscription.resource-id", "resourceId",
 			"--subscription.start-date", "2019-12-27T18:11:19.117Z",
 			"--integration-id", "integrationId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -353,6 +383,8 @@ func TestV1SubscriptionsImport(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:subscriptions", "import",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -366,6 +398,8 @@ func TestV1SubscriptionsMigrate(t *testing.T) {
 			"v1:subscriptions", "migrate",
 			"--id", "x",
 			"--subscription-migration-time", "END_OF_BILLING_PERIOD",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -377,6 +411,8 @@ func TestV1SubscriptionsMigrate(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "migrate",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -404,6 +440,8 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -452,6 +490,8 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 			"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -522,6 +562,8 @@ func TestV1SubscriptionsPreview(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:subscriptions", "preview",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -545,6 +587,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--billing-information", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, chargeOnBehalfOfAccount: chargeOnBehalfOfAccount, integrationId: integrationId, invoiceDaysUntilDue: 0, isBackdated: true, isInvoicePaid: true, metadata: {foo: string}, prorationBehavior: INVOICE_IMMEDIATELY, taxIds: [{type: type, value: value}], taxPercentage: 0, taxRateIds: [string]}",
 			"--billing-period", "MONTHLY",
 			"--budget", "{hasSoftLimit: true, limit: 0}",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge", "{id: id, quantity: 0, type: FEATURE}",
 			"--checkout-options", "{cancelUrl: https://example.com, successUrl: https://example.com, allowPromoCodes: true, allowTaxIdCollection: true, collectBillingAddress: true, collectPhoneNumber: true, referenceId: referenceId}",
 			"--entitlement", "{id: id, type: FEATURE, hasSoftLimit: true, hasUnlimitedUsage: true, monthlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, resetPeriod: YEAR, usageLimit: 0, weeklyResetPeriodConfiguration: {accordingTo: SubscriptionStart}, yearlyResetPeriodConfiguration: {accordingTo: SubscriptionStart}}",
@@ -559,6 +602,8 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--trial-override-configuration", "{isTrial: true, trialEndBehavior: CONVERT_TO_PAID, trialEndDate: '2019-12-27T18:11:19.117Z'}",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -599,6 +644,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--billing-period", "MONTHLY",
 			"--budget.has-soft-limit=true",
 			"--budget.limit", "0",
+			"--cancellation-date", "'2019-12-27T18:11:19.117Z'",
 			"--charge.id", "id",
 			"--charge.quantity", "0",
 			"--charge.type", "FEATURE",
@@ -633,6 +679,8 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"--trial-override-configuration.trial-end-behavior", "CONVERT_TO_PAID",
 			"--trial-override-configuration.trial-end-date", "2019-12-27T18:11:19.117Z",
 			"--unit-quantity", "0",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -689,6 +737,7 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			"budget:\n" +
 			"  hasSoftLimit: true\n" +
 			"  limit: 0\n" +
+			"cancellationDate: '2019-12-27T18:11:19.117Z'\n" +
 			"charges:\n" +
 			"  - id: id\n" +
 			"    quantity: 0\n" +
@@ -755,6 +804,8 @@ func TestV1SubscriptionsProvision(t *testing.T) {
 			t, pipeData,
 			"--api-key", "string",
 			"v1:subscriptions", "provision",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }
@@ -768,6 +819,8 @@ func TestV1SubscriptionsTransfer(t *testing.T) {
 			"v1:subscriptions", "transfer",
 			"--id", "x",
 			"--destination-resource-id", "destinationResourceId",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 
@@ -779,6 +832,8 @@ func TestV1SubscriptionsTransfer(t *testing.T) {
 			"--api-key", "string",
 			"v1:subscriptions", "transfer",
 			"--id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

@@ -8,13 +8,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/mocktest"
 )
 
-func TestV1EventsBetaCustomersEntitlementsCheck(t *testing.T) {
+func TestV1BetaCustomersEntitlementsCheck(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:beta:customers:entitlements", "check",
+			"v1-beta:customers:entitlements", "check",
 			"--id", "x",
 			"--currency-id", "x",
 			"--dimensions", "{foo: string}",
@@ -22,6 +22,8 @@ func TestV1EventsBetaCustomersEntitlementsCheck(t *testing.T) {
 			"--requested-usage", "0",
 			"--requested-value", "string",
 			"--resource-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
 	})
 }

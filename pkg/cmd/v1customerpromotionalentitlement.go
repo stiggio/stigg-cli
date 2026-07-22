@@ -30,6 +30,14 @@ var v1CustomersPromotionalEntitlementsCreate = requestflag.WithInnerFlags(cli.Co
 			Required: true,
 			BodyPath: "promotionalEntitlements",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 	},
 	Action:          handleV1CustomersPromotionalEntitlementsCreate,
 	HideHelpCommand: true,
@@ -134,6 +142,14 @@ var v1CustomersPromotionalEntitlementsList = requestflag.WithInnerFlags(cli.Comm
 			Usage:     "Filter by promotional entitlement status. Supports comma-separated values for multiple statuses",
 			QueryPath: "status",
 		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
 		&requestflag.Flag[int64]{
 			Name:  "max-items",
 			Usage: "The maximum number of items to return (use -1 for unlimited).",
@@ -180,6 +196,14 @@ var v1CustomersPromotionalEntitlementsRevoke = cli.Command{
 			Name:      "feature-id",
 			Required:  true,
 			PathParam: "featureId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
 	Action:          handleV1CustomersPromotionalEntitlementsRevoke,

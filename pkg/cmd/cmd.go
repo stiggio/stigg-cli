@@ -192,45 +192,28 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&v1EventsEstimateCost,
 					&v1EventsReport,
 				},
 			},
 			{
-				Name:     "v1:events:beta:customers:entitlements",
+				Name:     "v1:events:data-export",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1EventsBetaCustomersEntitlementsCheck,
+					&v1EventsDataExportListModels,
+					&v1EventsDataExportMintScopedToken,
+					&v1EventsDataExportTriggerSync,
 				},
 			},
 			{
-				Name:     "v1:events:beta:customers:entities",
+				Name:     "v1:events:data-export:destinations",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1EventsBetaCustomersEntitiesRetrieve,
-					&v1EventsBetaCustomersEntitiesList,
-					&v1EventsBetaCustomersEntitiesArchive,
-					&v1EventsBetaCustomersEntitiesUnarchive,
-					&v1EventsBetaCustomersEntitiesUpsert,
-				},
-			},
-			{
-				Name:     "v1:events:beta:customers:assignments",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1EventsBetaCustomersAssignmentsList,
-					&v1EventsBetaCustomersAssignmentsUpsert,
-				},
-			},
-			{
-				Name:     "v1:events:beta:entity-types",
-				Category: "API RESOURCE",
-				Suggest:  true,
-				Commands: []*cli.Command{
-					&v1EventsBetaEntityTypesList,
-					&v1EventsBetaEntityTypesUpsert,
+					&v1EventsDataExportDestinationsCreate,
+					&v1EventsDataExportDestinationsUpdate,
+					&v1EventsDataExportDestinationsDelete,
 				},
 			},
 			{
@@ -264,6 +247,15 @@ func init() {
 					&v1CreditsCustomCurrenciesArchive,
 					&v1CreditsCustomCurrenciesListAssociatedEntities,
 					&v1CreditsCustomCurrenciesUnarchive,
+				},
+			},
+			{
+				Name:     "v1:credits:consumption",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CreditsConsumptionConsume,
+					&v1CreditsConsumptionConsumeAsync,
 				},
 			},
 			{
@@ -339,6 +331,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
+					&v1UsageEstimateCost,
 					&v1UsageHistory,
 					&v1UsageReport,
 				},
@@ -354,6 +347,52 @@ func init() {
 					&v1ProductsListProducts,
 					&v1ProductsUnarchiveProduct,
 					&v1ProductsUpdateProduct,
+				},
+			},
+			{
+				Name:     "v1-beta:customers",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersRetrieveGovernance,
+				},
+			},
+			{
+				Name:     "v1-beta:customers:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersEntitlementsCheck,
+				},
+			},
+			{
+				Name:     "v1-beta:customers:entities",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersEntitiesRetrieve,
+					&v1BetaCustomersEntitiesList,
+					&v1BetaCustomersEntitiesArchive,
+					&v1BetaCustomersEntitiesUnarchive,
+					&v1BetaCustomersEntitiesUpsert,
+				},
+			},
+			{
+				Name:     "v1-beta:customers:assignments",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersAssignmentsList,
+					&v1BetaCustomersAssignmentsUpsert,
+				},
+			},
+			{
+				Name:     "v1-beta:entity-types",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaEntityTypesList,
+					&v1BetaEntityTypesUpsert,
 				},
 			},
 			{
