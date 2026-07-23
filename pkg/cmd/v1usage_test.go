@@ -9,13 +9,13 @@ import (
 	"github.com/stiggio/stigg-cli/internal/requestflag"
 )
 
-func TestV1UsageEstimateCost(t *testing.T) {
+func TestV1UsageEstimate(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:usage", "estimate-cost",
+			"v1:usage", "estimate",
 			"--customer-id", "customerId",
 			"--feature-id", "featureId",
 			"--value", "-9007199254740991",
@@ -40,7 +40,7 @@ func TestV1UsageEstimateCost(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:usage", "estimate-cost",
+			"v1:usage", "estimate",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)

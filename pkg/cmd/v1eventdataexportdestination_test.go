@@ -40,13 +40,27 @@ func TestV1EventsDataExportDestinationsCreate(t *testing.T) {
 	})
 }
 
-func TestV1EventsDataExportDestinationsUpdate(t *testing.T) {
+func TestV1EventsDataExportDestinationsDelete(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {
 		mocktest.TestRunMockTestWithFlags(
 			t,
 			"--api-key", "string",
-			"v1:events:data-export:destinations", "update",
+			"v1:events:data-export:destinations", "delete",
+			"--destination-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1EventsDataExportDestinationsUpdateSelection(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:events:data-export:destinations", "update-selection",
 			"--destination-id", "x",
 			"--enabled-model", "x",
 			"--integration-id", "x",
@@ -64,21 +78,7 @@ func TestV1EventsDataExportDestinationsUpdate(t *testing.T) {
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",
-			"v1:events:data-export:destinations", "update",
-			"--destination-id", "x",
-			"--x-account-id", "X-ACCOUNT-ID",
-			"--x-environment-id", "X-ENVIRONMENT-ID",
-		)
-	})
-}
-
-func TestV1EventsDataExportDestinationsDelete(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	t.Run("regular flags", func(t *testing.T) {
-		mocktest.TestRunMockTestWithFlags(
-			t,
-			"--api-key", "string",
-			"v1:events:data-export:destinations", "delete",
+			"v1:events:data-export:destinations", "update-selection",
 			"--destination-id", "x",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",

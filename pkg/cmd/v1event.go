@@ -14,8 +14,8 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1EventsEstimateCost = cli.Command{
-	Name:    "estimate-cost",
+var v1EventsEstimate = cli.Command{
+	Name:    "estimate",
 	Usage:   "Estimates the credit cost of a usage event without ingesting it. Returns the\nestimated cost per credit currency, the current balance, and the balance after\nthe estimated consumption.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -50,7 +50,7 @@ var v1EventsEstimateCost = cli.Command{
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1EventsEstimateCost,
+	Action:          handleV1EventsEstimate,
 	HideHelpCommand: true,
 }
 
@@ -111,7 +111,7 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-func handleV1EventsEstimateCost(ctx context.Context, cmd *cli.Command) error {
+func handleV1EventsEstimate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -130,11 +130,11 @@ func handleV1EventsEstimateCost(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1EventEstimateCostParams{}
+	params := stigg.V1EventEstimateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.EstimateCost(ctx, params, options...)
+	_, err = client.V1.Events.Estimate(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -147,7 +147,7 @@ func handleV1EventsEstimateCost(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events estimate-cost",
+		Title:          "v1:events estimate",
 		Transform:      transform,
 	})
 }
