@@ -95,6 +95,8 @@ func init() {
 					&v1CustomersArchive,
 					&v1CustomersCheckEntitlement,
 					&v1CustomersImport,
+					&v1CustomersListContracts,
+					&v1CustomersListInvoices,
 					&v1CustomersListResources,
 					&v1CustomersProvision,
 					&v1CustomersRetrieveEntitlements,
@@ -355,6 +357,18 @@ func init() {
 					&v1ProductsListProducts,
 					&v1ProductsUnarchiveProduct,
 					&v1ProductsUpdateProduct,
+				},
+			},
+			{
+				Name:     "v1:contracts",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1ContractsCreate,
+					&v1ContractsRetrieve,
+					&v1ContractsUpdate,
+					&v1ContractsList,
+					&v1ContractsDelete,
 				},
 			},
 			{
