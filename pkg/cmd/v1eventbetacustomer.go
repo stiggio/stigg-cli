@@ -36,7 +36,7 @@ var v1EventsBetaCustomersRetrieveGovernance = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "entity-id-search",
-			Usage:     "Case-insensitive substring match on the entity id (`%`/`_` matched literally).",
+			Usage:     "Case-insensitive substring match on the entity id or its display name (`%`/`_` matched literally).",
 			QueryPath: "entityIdSearch",
 		},
 		&requestflag.Flag[[]string]{

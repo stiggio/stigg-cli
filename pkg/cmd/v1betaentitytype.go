@@ -91,6 +91,11 @@ var v1BetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The display name for the entity type",
 			InnerField: "displayName",
 		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "type.description",
+			Usage:      "What this entity type represents and what it is for governing. Omit to preserve the stored value, or send an empty string or null to clear it.",
+			InnerField: "description",
+		},
 	},
 })
 
