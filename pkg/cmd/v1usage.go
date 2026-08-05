@@ -14,8 +14,8 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
-var v1UsageEstimateCost = cli.Command{
-	Name:    "estimate-cost",
+var v1UsageEstimate = cli.Command{
+	Name:    "estimate",
 	Usage:   "Estimates the credit cost of a usage report without recording it. Returns the\nestimated cost per credit currency, the current balance, and the balance after\nthe estimated consumption.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -62,7 +62,7 @@ var v1UsageEstimateCost = cli.Command{
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1UsageEstimateCost,
+	Action:          handleV1UsageEstimate,
 	HideHelpCommand: true,
 }
 
@@ -182,7 +182,7 @@ var v1UsageReport = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
-func handleV1UsageEstimateCost(ctx context.Context, cmd *cli.Command) error {
+func handleV1UsageEstimate(ctx context.Context, cmd *cli.Command) error {
 	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
 	unusedArgs := cmd.Args().Slice()
 
@@ -201,11 +201,11 @@ func handleV1UsageEstimateCost(ctx context.Context, cmd *cli.Command) error {
 		return err
 	}
 
-	params := stigg.V1UsageEstimateCostParams{}
+	params := stigg.V1UsageEstimateParams{}
 
 	var res []byte
 	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Usage.EstimateCost(ctx, params, options...)
+	_, err = client.V1.Usage.Estimate(ctx, params, options...)
 	if err != nil {
 		return err
 	}
@@ -218,7 +218,7 @@ func handleV1UsageEstimateCost(ctx context.Context, cmd *cli.Command) error {
 		ExplicitFormat: explicitFormat,
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:usage estimate-cost",
+		Title:          "v1:usage estimate",
 		Transform:      transform,
 	})
 }

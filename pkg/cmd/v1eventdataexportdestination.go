@@ -48,8 +48,31 @@ var v1EventsDataExportDestinationsCreate = cli.Command{
 	HideHelpCommand: true,
 }
 
-var v1EventsDataExportDestinationsUpdate = cli.Command{
-	Name:    "update",
+var v1EventsDataExportDestinationsDelete = cli.Command{
+	Name:    "delete",
+	Usage:   "Disconnect a destination: stops the provider sync (deletes the provider\ndestination) and removes it from the DATA_EXPORT integration. Non-destructive —\nthe warehouse table is left intact. Idempotent.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "destination-id",
+			Required:  true,
+			PathParam: "destinationId",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
+	},
+	Action:          handleV1EventsDataExportDestinationsDelete,
+	HideHelpCommand: true,
+}
+
+var v1EventsDataExportDestinationsUpdateSelection = cli.Command{
+	Name:    "update-selection",
 	Usage:   "Update a destination's entity selection. Pushes the new enabled_models to the\nprovider first, then persists the selection. Applies on the next scheduled\ntransfer.",
 	Suggest: true,
 	Flags: []cli.Flag{
@@ -78,30 +101,7 @@ var v1EventsDataExportDestinationsUpdate = cli.Command{
 			HeaderPath: "X-ENVIRONMENT-ID",
 		},
 	},
-	Action:          handleV1EventsDataExportDestinationsUpdate,
-	HideHelpCommand: true,
-}
-
-var v1EventsDataExportDestinationsDelete = cli.Command{
-	Name:    "delete",
-	Usage:   "Disconnect a destination: stops the provider sync (deletes the provider\ndestination) and removes it from the DATA_EXPORT integration. Non-destructive —\nthe warehouse table is left intact. Idempotent.",
-	Suggest: true,
-	Flags: []cli.Flag{
-		&requestflag.Flag[string]{
-			Name:      "destination-id",
-			Required:  true,
-			PathParam: "destinationId",
-		},
-		&requestflag.Flag[string]{
-			Name:       "x-account-id",
-			HeaderPath: "X-ACCOUNT-ID",
-		},
-		&requestflag.Flag[string]{
-			Name:       "x-environment-id",
-			HeaderPath: "X-ENVIRONMENT-ID",
-		},
-	},
-	Action:          handleV1EventsDataExportDestinationsDelete,
+	Action:          handleV1EventsDataExportDestinationsUpdateSelection,
 	HideHelpCommand: true,
 }
 
@@ -142,55 +142,6 @@ func handleV1EventsDataExportDestinationsCreate(ctx context.Context, cmd *cli.Co
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:events:data-export:destinations create",
-		Transform:      transform,
-	})
-}
-
-func handleV1EventsDataExportDestinationsUpdate(ctx context.Context, cmd *cli.Command) error {
-	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
-	unusedArgs := cmd.Args().Slice()
-	if !cmd.IsSet("destination-id") && len(unusedArgs) > 0 {
-		cmd.Set("destination-id", unusedArgs[0])
-		unusedArgs = unusedArgs[1:]
-	}
-	if len(unusedArgs) > 0 {
-		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
-	}
-
-	options, err := flagOptions(
-		cmd,
-		apiquery.NestedQueryFormatBrackets,
-		apiquery.ArrayQueryFormatComma,
-		ApplicationJSON,
-		false,
-	)
-	if err != nil {
-		return err
-	}
-
-	params := stigg.V1EventDataExportDestinationUpdateParams{}
-
-	var res []byte
-	options = append(options, option.WithResponseBodyInto(&res))
-	_, err = client.V1.Events.DataExport.Destinations.Update(
-		ctx,
-		cmd.Value("destination-id").(string),
-		params,
-		options...,
-	)
-	if err != nil {
-		return err
-	}
-
-	obj := gjson.ParseBytes(res)
-	format := cmd.Root().String("format")
-	explicitFormat := cmd.Root().IsSet("format")
-	transform := cmd.Root().String("transform")
-	return ShowJSON(obj, ShowJSONOpts{
-		ExplicitFormat: explicitFormat,
-		Format:         format,
-		RawOutput:      cmd.Root().Bool("raw-output"),
-		Title:          "v1:events:data-export:destinations update",
 		Transform:      transform,
 	})
 }
@@ -240,6 +191,55 @@ func handleV1EventsDataExportDestinationsDelete(ctx context.Context, cmd *cli.Co
 		Format:         format,
 		RawOutput:      cmd.Root().Bool("raw-output"),
 		Title:          "v1:events:data-export:destinations delete",
+		Transform:      transform,
+	})
+}
+
+func handleV1EventsDataExportDestinationsUpdateSelection(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("destination-id") && len(unusedArgs) > 0 {
+		cmd.Set("destination-id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		ApplicationJSON,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1EventDataExportDestinationUpdateSelectionParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Events.DataExport.Destinations.UpdateSelection(
+		ctx,
+		cmd.Value("destination-id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:events:data-export:destinations update-selection",
 		Transform:      transform,
 	})
 }

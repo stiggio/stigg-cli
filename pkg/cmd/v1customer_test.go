@@ -276,6 +276,44 @@ func TestV1CustomersImport(t *testing.T) {
 	})
 }
 
+func TestV1CustomersListContracts(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers", "list-contracts",
+			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1CustomersListInvoices(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers", "list-invoices",
+			"--max-items", "10",
+			"--id", "id",
+			"--after", "after",
+			"--before", "before",
+			"--contract-external-id", "contractExternalId",
+			"--issued-after", "'2019-12-27T18:11:19.117Z'",
+			"--issued-before", "'2019-12-27T18:11:19.117Z'",
+			"--limit", "1",
+			"--order-by", "issueDate",
+			"--order-dir", "ASC",
+			"--state-in", "stateIn",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
 func TestV1CustomersListResources(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	t.Run("regular flags", func(t *testing.T) {

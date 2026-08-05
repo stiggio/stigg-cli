@@ -359,6 +359,102 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 	},
 })
 
+var v1CustomersListContracts = cli.Command{
+	Name:    "list-contracts",
+	Usage:   "Retrieves a customer's contracts, fetched live from the connected billing\nprovider, each enriched with a preview of its upcoming (next) invoice when\navailable. Returns an empty list when no billing provider is connected or the\ncustomer is not synced.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
+	},
+	Action:          handleV1CustomersListContracts,
+	HideHelpCommand: true,
+}
+
+var v1CustomersListInvoices = cli.Command{
+	Name:    "list-invoices",
+	Usage:   "Retrieves a cursor-paginated list of a customer's invoices, fetched live from\nthe connected billing provider. Ordered by issue date ascending by default;\noverride with orderBy (issueDate | dueDate | total) and orderDir (ASC | DESC).\nOptionally narrowed to one contract, an issue-date range, and/or a set of\ninvoice states. Returns an empty list when no billing provider is connected or\nthe customer is not synced.",
+	Suggest: true,
+	Flags: []cli.Flag{
+		&requestflag.Flag[string]{
+			Name:      "id",
+			Required:  true,
+			PathParam: "id",
+		},
+		&requestflag.Flag[string]{
+			Name:      "after",
+			Usage:     "Return items that come after this cursor",
+			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Return items that come before this cursor",
+			QueryPath: "before",
+		},
+		&requestflag.Flag[string]{
+			Name:      "contract-external-id",
+			Usage:     "Filter to invoices for this contract only (contract external ID or Received contract ID). Omit for all contracts.",
+			QueryPath: "contractExternalId",
+		},
+		&requestflag.Flag[any]{
+			Name:      "issued-after",
+			Usage:     "Filter to invoices issued on or after this date, inclusive (ISO 8601)",
+			QueryPath: "issuedAfter",
+		},
+		&requestflag.Flag[any]{
+			Name:      "issued-before",
+			Usage:     "Filter to invoices issued on or before this date, inclusive (ISO 8601)",
+			QueryPath: "issuedBefore",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "limit",
+			Usage:     "Maximum number of items to return",
+			Default:   20,
+			QueryPath: "limit",
+		},
+		&requestflag.Flag[string]{
+			Name:      "order-by",
+			Usage:     "Field to sort by: issueDate (default), dueDate, or total",
+			QueryPath: "orderBy",
+		},
+		&requestflag.Flag[string]{
+			Name:      "order-dir",
+			Usage:     "Sort direction: ASC (default) or DESC",
+			QueryPath: "orderDir",
+		},
+		&requestflag.Flag[string]{
+			Name:      "state-in",
+			Usage:     "Filter by invoice state. Supports comma-separated values for multiple states",
+			QueryPath: "stateIn",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-account-id",
+			HeaderPath: "X-ACCOUNT-ID",
+		},
+		&requestflag.Flag[string]{
+			Name:       "x-environment-id",
+			HeaderPath: "X-ENVIRONMENT-ID",
+		},
+		&requestflag.Flag[int64]{
+			Name:  "max-items",
+			Usage: "The maximum number of items to return (use -1 for unlimited).",
+		},
+	},
+	Action:          handleV1CustomersListInvoices,
+	HideHelpCommand: true,
+}
+
 var v1CustomersListResources = cli.Command{
 	Name:    "list-resources",
 	Usage:   "Retrieves a paginated list of resources within the same customer.",
@@ -879,6 +975,123 @@ func handleV1CustomersImport(ctx context.Context, cmd *cli.Command) error {
 		Title:          "v1:customers import",
 		Transform:      transform,
 	})
+}
+
+func handleV1CustomersListContracts(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1CustomerListContractsParams{}
+
+	var res []byte
+	options = append(options, option.WithResponseBodyInto(&res))
+	_, err = client.V1.Customers.ListContracts(
+		ctx,
+		cmd.Value("id").(string),
+		params,
+		options...,
+	)
+	if err != nil {
+		return err
+	}
+
+	obj := gjson.ParseBytes(res)
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	return ShowJSON(obj, ShowJSONOpts{
+		ExplicitFormat: explicitFormat,
+		Format:         format,
+		RawOutput:      cmd.Root().Bool("raw-output"),
+		Title:          "v1:customers list-contracts",
+		Transform:      transform,
+	})
+}
+
+func handleV1CustomersListInvoices(ctx context.Context, cmd *cli.Command) error {
+	client := stigg.NewClient(getDefaultRequestOptions(cmd)...)
+	unusedArgs := cmd.Args().Slice()
+	if !cmd.IsSet("id") && len(unusedArgs) > 0 {
+		cmd.Set("id", unusedArgs[0])
+		unusedArgs = unusedArgs[1:]
+	}
+	if len(unusedArgs) > 0 {
+		return fmt.Errorf("Unexpected extra arguments: %v", unusedArgs)
+	}
+
+	options, err := flagOptions(
+		cmd,
+		apiquery.NestedQueryFormatBrackets,
+		apiquery.ArrayQueryFormatComma,
+		EmptyBody,
+		false,
+	)
+	if err != nil {
+		return err
+	}
+
+	params := stigg.V1CustomerListInvoicesParams{}
+
+	format := cmd.Root().String("format")
+	explicitFormat := cmd.Root().IsSet("format")
+	transform := cmd.Root().String("transform")
+	if format == "raw" {
+		var res []byte
+		options = append(options, option.WithResponseBodyInto(&res))
+		_, err = client.V1.Customers.ListInvoices(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		if err != nil {
+			return err
+		}
+		obj := gjson.ParseBytes(res)
+		return ShowJSON(obj, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:customers list-invoices",
+			Transform:      transform,
+		})
+	} else {
+		iter := client.V1.Customers.ListInvoicesAutoPaging(
+			ctx,
+			cmd.Value("id").(string),
+			params,
+			options...,
+		)
+		maxItems := int64(-1)
+		if cmd.IsSet("max-items") {
+			maxItems = cmd.Value("max-items").(int64)
+		}
+		return ShowJSONIterator(iter, maxItems, ShowJSONOpts{
+			ExplicitFormat: explicitFormat,
+			Format:         format,
+			RawOutput:      cmd.Root().Bool("raw-output"),
+			Title:          "v1:customers list-invoices",
+			Transform:      transform,
+		})
+	}
 }
 
 func handleV1CustomersListResources(ctx context.Context, cmd *cli.Command) error {

@@ -187,6 +187,11 @@ var v1BetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The unique identifier for the entity",
 			InnerField: "id",
 		},
+		&requestflag.InnerFlag[*string]{
+			Name:       "entity.display-name",
+			Usage:      "Human-readable name for the entity. Omit to preserve the stored value, or send an empty string or null to clear it.",
+			InnerField: "displayName",
+		},
 		&requestflag.InnerFlag[string]{
 			Name:       "entity.entity-type-id",
 			Usage:      "The entity type ID this entity instantiates. Required when creating a new entity; on a re-upsert may be omitted to preserve the existing type. Governance returns 400 if missing on create.",

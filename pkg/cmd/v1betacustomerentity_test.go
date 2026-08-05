@@ -116,8 +116,8 @@ func TestV1BetaCustomersEntitiesUpsert(t *testing.T) {
 			"--api-key", "string",
 			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
-			"--entity", "{id: user-7f3a0c1d, entityTypeId: user, metadata: {email: jane@acme.com, role: admin}}",
-			"--entity", "{id: user-c4d1b2e9, entityTypeId: user, metadata: {email: john@acme.com}}",
+			"--entity", "{id: user-7f3a0c1d, displayName: Jane Doe, entityTypeId: user, metadata: {email: jane@acme.com, role: admin}}",
+			"--entity", "{id: user-c4d1b2e9, displayName: John Roe, entityTypeId: user, metadata: {email: john@acme.com}}",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -134,9 +134,11 @@ func TestV1BetaCustomersEntitiesUpsert(t *testing.T) {
 			"v1-beta:customers:entities", "upsert",
 			"--id", "id",
 			"--entity.id", "user-7f3a0c1d",
+			"--entity.display-name", "Jane Doe",
 			"--entity.entity-type-id", "user",
 			"--entity.metadata", "{email: jane@acme.com, role: admin}",
 			"--entity.id", "user-c4d1b2e9",
+			"--entity.display-name", "John Roe",
 			"--entity.entity-type-id", "user",
 			"--entity.metadata", "{email: john@acme.com}",
 			"--x-account-id", "X-ACCOUNT-ID",
@@ -149,11 +151,13 @@ func TestV1BetaCustomersEntitiesUpsert(t *testing.T) {
 		pipeData := []byte("" +
 			"entities:\n" +
 			"  - id: user-7f3a0c1d\n" +
+			"    displayName: Jane Doe\n" +
 			"    entityTypeId: user\n" +
 			"    metadata:\n" +
 			"      email: jane@acme.com\n" +
 			"      role: admin\n" +
 			"  - id: user-c4d1b2e9\n" +
+			"    displayName: John Roe\n" +
 			"    entityTypeId: user\n" +
 			"    metadata:\n" +
 			"      email: john@acme.com\n")

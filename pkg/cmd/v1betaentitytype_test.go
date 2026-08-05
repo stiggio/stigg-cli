@@ -33,8 +33,8 @@ func TestV1BetaEntityTypesUpsert(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1-beta:entity-types", "upsert",
-			"--type", "{id: org, attributionKeys: [organizationId], displayName: Organization}",
-			"--type", "{id: team, attributionKeys: [teamId], displayName: Team}",
+			"--type", "{id: org, attributionKeys: [organizationId], displayName: Organization, description: 'A customer organization — the top of the hierarchy, holding the account-wide budget.'}",
+			"--type", "{id: team, attributionKeys: [teamId], displayName: Team, description: description}",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -52,9 +52,11 @@ func TestV1BetaEntityTypesUpsert(t *testing.T) {
 			"--type.id", "org",
 			"--type.attribution-keys", "[organizationId]",
 			"--type.display-name", "Organization",
+			"--type.description", "A customer organization — the top of the hierarchy, holding the account-wide budget.",
 			"--type.id", "team",
 			"--type.attribution-keys", "[teamId]",
 			"--type.display-name", "Team",
+			"--type.description", "description",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -68,10 +70,14 @@ func TestV1BetaEntityTypesUpsert(t *testing.T) {
 			"    attributionKeys:\n" +
 			"      - organizationId\n" +
 			"    displayName: Organization\n" +
+			"    description: >-\n" +
+			"      A customer organization — the top of the hierarchy, holding the\n" +
+			"      account-wide budget.\n" +
 			"  - id: team\n" +
 			"    attributionKeys:\n" +
 			"      - teamId\n" +
-			"    displayName: Team\n")
+			"    displayName: Team\n" +
+			"    description: description\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",

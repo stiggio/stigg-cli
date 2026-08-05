@@ -95,6 +95,8 @@ func init() {
 					&v1CustomersArchive,
 					&v1CustomersCheckEntitlement,
 					&v1CustomersImport,
+					&v1CustomersListContracts,
+					&v1CustomersListInvoices,
 					&v1CustomersListResources,
 					&v1CustomersProvision,
 					&v1CustomersRetrieveEntitlements,
@@ -192,7 +194,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1EventsEstimateCost,
+					&v1EventsEstimate,
 					&v1EventsReport,
 				},
 			},
@@ -212,8 +214,16 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1EventsDataExportDestinationsCreate,
-					&v1EventsDataExportDestinationsUpdate,
 					&v1EventsDataExportDestinationsDelete,
+					&v1EventsDataExportDestinationsUpdateSelection,
+				},
+			},
+			{
+				Name:     "v1:events:beta:customers",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EventsBetaCustomersRetrieveGovernance,
 				},
 			},
 			{
@@ -331,7 +341,7 @@ func init() {
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1UsageEstimateCost,
+					&v1UsageEstimate,
 					&v1UsageHistory,
 					&v1UsageReport,
 				},
@@ -350,11 +360,15 @@ func init() {
 				},
 			},
 			{
-				Name:     "v1-beta:customers",
+				Name:     "v1:contracts",
 				Category: "API RESOURCE",
 				Suggest:  true,
 				Commands: []*cli.Command{
-					&v1BetaCustomersRetrieveGovernance,
+					&v1ContractsCreate,
+					&v1ContractsRetrieve,
+					&v1ContractsUpdate,
+					&v1ContractsList,
+					&v1ContractsDelete,
 				},
 			},
 			{
