@@ -27,7 +27,7 @@ runs:
     - name: Verify Go SDK module is accessible
       shell: bash
       env:
-        GO_MODULE_REPO: ${{ github.repository == 'stainless-sdks/stigg-cli-staging' && 'stainless-sdks/stigg-go-staging' || 'stiggio/stigg-go' }}
+        GO_MODULE_REPO: ${{ github.repository == 'stiggio/stigg-cli-staging' && 'stiggio/stigg-go-staging' || 'stiggio/stigg-go' }}
       run: |
         if ! git ls-remote --exit-code "https://github.com/${GO_MODULE_REPO}" >/dev/null 2>&1; then
           echo "::error::Cannot access the Go SDK module at https://github.com/${GO_MODULE_REPO}."
