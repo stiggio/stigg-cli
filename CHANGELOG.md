@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.8.3](https://github.com/stiggio/stigg-cli/compare/v0.8.2...v0.8.3) (2026-08-12)
+
+
+### Bug Fixes
+
+* sync OpenAPI spec from stigg-api ([7d39c21](https://github.com/stiggio/stigg-cli/commit/7d39c21eed969961adf8c5383542f15c69ca1deb))
+
+
+### Styles
+
+* satisfy prettier in the trunk-sync lock ([546366d](https://github.com/stiggio/stigg-cli/commit/546366db8b04e503ccc265244cae259a2b6f8a73))
+
 ## [0.8.2](https://github.com/stiggio/stigg-cli/compare/v0.8.1...v0.8.2) (2026-08-10)
 
 
