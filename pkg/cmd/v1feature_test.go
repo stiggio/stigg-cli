@@ -39,6 +39,7 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 			"--feature-units", "featureUnits",
 			"--feature-units-plural", "featureUnitsPlural",
 			"--metadata", "{foo: string}",
+			"--meter", "{aggregation: {function: SUM, field: x}, filters: [{conditions: [{field: x, operation: EQUALS, value: value, values: [string]}]}]}",
 			"--meter-type", "None",
 			"--unit-transformation", "{divide: 0, featureUnits: featureUnits, featureUnitsPlural: featureUnitsPlural, round: UP}",
 			"--x-account-id", "X-ACCOUNT-ID",
@@ -65,6 +66,8 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 			"--feature-units", "featureUnits",
 			"--feature-units-plural", "featureUnitsPlural",
 			"--metadata", "{foo: string}",
+			"--meter.aggregation", "{function: SUM, field: x}",
+			"--meter.filters", "[{conditions: [{field: x, operation: EQUALS, value: value, values: [string]}]}]",
 			"--meter-type", "None",
 			"--unit-transformation.divide", "0",
 			"--unit-transformation.feature-units", "featureUnits",
@@ -90,6 +93,17 @@ func TestV1FeaturesCreateFeature(t *testing.T) {
 			"featureUnitsPlural: featureUnitsPlural\n" +
 			"metadata:\n" +
 			"  foo: string\n" +
+			"meter:\n" +
+			"  aggregation:\n" +
+			"    function: SUM\n" +
+			"    field: x\n" +
+			"  filters:\n" +
+			"    - conditions:\n" +
+			"        - field: x\n" +
+			"          operation: EQUALS\n" +
+			"          value: value\n" +
+			"          values:\n" +
+			"            - string\n" +
 			"meterType: None\n" +
 			"unitTransformation:\n" +
 			"  divide: 0\n" +
@@ -196,7 +210,7 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 			"--feature-units", "featureUnits",
 			"--feature-units-plural", "featureUnitsPlural",
 			"--metadata", "{foo: string}",
-			"--meter", "{aggregation: {function: SUM, field: field}, filters: [{conditions: [{field: field, operation: EQUALS, value: value, values: [string]}]}]}",
+			"--meter", "{aggregation: {function: SUM, field: x}, filters: [{conditions: [{field: x, operation: EQUALS, value: value, values: [string]}]}]}",
 			"--unit-transformation", "{divide: 0, featureUnits: featureUnits, featureUnitsPlural: featureUnitsPlural, round: UP}",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
@@ -220,8 +234,8 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 			"--feature-units", "featureUnits",
 			"--feature-units-plural", "featureUnitsPlural",
 			"--metadata", "{foo: string}",
-			"--meter.aggregation", "{function: SUM, field: field}",
-			"--meter.filters", "[{conditions: [{field: field, operation: EQUALS, value: value, values: [string]}]}]",
+			"--meter.aggregation", "{function: SUM, field: x}",
+			"--meter.filters", "[{conditions: [{field: x, operation: EQUALS, value: value, values: [string]}]}]",
 			"--unit-transformation.divide", "0",
 			"--unit-transformation.feature-units", "featureUnits",
 			"--unit-transformation.feature-units-plural", "featureUnitsPlural",
@@ -246,10 +260,10 @@ func TestV1FeaturesUpdateFeature(t *testing.T) {
 			"meter:\n" +
 			"  aggregation:\n" +
 			"    function: SUM\n" +
-			"    field: field\n" +
+			"    field: x\n" +
 			"  filters:\n" +
 			"    - conditions:\n" +
-			"        - field: field\n" +
+			"        - field: x\n" +
 			"          operation: EQUALS\n" +
 			"          value: value\n" +
 			"          values:\n" +

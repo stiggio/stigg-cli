@@ -91,6 +91,11 @@ var v1FeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "The additional metadata for the feature",
 			BodyPath: "metadata",
 		},
+		&requestflag.Flag[map[string]any]{
+			Name:     "meter",
+			Usage:    "Event meter that turns reported events into usage for a metered feature",
+			BodyPath: "meter",
+		},
 		&requestflag.Flag[string]{
 			Name:     "meter-type",
 			Usage:    "The meter type for the feature",
@@ -123,6 +128,18 @@ var v1FeaturesCreateFeature = requestflag.WithInnerFlags(cli.Command{
 			Name:       "enum-configuration.value",
 			Usage:      "The unique value identifier for the enum configuration entity",
 			InnerField: "value",
+		},
+	},
+	"meter": {
+		&requestflag.InnerFlag[map[string]any]{
+			Name:       "meter.aggregation",
+			Usage:      "How the matching events are aggregated into a usage value",
+			InnerField: "aggregation",
+		},
+		&requestflag.InnerFlag[[]map[string]any]{
+			Name:       "meter.filters",
+			Usage:      "Event filters. Conditions within a filter are ANDed, and filters are ORed",
+			InnerField: "filters",
 		},
 	},
 	"unit-transformation": {
@@ -323,6 +340,7 @@ var v1FeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "meter",
+			Usage:    "Event meter that turns reported events into usage for a metered feature",
 			BodyPath: "meter",
 		},
 		&requestflag.Flag[map[string]any]{
@@ -357,10 +375,12 @@ var v1FeaturesUpdateFeature = requestflag.WithInnerFlags(cli.Command{
 	"meter": {
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "meter.aggregation",
+			Usage:      "How the matching events are aggregated into a usage value",
 			InnerField: "aggregation",
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
 			Name:       "meter.filters",
+			Usage:      "Event filters. Conditions within a filter are ANDed, and filters are ORed",
 			InnerField: "filters",
 		},
 	},
