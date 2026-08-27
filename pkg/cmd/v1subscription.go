@@ -609,7 +609,7 @@ var v1SubscriptionsPreview = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "billing-country-code",
-			Usage:    "ISO 3166-1 country code for localization",
+			Usage:    `Country code selecting a localized price ("eu" for Eurozone); the default price applies when none matches`,
 			BodyPath: "billingCountryCode",
 		},
 		&requestflag.Flag[string]{
@@ -857,7 +857,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[*string]{
 			Name:     "billing-country-code",
-			Usage:    "The ISO 3166-1 alpha-2 country code for billing",
+			Usage:    `The country code used to select a localized price (or "eu" for Eurozone), falling back to the default price when none matches`,
 			BodyPath: "billingCountryCode",
 		},
 		&requestflag.Flag[string]{
@@ -1160,7 +1160,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "price-override.billing-country-code",
-			Usage:      "ISO 3166-1 alpha-2 country code this price applies to. Omit for the default price shown to all countries; set one or more country-specific price periods on the same currency to localize the amount by billing country.",
+			Usage:      `ISO 3166-1 alpha-2 country code this price applies to, or "eu" for the Eurozone region. Omit for the default price shown to all countries; set one or more country-specific price periods on the same currency to localize the amount by billing country.`,
 			InnerField: "billingCountryCode",
 		},
 		&requestflag.InnerFlag[float64]{
