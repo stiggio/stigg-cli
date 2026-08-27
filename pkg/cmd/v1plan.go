@@ -44,7 +44,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "default-trial-config",
-			Usage:    "Default trial configuration for the plan",
+			Usage:    "Default trial configuration for the plan. When set, subscriptions provisioned on this plan without explicit trial settings automatically start in trial for the configured duration; leave unset for no automatic trial.",
 			BodyPath: "defaultTrialConfig",
 		},
 		&requestflag.Flag[*string]{
@@ -59,7 +59,7 @@ var v1PlansCreate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[*string]{
 			Name:     "parent-plan-id",
-			Usage:    "The ID of the parent plan, if applicable",
+			Usage:    "The ID of the parent plan, if this plan should inherit entitlements from another plan. Optional — omit to create a standalone plan with no inherited entitlements.",
 			BodyPath: "parentPlanId",
 		},
 		&requestflag.Flag[*string]{
@@ -148,7 +148,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "charges",
-			Usage:    "Pricing configuration to set on the plan draft",
+			Usage:    "Pricing configuration to set on the plan draft. Unlike the rest of this request, this is a full replace of the pricing configuration, not a merge — see SetPackagePricingRequest.",
 			BodyPath: "charges",
 		},
 		&requestflag.Flag[any]{
@@ -157,7 +157,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "default-trial-config",
-			Usage:    "Default trial configuration for the plan",
+			Usage:    "Default trial configuration for the plan. When set, subscriptions provisioned on this plan without explicit trial settings automatically start in trial for the configured duration; leave unset for no automatic trial.",
 			BodyPath: "defaultTrialConfig",
 		},
 		&requestflag.Flag[*string]{
@@ -177,7 +177,7 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[*string]{
 			Name:     "parent-plan-id",
-			Usage:    "The ID of the parent plan, if applicable",
+			Usage:    "The ID of the parent plan, if this plan should inherit entitlements from another plan. Optional — omit to create a standalone plan with no inherited entitlements.",
 			BodyPath: "parentPlanId",
 		},
 		&requestflag.Flag[string]{
@@ -215,12 +215,12 @@ var v1PlansUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
 			Name:       "charges.overage-pricing-models",
-			Usage:      "Array of overage pricing model configurations",
+			Usage:      "Array of overage pricing model configurations. Replaces all existing overage pricing models on the draft — omit this to end up with no overage pricing.",
 			InnerField: "overagePricingModels",
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
 			Name:       "charges.pricing-models",
-			Usage:      "Array of pricing model configurations",
+			Usage:      "Array of pricing model configurations. Replaces all existing base pricing models on the draft — omit this to end up with no base pricing.",
 			InnerField: "pricingModels",
 		},
 	},
@@ -458,7 +458,7 @@ var v1PlansListOverageCharges = cli.Command{
 
 var v1PlansPublish = cli.Command{
 	Name:    "publish",
-	Usage:   "Publishes a draft plan, making it available for use in subscriptions.",
+	Usage:   "Publishes a draft plan, making it available for use in subscriptions. The\nrequired `migrationType` field controls whether existing subscribers are moved\nonto the new version immediately (`ALL_CUSTOMERS`) or stay on the version they\nsubscribed to — grandfathered — until you explicitly migrate them, e.g. via the\nmigrate subscription endpoint (`NEW_CUSTOMERS`).",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -468,7 +468,7 @@ var v1PlansPublish = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "migration-type",
-			Usage:    "The migration type of the package",
+			Usage:    "Who the published version applies to: NEW_CUSTOMERS (default) leaves existing subscribers on their current version, ALL_CUSTOMERS moves them onto the new version immediately.",
 			Required: true,
 			BodyPath: "migrationType",
 		},

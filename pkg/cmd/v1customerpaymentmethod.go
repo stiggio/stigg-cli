@@ -26,19 +26,19 @@ var v1CustomersPaymentMethodAttach = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "integration-id",
-			Usage:    "Integration details",
+			Usage:    "The internal ID of the integration this record is linked to",
 			Required: true,
 			BodyPath: "integrationId",
 		},
 		&requestflag.Flag[string]{
 			Name:     "payment-method-id",
-			Usage:    "Billing provider payment method id",
+			Usage:    "Billing provider payment method id. Attaching it makes it the customer's new default payment method for future charges; any previously attached payment method is no longer used as the default, though it is not removed from the billing provider.",
 			Required: true,
 			BodyPath: "paymentMethodId",
 		},
 		&requestflag.Flag[string]{
 			Name:     "vendor-identifier",
-			Usage:    "The vendor identifier of integration",
+			Usage:    "The vendor identifier of the integration (e.g. STRIPE, SALESFORCE, SNOWFLAKE)",
 			Required: true,
 			BodyPath: "vendorIdentifier",
 		},

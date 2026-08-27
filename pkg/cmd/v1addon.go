@@ -49,7 +49,7 @@ var v1AddonsCreate = cli.Command{
 		},
 		&requestflag.Flag[*int64]{
 			Name:     "max-quantity",
-			Usage:    "The maximum quantity of this addon that can be added to a subscription",
+			Usage:    "The maximum quantity of this addon that can be added to a subscription. Leave unset for no upper bound.",
 			BodyPath: "maxQuantity",
 		},
 		&requestflag.Flag[map[string]any]{
@@ -120,7 +120,7 @@ var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "charges",
-			Usage:    "Pricing configuration to set on the addon draft",
+			Usage:    "Pricing configuration to set on the addon draft. Unlike the rest of this request, this is a full replace of the pricing configuration, not a merge — see SetPackagePricingRequest.",
 			BodyPath: "charges",
 		},
 		&requestflag.Flag[any]{
@@ -140,7 +140,7 @@ var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[*int64]{
 			Name:     "max-quantity",
-			Usage:    "The maximum quantity of this addon that can be added to a subscription",
+			Usage:    "The maximum quantity of this addon that can be added to a subscription. Leave unset for no upper bound.",
 			BodyPath: "maxQuantity",
 		},
 		&requestflag.Flag[map[string]any]{
@@ -188,12 +188,12 @@ var v1AddonsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
 			Name:       "charges.overage-pricing-models",
-			Usage:      "Array of overage pricing model configurations",
+			Usage:      "Array of overage pricing model configurations. Replaces all existing overage pricing models on the draft — omit this to end up with no overage pricing.",
 			InnerField: "overagePricingModels",
 		},
 		&requestflag.InnerFlag[[]map[string]any]{
 			Name:       "charges.pricing-models",
-			Usage:      "Array of pricing model configurations",
+			Usage:      "Array of pricing model configurations. Replaces all existing base pricing models on the draft — omit this to end up with no base pricing.",
 			InnerField: "pricingModels",
 		},
 	},
@@ -366,7 +366,7 @@ var v1AddonsListCharges = cli.Command{
 
 var v1AddonsPublish = cli.Command{
 	Name:    "publish",
-	Usage:   "Publishes a draft addon, making it available for use in subscriptions.",
+	Usage:   "Publishes a draft addon, making it available for use in subscriptions. The\nrequired `migrationType` field controls whether subscriptions already using this\naddon are moved onto the new version immediately (`ALL_CUSTOMERS`) or stay on\nthe version they were using — grandfathered — until you explicitly migrate them\n(`NEW_CUSTOMERS`).",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -376,7 +376,7 @@ var v1AddonsPublish = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "migration-type",
-			Usage:    "The migration type of the package",
+			Usage:    "Who the published version applies to: NEW_CUSTOMERS (default) leaves existing subscribers on their current version, ALL_CUSTOMERS moves them onto the new version immediately.",
 			Required: true,
 			BodyPath: "migrationType",
 		},

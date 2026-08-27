@@ -243,7 +243,7 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
-			Usage:    "Additional metadata for the product",
+			Usage:    "Additional metadata for the product. When included, this replaces the product's entire metadata object rather than merging with the existing keys — omit the field to leave existing metadata untouched.",
 			BodyPath: "metadata",
 		},
 		&requestflag.Flag[bool]{
@@ -290,7 +290,7 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "product-settings.downgrade-plan-id",
-			Usage:      "ID of the plan to downgrade to at the end of the billing period",
+			Usage:      "ID of the plan to downgrade to at the end of the billing period. Only relevant when subscriptionEndSetup is DOWNGRADE_TO_FREE — ignored otherwise.",
 			InnerField: "downgradePlanId",
 		},
 		&requestflag.InnerFlag[*bool]{
@@ -300,7 +300,7 @@ var v1ProductsUpdateProduct = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "product-settings.subscription-start-plan-id",
-			Usage:      "ID of the plan to start the subscription with",
+			Usage:      "ID of the plan to start the subscription with. Only relevant when subscriptionStartSetup is PLAN_SELECTION — ignored otherwise.",
 			InnerField: "subscriptionStartPlanId",
 		},
 	},

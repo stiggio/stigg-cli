@@ -79,7 +79,7 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
-			Usage:    "Additional metadata",
+			Usage:    "Custom key-value metadata to attach to the customer. When creating a customer, this sets the initial metadata. When updating a customer, this replaces the customer's existing metadata object entirely — it is not merged key by key. Omit this field on update to leave the customer's existing metadata untouched; pass an empty object to clear it.",
 			BodyPath: "metadata",
 		},
 		&requestflag.Flag[*string]{
@@ -112,17 +112,17 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 	"integration": {
 		&requestflag.InnerFlag[string]{
 			Name:       "integration.id",
-			Usage:      "Integration details",
+			Usage:      "The internal ID of the integration this record is linked to",
 			InnerField: "id",
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "integration.synced-entity-id",
-			Usage:      "Synced entity id",
+			Usage:      "The external entity ID this record is linked to in the vendor system (e.g. the Stripe customer ID). Null until the link has synced; required when creating the link.",
 			InnerField: "syncedEntityId",
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "integration.vendor-identifier",
-			Usage:      "The vendor identifier of integration",
+			Usage:      "The vendor identifier of the integration (e.g. STRIPE, SALESFORCE, SNOWFLAKE)",
 			InnerField: "vendorIdentifier",
 		},
 	},
@@ -241,7 +241,7 @@ var v1CustomersArchive = cli.Command{
 
 var v1CustomersCheckEntitlement = cli.Command{
 	Name:    "check-entitlement",
-	Usage:   "Checks a single entitlement (feature or credit) for a customer or resource.\nSupports `requestedUsage` and `requestedValues` to evaluate against limits or\nenum values.",
+	Usage:   "Checks a single entitlement (feature or credit) for a customer or resource.\nSupports `requestedUsage` and `requestedValues` to evaluate against limits or\nenum values. Each call reaches the Stigg API directly, so latency reflects a\nnetwork round trip. For entitlement checks on a hot path (e.g. gating a request\nin real time), the Stigg Node Server SDK (with its built-in cache) or the\nSidecar will typically respond faster and keep working through brief Stigg\noutages; reach for this endpoint when a live HTTP call is the natural fit, such\nas from a non-Node backend or a server-side job.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -300,7 +300,7 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "integration-id",
-			Usage:    "Integration details",
+			Usage:    "The internal ID of the integration this record is linked to",
 			BodyPath: "integrationId",
 		},
 		&requestflag.Flag[string]{
@@ -338,12 +338,12 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "customer.metadata",
-			Usage:      "Additional metadata",
+			Usage:      "Custom key-value metadata to attach to the customer. When creating a customer, this sets the initial metadata. When updating a customer, this replaces the customer's existing metadata object entirely — it is not merged key by key. Omit this field on update to leave the customer's existing metadata untouched; pass an empty object to clear it.",
 			InnerField: "metadata",
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "customer.payment-method-id",
-			Usage:      "Billing provider payment method id",
+			Usage:      "Billing provider payment method id. Attaching it makes it the customer's new default payment method for future charges; any previously attached payment method is no longer used as the default, though it is not removed from the billing provider.",
 			InnerField: "paymentMethodId",
 		},
 		&requestflag.InnerFlag[string]{
@@ -546,7 +546,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
-			Usage:    "Additional metadata",
+			Usage:    "Custom key-value metadata to attach to the customer. When creating a customer, this sets the initial metadata. When updating a customer, this replaces the customer's existing metadata object entirely — it is not merged key by key. Omit this field on update to leave the customer's existing metadata untouched; pass an empty object to clear it.",
 			BodyPath: "metadata",
 		},
 		&requestflag.Flag[*string]{
@@ -606,17 +606,17 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 	"integration": {
 		&requestflag.InnerFlag[string]{
 			Name:       "integration.id",
-			Usage:      "Integration details",
+			Usage:      "The internal ID of the integration this record is linked to",
 			InnerField: "id",
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "integration.synced-entity-id",
-			Usage:      "Synced entity id",
+			Usage:      "The external entity ID this record is linked to in the vendor system (e.g. the Stripe customer ID). Null until the link has synced; required when creating the link.",
 			InnerField: "syncedEntityId",
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "integration.vendor-identifier",
-			Usage:      "The vendor identifier of integration",
+			Usage:      "The vendor identifier of the integration (e.g. STRIPE, SALESFORCE, SNOWFLAKE)",
 			InnerField: "vendorIdentifier",
 		},
 	},
@@ -636,7 +636,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 
 var v1CustomersRetrieveEntitlements = cli.Command{
 	Name:    "retrieve-entitlements",
-	Usage:   "Retrieves the effective entitlements for a customer or resource, including\nfeature and credit entitlements.",
+	Usage:   "Retrieves the effective entitlements for a customer or resource, including\nfeature and credit entitlements. Each call reaches the Stigg API directly, so\nlatency reflects a network round trip. For entitlement checks on a hot path\n(e.g. gating a request in real time), the Stigg Node Server SDK (with its\nbuilt-in cache) or the Sidecar will typically respond faster and keep working\nthrough brief Stigg outages; reach for this endpoint when a live HTTP call is\nthe natural fit, such as from a non-Node backend or a server-side job.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{

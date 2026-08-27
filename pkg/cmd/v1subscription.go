@@ -39,7 +39,7 @@ var v1SubscriptionsRetrieve = cli.Command{
 
 var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 	Name:    "update",
-	Usage:   "Updates an active subscription's properties including billing period, add-ons,\nunit quantities, and discounts.",
+	Usage:   "Updates an active subscription's properties including billing period, add-ons,\nunit quantities, and discounts. This is a partial update — only the fields\npresent in the request body change. Object fields such as `metadata` are\nreplaced wholesale rather than merged, and list fields such as `addons` and\n`priceOverrides` must be sent in full: any existing item that isn't included in\nthe array is removed from the subscription. Changes classified as a downgrade\nmay be scheduled for the end of the current billing period instead of applying\nimmediately, depending on your update scheduling configuration.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -93,7 +93,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
-			Usage:    "Additional metadata for the subscription",
+			Usage:    "Additional metadata for the subscription, stored as an arbitrary flat key-value object.",
 			BodyPath: "metadata",
 		},
 		&requestflag.Flag[map[string]any]{
@@ -204,7 +204,7 @@ var v1SubscriptionsUpdate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "billing-information.metadata",
-			Usage:      "Additional metadata for the subscription",
+			Usage:      "Additional metadata for the subscription, stored as an arbitrary flat key-value object.",
 			InnerField: "metadata",
 		},
 		&requestflag.InnerFlag[string]{
@@ -435,7 +435,7 @@ var v1SubscriptionsCancel = cli.Command{
 
 var v1SubscriptionsDelegate = cli.Command{
 	Name:    "delegate",
-	Usage:   "Delegates the payment responsibility of a subscription to a different customer.\nThe delegated customer will be billed for this subscription.",
+	Usage:   "Delegates a subscription to a different customer, who becomes responsible for\nmanaging it. The original customer remains the paying customer for this\nsubscription, unless payment was already delegated to the target customer, in\nwhich case the target customer becomes the paying customer as well.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -445,7 +445,7 @@ var v1SubscriptionsDelegate = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "target-customer-id",
-			Usage:    "The unique identifier of the customer who will assume payment responsibility for this subscription. This customer must already exist in your Stigg account and have a valid payment method if the subscription requires payment.",
+			Usage:    "The unique identifier of the customer who will manage this subscription going forward. This customer must already exist in your Stigg account. The paying customer for the subscription does not change as a result of this request.",
 			Required: true,
 			BodyPath: "targetCustomerId",
 		},
@@ -531,7 +531,7 @@ var v1SubscriptionsImport = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "subscription.metadata",
-			Usage:      "Additional metadata for the subscription",
+			Usage:      "Additional metadata for the subscription, stored as an arbitrary flat key-value object.",
 			InnerField: "metadata",
 		},
 		&requestflag.InnerFlag[*string]{
@@ -903,7 +903,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:     "metadata",
-			Usage:    "Additional metadata for the subscription",
+			Usage:    "Additional metadata for the subscription, stored as an arbitrary flat key-value object.",
 			BodyPath: "metadata",
 		},
 		&requestflag.Flag[map[string]any]{
@@ -1040,7 +1040,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[map[string]any]{
 			Name:       "billing-information.metadata",
-			Usage:      "Additional metadata for the subscription",
+			Usage:      "Additional metadata for the subscription, stored as an arbitrary flat key-value object.",
 			InnerField: "metadata",
 		},
 		&requestflag.InnerFlag[string]{
@@ -1160,7 +1160,7 @@ var v1SubscriptionsProvision = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "price-override.billing-country-code",
-			Usage:      "The billing country code of the price",
+			Usage:      "ISO 3166-1 alpha-2 country code this price applies to. Omit for the default price shown to all countries; set one or more country-specific price periods on the same currency to localize the amount by billing country.",
 			InnerField: "billingCountryCode",
 		},
 		&requestflag.InnerFlag[float64]{

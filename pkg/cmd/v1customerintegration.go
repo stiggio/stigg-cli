@@ -59,7 +59,7 @@ var v1CustomersIntegrationsUpdate = cli.Command{
 		},
 		&requestflag.Flag[*string]{
 			Name:     "synced-entity-id",
-			Usage:    "Synced entity id",
+			Usage:    "The external entity ID this record is linked to in the vendor system (e.g. the Stripe customer ID). Null until the link has synced; required when creating the link.",
 			Required: true,
 			BodyPath: "syncedEntityId",
 		},
@@ -136,19 +136,19 @@ var v1CustomersIntegrationsLink = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "id",
-			Usage:    "Integration details",
+			Usage:    "The internal ID of the integration this record is linked to",
 			Required: true,
 			BodyPath: "id",
 		},
 		&requestflag.Flag[string]{
 			Name:     "synced-entity-id",
-			Usage:    "Synced entity id",
+			Usage:    "The external entity ID this record is linked to in the vendor system (e.g. the Stripe customer ID). Null until the link has synced; required when creating the link.",
 			Required: true,
 			BodyPath: "syncedEntityId",
 		},
 		&requestflag.Flag[string]{
 			Name:     "vendor-identifier",
-			Usage:    "The vendor identifier of integration",
+			Usage:    "The vendor identifier of the integration (e.g. STRIPE, SALESFORCE, SNOWFLAKE)",
 			Required: true,
 			BodyPath: "vendorIdentifier",
 		},

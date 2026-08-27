@@ -38,7 +38,7 @@ var v1EventsEstimate = cli.Command{
 		},
 		&requestflag.Flag[*string]{
 			Name:     "resource-id",
-			Usage:    "Resource id",
+			Usage:    "The customer resource this usage applies to. Optional — only required if the customer has multiple resources (for example, one subscription per workspace or site) and usage needs to be tracked separately per resource; omit it to report usage at the customer level.",
 			BodyPath: "resourceId",
 		},
 		&requestflag.Flag[string]{
@@ -56,7 +56,7 @@ var v1EventsEstimate = cli.Command{
 
 var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 	Name:    "report",
-	Usage:   "Reports raw usage events for event-based metering. Events are ingested\nasynchronously and aggregated into usage totals.",
+	Usage:   "Reports raw usage events for event-based metering. Events are validated and\nstored synchronously, then aggregated into usage totals asynchronously.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]map[string]any]{
@@ -90,7 +90,7 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[string]{
 			Name:       "event.idempotency-key",
-			Usage:      "Idempotency key",
+			Usage:      "A key you provide to safely retry the same usage report without double-counting it. Reports with a previously-seen idempotency key are deduplicated for 7 days; after that window a retry is treated as new usage.",
 			InnerField: "idempotencyKey",
 		},
 		&requestflag.InnerFlag[map[string]any]{
@@ -100,7 +100,7 @@ var v1EventsReport = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "event.resource-id",
-			Usage:      "Resource id",
+			Usage:      "The customer resource this usage applies to. Optional — only required if the customer has multiple resources (for example, one subscription per workspace or site) and usage needs to be tracked separately per resource; omit it to report usage at the customer level.",
 			InnerField: "resourceId",
 		},
 		&requestflag.InnerFlag[any]{
