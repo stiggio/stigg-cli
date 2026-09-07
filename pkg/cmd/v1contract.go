@@ -25,12 +25,6 @@ var v1ContractsCreate = requestflag.WithInnerFlags(cli.Command{
 			Required: true,
 			BodyPath: "customerId",
 		},
-		&requestflag.Flag[[]map[string]any]{
-			Name:     "subscription",
-			Usage:    "The subscriptions to attach to the contract (must be non-empty). Each entry is either a new subscription to create or a reference to an existing custom subscription.",
-			Required: true,
-			BodyPath: "subscriptions",
-		},
 		&requestflag.Flag[any]{
 			Name:     "activation-end-date",
 			Usage:    "Optional contract activation end date",
@@ -40,6 +34,11 @@ var v1ContractsCreate = requestflag.WithInnerFlags(cli.Command{
 			Name:     "activation-start-date",
 			Usage:    "Optional contract activation start date",
 			BodyPath: "activationStartDate",
+		},
+		&requestflag.Flag[string]{
+			Name:     "contract-id",
+			Usage:    "Your own ID for the contract, which makes this call idempotent: sending the same one again returns the existing contract instead of creating a second. Omit it and one is generated for you, but then a retry cannot be told apart from a new contract — and contracts cannot be deleted. Recommended whenever a retry is possible, e.g. building a contract from an order form.",
+			BodyPath: "contractId",
 		},
 		&requestflag.Flag[*string]{
 			Name:     "name",
@@ -56,6 +55,12 @@ var v1ContractsCreate = requestflag.WithInnerFlags(cli.Command{
 			Usage:    "Whether to set up billing for the contract by creating a billing contract in the connected billing provider. When false, the contract only provisions access (grants entitlements) and no billing contract is created. Defaults to true.",
 			Default:  true,
 			BodyPath: "setupBilling",
+		},
+		&requestflag.Flag[[]map[string]any]{
+			Name:     "subscription",
+			Usage:    "The subscriptions to attach to the contract. Each entry is either a new subscription to create or a reference to an existing custom subscription. Optional — omit it (or pass an empty list) to create a contract with no subscriptions and attach them later.",
+			Default:  []map[string]any{},
+			BodyPath: "subscriptions",
 		},
 		&requestflag.Flag[string]{
 			Name:       "x-account-id",
@@ -161,7 +166,7 @@ var v1ContractsUpdate = cli.Command{
 
 var v1ContractsList = cli.Command{
 	Name:    "list",
-	Usage:   "Retrieves a cursor-paginated list of contracts in the environment, fetched live\nfrom the connected billing provider. Each contract is enriched with a preview of\nits upcoming (next) invoice when one is available. Returns an empty list when no\nbilling provider is connected. Supports filtering by customer external ID,\nstate, and name.",
+	Usage:   "Retrieves a cursor-paginated list of contracts in the environment. Each contract\nthat has a billing contract is enriched with a preview of its upcoming (next)\ninvoice when one is available. Supports filtering by customer external ID,\nstate, and name.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{

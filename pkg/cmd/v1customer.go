@@ -361,7 +361,7 @@ var v1CustomersImport = requestflag.WithInnerFlags(cli.Command{
 
 var v1CustomersListContracts = cli.Command{
 	Name:    "list-contracts",
-	Usage:   "Retrieves a customer's contracts, fetched live from the connected billing\nprovider, each enriched with a preview of its upcoming (next) invoice when\navailable. Returns an empty list when no billing provider is connected or the\ncustomer is not synced.",
+	Usage:   "Retrieves a customer's contracts. Each contract that has a billing contract is\nenriched with a preview of its upcoming (next) invoice when available. Returns\nan empty list when the customer has no contracts.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
