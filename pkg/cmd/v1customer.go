@@ -597,7 +597,7 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Usage:      "The last 4 digits of the default payment method",
 			InnerField: "cardLast4Digits",
 		},
-		&requestflag.InnerFlag[string]{
+		&requestflag.InnerFlag[*string]{
 			Name:       "default-payment-method.type",
 			Usage:      "The default payment method type",
 			InnerField: "type",
