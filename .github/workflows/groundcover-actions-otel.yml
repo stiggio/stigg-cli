@@ -1,0 +1,114 @@
+# Exports this SDK's release and publish workflow runs to groundcover as OTEL
+# traces, so a failed release is visible where the runtime services already are
+# instead of only in the Actions tab. The "A github-workflow has failed" monitor
+# in groundcover alerts on these traces.
+#
+# This exists because a publish failed on an expired registry token and the gap
+# went unnoticed for 11 days: GitHub carried the release tag while the registry
+# stayed a version behind. Release Doctor does not cover it, because
+# bin/check-release-environment only asserts the token secret is non-empty and
+# never exercises it against the registry.
+#
+# This file lives on the trunk that the staging and the production repo share, so
+# it runs in both. `workflow_run` matches a workflow's `name:` field, NOT its file
+# name. If you rename a workflow, rename it here too, or its runs stop being
+# exported.
+#
+# CI is deliberately absent: it runs on every pull request, where its failures are
+# already visible.
+name: OTEL Trace Export
+
+on:
+  workflow_run:
+    workflows:
+      # Cuts the release commit and the tag that the publish workflow acts on.
+      - "Release Please"
+      # Attaches the built binaries to the GitHub release and updates the
+      # Homebrew tap. A failure here leaves the release without artifacts.
+      - "Publish Release"
+      # Fast-forwards production up to staging. While this fails no release is cut
+      # at all, because Release Please only opens its version PR on production.
+      - "Promote SDKs"
+      # Back-syncs production onto staging and asks the config repo to re-seal.
+      # While this fails, custom-code tracking drifts and later builds refuse on it.
+      - "Sync SDK repos"
+    types:
+      - completed
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  GC_TENANT_UUID: 69e66738-efeb-4f74-86e4-28971de0cc57
+
+jobs:
+  otel-export:
+    name: Export OTEL Traces
+    runs-on: ubuntu-latest
+    steps:
+      # Without this the action receives empty strings, exports nothing, and the job
+      # still goes green - the exact silent-no-op failure mode this workflow exists
+      # to remove, so fail loudly instead.
+      - name: Make sure that the groundcover secrets are present
+        env:
+          GC_ENDPOINT: ${{ secrets.GC_ENDPOINT }}
+          GC_API_KEY: ${{ secrets.GC_API_KEY }}
+        run: |
+          missing=""
+          [ -n "$GC_ENDPOINT" ] || missing="$missing GC_ENDPOINT"
+          [ -n "$GC_API_KEY" ] || missing="$missing GC_API_KEY"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing secret(s):$missing. No trace was exported for this run."
+            exit 1
+          fi
+
+      - name: Export workflow OTEL traces
+        id: otel-export
+        uses: groundcover-com/groundcover-github-action@v3
+        with:
+          groundcoverEndpoint: ${{ secrets.GC_ENDPOINT }}
+          apiKey: ${{ secrets.GC_API_KEY }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          runId: ${{ github.event.workflow_run.id }}
+          workload: ${{ github.event.workflow_run.name }}
+          groundcoverTenantUUID: ${{ env.GC_TENANT_UUID }}
+          # One file serves both repos of the pair, so the repo name is read at run
+          # time instead of being hardcoded.
+          extraAttributes: deploy_kind=sdk-pipeline,sdk=cli,repo=${{ github.repository }}
+          # These runs come from a release, a promote or a schedule, not from a pull
+          # request, so there is no PR to comment on.
+          commentOnPr: "false"
+
+      - name: Write the trace link to the run summary
+        if: steps.otel-export.outputs.traceId != ''
+        env:
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          TRACE_ID: ${{ steps.otel-export.outputs.traceId }}
+        run: |
+          TRACE_URL="https://app.groundcover.com/traces?tenantUUID=${GC_TENANT_UUID}&duration=Last+hour&filters=%255B%2522trace_id%253A${TRACE_ID}%2522%255D"
+          {
+            echo "## OTEL trace export"
+            echo ""
+            echo "| Field | Value |"
+            echo "| --- | --- |"
+            echo "| Workflow | [${WORKFLOW_NAME}](${WORKFLOW_URL}) |"
+            echo "| Conclusion | ${WORKFLOW_CONCLUSION} |"
+            echo "| Run ID | ${RUN_ID} |"
+            echo ""
+            echo "[View the trace in groundcover](${TRACE_URL})"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # A red annotation on this run, so a failed release is visible in the Actions
+      # list even before the groundcover monitor fires.
+      - name: Annotate a failed run
+        if: github.event.workflow_run.conclusion != 'success'
+        env:
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          WORKFLOW_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          WORKFLOW_URL: ${{ github.event.workflow_run.html_url }}
+        run: |
+          echo "::error::'${WORKFLOW_NAME}' concluded as ${WORKFLOW_CONCLUSION}. Run: ${WORKFLOW_URL}"
