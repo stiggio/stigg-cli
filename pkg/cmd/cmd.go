@@ -204,7 +204,6 @@ func init() {
 				Suggest:  true,
 				Commands: []*cli.Command{
 					&v1EventsDataExportListModels,
-					&v1EventsDataExportMintScopedToken,
 					&v1EventsDataExportTriggerSync,
 				},
 			},
