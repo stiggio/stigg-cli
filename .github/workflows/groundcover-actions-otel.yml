@@ -45,6 +45,13 @@ env:
 jobs:
   otel-export:
     name: Export OTEL Traces
+    # release-please.yml is guarded to the production repo, so on a staging repo
+    # every push to main leaves a `Release Please` run that concludes `skipped`.
+    # `workflow_run: completed` includes that conclusion, and the monitor filters
+    # on `-cicd.pipeline.result:success`, which reads an exported `skip` as a
+    # failure. A skipped run started no job and carries no signal, so it is not
+    # exported. `failure`, `cancelled` and `timed_out` still are.
+    if: github.event.workflow_run.conclusion != 'skipped'
     runs-on: ubuntu-latest
     steps:
       # Without this the action receives empty strings, exports nothing, and the job
