@@ -18,8 +18,9 @@ on:
   repository_dispatch:
     types: [prod-released]
   workflow_dispatch: {}
-  schedule:
-    - cron: '*/30 * * * *'
+  # No schedule: the status is re-evaluated after every "Sync SDK repos" run
+  # (workflow_run above), on prod-released, and on each PR push. A 30-minute
+  # poll only re-posted the same status between those events (STIGG-9828).
 
 permissions:
   contents: read
