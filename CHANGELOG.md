@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.8.4](https://github.com/stiggio/stigg-cli/compare/v0.8.3...v0.8.4) (2026-09-29)
+
+
+### Bug Fixes
+
+* **STIGG-9768:** stop exporting skipped workflow runs as failures ([7ac61fd](https://github.com/stiggio/stigg-cli/commit/7ac61fd738e0837dda0205ee31dd18ed57a8b42a))
+* **STIGG-9768:** stop exporting skipped workflow runs as failures ([89cce75](https://github.com/stiggio/stigg-cli/commit/89cce7561bf4b6798c9d31e04905e4ff0e0cda3a))
+* sync OpenAPI spec from stigg-api ([25f7e4d](https://github.com/stiggio/stigg-cli/commit/25f7e4d30b99b392a5026d0322afd02387e78d3c))
+
 ## [0.8.3](https://github.com/stiggio/stigg-cli/compare/v0.8.2...v0.8.3) (2026-08-12)
 
 
