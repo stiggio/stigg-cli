@@ -65,7 +65,7 @@ func TestV1CustomersIntegrationsList(t *testing.T) {
 			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 			"--limit", "1",
-			"--vendor-identifier", "AUTH0",
+			"--vendor-identifier", "STRIPE",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -82,7 +82,7 @@ func TestV1CustomersIntegrationsLink(t *testing.T) {
 			"--id", "x",
 			"--id", "id",
 			"--synced-entity-id", "syncedEntityId",
-			"--vendor-identifier", "AUTH0",
+			"--vendor-identifier", "STRIPE",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -93,7 +93,7 @@ func TestV1CustomersIntegrationsLink(t *testing.T) {
 		pipeData := []byte("" +
 			"id: id\n" +
 			"syncedEntityId: syncedEntityId\n" +
-			"vendorIdentifier: AUTH0\n")
+			"vendorIdentifier: STRIPE\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
 			"--api-key", "string",

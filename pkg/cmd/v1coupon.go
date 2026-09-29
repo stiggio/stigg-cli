@@ -39,7 +39,7 @@ var v1CouponsCreate = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.Flag[*int64]{
 			Name:     "duration-in-months",
-			Usage:    "How many billing cycles the discount applies for once redeemed. Leave unset for a discount that lasts for the lifetime of the subscription.",
+			Usage:    "How many calendar months the discount applies for once redeemed, counted from when the coupon is applied (not tied to the subscription's billing period). Leave unset for a discount that lasts for the lifetime of the subscription.",
 			Required: true,
 			BodyPath: "durationInMonths",
 		},

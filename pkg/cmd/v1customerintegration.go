@@ -148,7 +148,7 @@ var v1CustomersIntegrationsLink = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:     "vendor-identifier",
-			Usage:    "The vendor identifier of the integration (e.g. STRIPE, SALESFORCE, SNOWFLAKE)",
+			Usage:    "The vendor whose system holds the customer record",
 			Required: true,
 			BodyPath: "vendorIdentifier",
 		},
