@@ -117,7 +117,7 @@ var v1UsageHistory = cli.Command{
 
 var v1UsageReport = requestflag.WithInnerFlags(cli.Command{
 	Name:    "report",
-	Usage:   "Reports usage measurements for metered features. The reported usage is used to\ntrack, limit, and bill customer consumption.",
+	Usage:   "Reports usage measurements for metered features. The reported usage is used to\ntrack, limit, and bill customer consumption. Deprecated: use\n`POST /api/v2/usage`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]map[string]any]{
