@@ -113,13 +113,15 @@ jobs:
     steps:
       - name: Dispatch back-sync to staging
         env:
-          DISPATCH_TOKEN: ${{ secrets.STAGING_DISPATCH_TOKEN }}
+          # A dedicated STAGING_DISPATCH_TOKEN wins when set. Otherwise use
+          # GUTHUB_SERVICE_TOKEN, the org token the public production repos can read.
+          DISPATCH_TOKEN: ${{ secrets.STAGING_DISPATCH_TOKEN || secrets.GUTHUB_SERVICE_TOKEN }}
           REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
 
           if [ -z "${DISPATCH_TOKEN:-}" ]; then
-            echo "::notice::STAGING_DISPATCH_TOKEN not configured — skipping the eager back-sync notify. The staging repo's 6-hourly poll covers this."
+            echo "::notice::Neither STAGING_DISPATCH_TOKEN nor GUTHUB_SERVICE_TOKEN is available — skipping the eager back-sync notify. The staging repo's 6-hourly poll covers this."
             exit 0
           fi
 
@@ -142,7 +144,7 @@ jobs:
           ALERT_WEBHOOK_URL: ${{ secrets.STLC_ALERT_WEBHOOK_URL }}
         run: |
           run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          msg="stlc release back-sync trigger failed in ${{ github.repository }} — the staging repo was NOT notified to back-sync this release (likely an expired STAGING_DISPATCH_TOKEN). Staging catches up on its next poll, but verify the token. Run: $run_url"
+          msg="stlc release back-sync trigger failed in ${{ github.repository }} — the staging repo was NOT notified to back-sync this release (likely an expired or under-scoped dispatch token). Staging catches up on its next poll, but verify the token. Run: $run_url"
           echo "::error title=stlc workflow failed::$msg"
           { echo "### ⚠️ stlc workflow failed"; echo ""; echo "$msg"; } >> "$GITHUB_STEP_SUMMARY"
           if [ -n "${ALERT_WEBHOOK_URL:-}" ]; then
@@ -169,7 +171,9 @@ jobs:
     steps:
       - name: Loop-guard and send re-seal dispatch
         env:
-          DISPATCH_TOKEN: ${{ secrets.CONFIG_DISPATCH_TOKEN }}
+          # A dedicated CONFIG_DISPATCH_TOKEN wins when set. Otherwise use
+          # GUTHUB_SERVICE_TOKEN, the org token every SDK repo can read.
+          DISPATCH_TOKEN: ${{ secrets.CONFIG_DISPATCH_TOKEN || secrets.GUTHUB_SERVICE_TOKEN }}
           HEAD_MSG: ${{ github.event.head_commit.message }}
           HEAD_AUTHOR_NAME: ${{ github.event.head_commit.author.name }}
           SHA: ${{ github.sha }}
@@ -190,7 +194,7 @@ jobs:
           fi
 
           if [ -z "${DISPATCH_TOKEN:-}" ]; then
-            echo "::notice::CONFIG_DISPATCH_TOKEN not configured — skipping the eager re-seal. The config repo's scheduled sync covers this."
+            echo "::notice::Neither CONFIG_DISPATCH_TOKEN nor GUTHUB_SERVICE_TOKEN is available — skipping the eager re-seal. The config repo's scheduled sync covers this."
             exit 0
           fi
 
@@ -214,7 +218,7 @@ jobs:
           ALERT_WEBHOOK_URL: ${{ secrets.STLC_ALERT_WEBHOOK_URL }}
         run: |
           run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          msg="stlc seal-dispatch failed in ${{ github.repository }} — the config repo was NOT notified to re-seal (likely an expired CONFIG_DISPATCH_TOKEN). The config repo's scheduled sync is the backstop, but verify the token. Run: $run_url"
+          msg="stlc seal-dispatch failed in ${{ github.repository }} — the config repo was NOT notified to re-seal (likely an expired or under-scoped dispatch token). The config repo's scheduled sync is the backstop, but verify the token. Run: $run_url"
           echo "::error title=stlc workflow failed::$msg"
           { echo "### ⚠️ stlc workflow failed"; echo ""; echo "$msg"; } >> "$GITHUB_STEP_SUMMARY"
           if [ -n "${ALERT_WEBHOOK_URL:-}" ]; then
