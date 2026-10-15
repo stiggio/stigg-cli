@@ -409,6 +409,14 @@ func init() {
 				},
 			},
 			{
+				Name:     "v2:usage",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v2UsageReport,
+				},
+			},
+			{
 				Name:            "@manpages",
 				Usage:           "Generate documentation for 'man'",
 				UsageText:       "stigg @manpages [-o stigg.1] [--gzip]",
