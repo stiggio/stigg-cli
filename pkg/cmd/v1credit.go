@@ -77,7 +77,7 @@ var v1CreditsGetUsage = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "group-by",
-			Usage:     "Comma-separated list of feature dimension keys to group usage series by (up to 3). Each key matches /^[a-zA-Z0-9_$-]+$/",
+			Usage:     "Comma-separated list of keys to group usage series by: up to 3 custom dimension keys, optionally combined with the reserved key `featureId` to also split each series by feature (e.g. `featureId,userId`). Each key matches /^[a-zA-Z0-9_$-]+$/",
 			QueryPath: "groupBy",
 		},
 		&requestflag.Flag[int64]{
