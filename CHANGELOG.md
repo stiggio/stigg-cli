@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.5](https://github.com/stiggio/stigg-cli/compare/v0.8.4...v0.8.5) (2026-10-15)
+
+
+### Bug Fixes
+
+* sync OpenAPI spec from stigg-api ([9d3f222](https://github.com/stiggio/stigg-cli/commit/9d3f2222aa381a3ed9382662a649f4ecd3f88e3c))
+* sync OpenAPI spec from stigg-api ([2da24c7](https://github.com/stiggio/stigg-cli/commit/2da24c7be12c8677452117f9051485008b100dfb))
+
 ## [0.8.4](https://github.com/stiggio/stigg-cli/compare/v0.8.3...v0.8.4) (2026-09-29)
 
 
