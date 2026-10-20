@@ -269,6 +269,31 @@ var v1CustomersCheckEntitlement = cli.Command{
 			Usage:     "Requested values to evaluate against allowed values (enum features only)",
 			QueryPath: "requestedValues",
 		},
+		&requestflag.Flag[any]{
+			Name:      "reservation-expires-at",
+			Usage:     "When the reservation expires (ISO 8601, at most 24 hours ahead). Mutually exclusive with `reservationTtlSeconds`.",
+			QueryPath: "reservationExpiresAt",
+		},
+		&requestflag.Flag[string]{
+			Name:      "reservation-id",
+			Usage:     "Client-provided reservation ID, required with `reserveAmount`. Retry with the same ID to get the same result; reuse with different parameters is a conflict.",
+			QueryPath: "reservationId",
+		},
+		&requestflag.Flag[string]{
+			Name:      "reservation-metadata",
+			Usage:     "JSON-encoded object of string values to attach to the reservation.",
+			QueryPath: "reservationMetadata",
+		},
+		&requestflag.Flag[int64]{
+			Name:      "reservation-ttl-seconds",
+			Usage:     "How long the reservation holds the credits, in seconds (1–86400, default 3600). Mutually exclusive with `reservationExpiresAt`.",
+			QueryPath: "reservationTtlSeconds",
+		},
+		&requestflag.Flag[float64]{
+			Name:      "reserve-amount",
+			Usage:     "Credits to reserve (credit entitlements only). The check is decided and the credits held atomically; `requestedUsage` is ignored.",
+			QueryPath: "reserveAmount",
+		},
 		&requestflag.Flag[string]{
 			Name:      "resource-id",
 			Usage:     "Resource ID to scope the entitlement check to a specific resource",
