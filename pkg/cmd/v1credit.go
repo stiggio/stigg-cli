@@ -152,6 +152,11 @@ var v1CreditsListLedger = cli.Command{
 			QueryPath: "limit",
 		},
 		&requestflag.Flag[string]{
+			Name:      "reservation-id",
+			Usage:     "Filter by credit reservation ID",
+			QueryPath: "reservationId",
+		},
+		&requestflag.Flag[string]{
 			Name:      "resource-id",
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",

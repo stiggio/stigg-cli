@@ -60,6 +60,7 @@ func TestV1CreditsListLedger(t *testing.T) {
 			"--currency-id", "currencyId",
 			"--event-type", "eventType",
 			"--limit", "1",
+			"--reservation-id", "x",
 			"--resource-id", "resourceId",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
