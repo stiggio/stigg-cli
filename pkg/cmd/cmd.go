@@ -268,6 +268,14 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:credits:reservations",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CreditsReservationsRelease,
+				},
+			},
+			{
 				Name:     "v1:features",
 				Category: "API RESOURCE",
 				Suggest:  true,
