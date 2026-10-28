@@ -408,6 +408,14 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1-beta:customers:governance",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1BetaCustomersGovernanceList,
+				},
+			},
+			{
 				Name:     "v1-beta:entity-types",
 				Category: "API RESOURCE",
 				Suggest:  true,
