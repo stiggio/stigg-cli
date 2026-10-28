@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.9](https://github.com/stiggio/stigg-cli/compare/v0.8.8...v0.8.9) (2026-10-28)
+
+
+### Bug Fixes
+
+* **stainless:** restore edge.api.stigg.io as the production server ([ac459b1](https://github.com/stiggio/stigg-cli/commit/ac459b12f85f1c80102e77f5207722bf13bb0d01))
+
 ## [0.8.8](https://github.com/stiggio/stigg-cli/compare/v0.8.7...v0.8.8) (2026-10-28)
 
 
