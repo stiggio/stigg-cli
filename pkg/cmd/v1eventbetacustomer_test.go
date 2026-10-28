@@ -17,6 +17,7 @@ func TestV1EventsBetaCustomersRetrieveGovernance(t *testing.T) {
 			"v1:events:beta:customers", "retrieve-governance",
 			"--id", "id",
 			"--after", "after",
+			"--before", "before",
 			"--currency-id", "string",
 			"--entity-id-search", "x",
 			"--entity-type-id", "string",

@@ -26,12 +26,17 @@ var v1EventsBetaCustomersRetrieveGovernance = cli.Command{
 		},
 		&requestflag.Flag[string]{
 			Name:      "after",
-			Usage:     "Return items that come after this cursor",
+			Usage:     "Opaque cursor from a page’s `next`; returns the page after it. Mutually exclusive with `before`.",
 			QueryPath: "after",
+		},
+		&requestflag.Flag[string]{
+			Name:      "before",
+			Usage:     "Opaque cursor from a page’s `prev`; returns the page before it. Mutually exclusive with `after`.",
+			QueryPath: "before",
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "currency-id",
-			Usage:     "Currency ids to include, repeated per value (e.g. `?currencyIds=credits`). Omit both featureIds and currencyIds for tree mode.",
+			Usage:     "Currency ids to include, comma-separated (e.g. `?currencyIds=credits`), up to 100. Omit both featureIds and currencyIds for tree mode.",
 			QueryPath: "currencyIds",
 		},
 		&requestflag.Flag[string]{
@@ -41,12 +46,12 @@ var v1EventsBetaCustomersRetrieveGovernance = cli.Command{
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "entity-type-id",
-			Usage:     "Filter to one or more entity types, repeated per value (e.g. `?entityTypeIds=team&entityTypeIds=user`).",
+			Usage:     "Filter to one or more entity types, comma-separated (e.g. `?entityTypeIds=team,user`), up to 100.",
 			QueryPath: "entityTypeIds",
 		},
 		&requestflag.Flag[[]string]{
 			Name:      "feature-id",
-			Usage:     "Feature ids to include, repeated per value (e.g. `?featureIds=ai-tokens&featureIds=seats`). Omit both featureIds and currencyIds for tree mode — every node in the hierarchy with no usage configuration attached.",
+			Usage:     "Feature ids to include, comma-separated (e.g. `?featureIds=ai-tokens,seats`), up to 100. Omit both featureIds and currencyIds for tree mode — every node in the hierarchy with no usage configuration attached.",
 			QueryPath: "featureIds",
 		},
 		&requestflag.Flag[int64]{
