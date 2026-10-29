@@ -16,7 +16,7 @@ import (
 
 var v1BetaEntityTypesList = cli.Command{
 	Name:    "list",
-	Usage:   "Returns a cursor-paginated list of entity types defined in the environment.\nEntity types are vendor-defined categories of resource that can be governed\n(e.g. Org, Team, User).",
+	Usage:   "Returns a cursor-paginated list of entity types defined in the environment.\nEntity types are vendor-defined categories of resource that can be governed\n(e.g. Org, Team, User). Archived entity types are excluded unless\nincludeArchived=true.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -28,6 +28,11 @@ var v1BetaEntityTypesList = cli.Command{
 			Name:      "before",
 			Usage:     "Return items that come before this cursor",
 			QueryPath: "before",
+		},
+		&requestflag.Flag[string]{
+			Name:      "include-archived",
+			Usage:     "Whether to include archived entity types. One of: true, false",
+			QueryPath: "includeArchived",
 		},
 		&requestflag.Flag[int64]{
 			Name:      "limit",
@@ -54,7 +59,7 @@ var v1BetaEntityTypesList = cli.Command{
 
 var v1BetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
-	Usage:   "Batched create-or-update of entity types. Existing types matched by id are\nupdated; new ids are created. Idempotent — re-submitting the same payload\nconverges to the same state.",
+	Usage:   "Batched create-or-update of entity types. Existing types matched by id are\nupdated; new ids are created. Idempotent — re-submitting the same payload\nconverges to the same state. An upsert of an archived entity type restores it.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]map[string]any]{

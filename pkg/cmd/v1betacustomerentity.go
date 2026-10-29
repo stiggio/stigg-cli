@@ -126,7 +126,7 @@ var v1BetaCustomersEntitiesArchive = cli.Command{
 
 var v1BetaCustomersEntitiesUnarchive = cli.Command{
 	Name:    "unarchive",
-	Usage:   "Restores previously archived entities in bulk for the given customer by id.",
+	Usage:   "Deprecated: upsert an entity to restore it. Restores previously archived\nentities in bulk for the given customer by id.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -155,7 +155,7 @@ var v1BetaCustomersEntitiesUnarchive = cli.Command{
 
 var v1BetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
-	Usage:   "Creates or updates entities in bulk for the given customer. Existing entities\nmatched by id are updated; new ids are created.",
+	Usage:   "Creates or updates entities in bulk for the given customer. Existing entities\nmatched by id are updated; new ids are created. An upsert of an archived entity\nrestores it. An entity on an archived entity type fails with 400.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
