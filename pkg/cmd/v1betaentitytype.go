@@ -16,7 +16,7 @@ import (
 
 var v1BetaEntityTypesList = cli.Command{
 	Name:    "list",
-	Usage:   "Returns a cursor-paginated list of entity types defined in the environment.\nEntity types are vendor-defined categories of resource that can be governed\n(e.g. Org, Team, User). Archived entity types are excluded unless\nincludeArchived=true.",
+	Usage:   "Returns a cursor-paginated list of entity types defined in the environment.\nEntity types are vendor-defined categories of resource that can be governed\n(e.g. Org, Team, User). Archived entity types are excluded unless\nincludeArchived=true. Deprecated: use `GET /api/v1/entity-types`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -59,7 +59,7 @@ var v1BetaEntityTypesList = cli.Command{
 
 var v1BetaEntityTypesUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
-	Usage:   "Batched create-or-update of entity types. Existing types matched by id are\nupdated; new ids are created. Idempotent — re-submitting the same payload\nconverges to the same state. An upsert of an archived entity type restores it.",
+	Usage:   "Batched create-or-update of entity types. Existing types matched by id are\nupdated; new ids are created. Idempotent — re-submitting the same payload\nconverges to the same state. An upsert of an archived entity type restores it.\nDeprecated: use `PUT /api/v1/entity-types`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[[]map[string]any]{

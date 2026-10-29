@@ -16,7 +16,7 @@ import (
 
 var v1BetaCustomersEntitiesRetrieve = cli.Command{
 	Name:    "retrieve",
-	Usage:   "Retrieves a single entity for the given customer by its identifier.",
+	Usage:   "Retrieves a single entity for the given customer by its identifier. Deprecated:\nuse `GET /api/v1/customers/{id}/entities/{entityId}`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -44,7 +44,7 @@ var v1BetaCustomersEntitiesRetrieve = cli.Command{
 
 var v1BetaCustomersEntitiesList = cli.Command{
 	Name:    "list",
-	Usage:   "Retrieves a paginated list of entities for the given customer.",
+	Usage:   "Retrieves a paginated list of entities for the given customer. Deprecated: use\n`GET /api/v1/customers/{id}/entities`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -97,7 +97,7 @@ var v1BetaCustomersEntitiesList = cli.Command{
 
 var v1BetaCustomersEntitiesArchive = cli.Command{
 	Name:    "archive",
-	Usage:   "Archives entities in bulk for the given customer by id.",
+	Usage:   "Archives entities in bulk for the given customer by id. Upsert an archived\nentity to restore it. Deprecated: use\n`POST /api/v1/customers/{id}/entities/archive`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -126,7 +126,7 @@ var v1BetaCustomersEntitiesArchive = cli.Command{
 
 var v1BetaCustomersEntitiesUnarchive = cli.Command{
 	Name:    "unarchive",
-	Usage:   "Deprecated: upsert an entity to restore it. Restores previously archived\nentities in bulk for the given customer by id.",
+	Usage:   "Deprecated: use `PUT /api/v1/customers/{id}/entities` with the entity id to\nrestore it. Restores previously archived entities in bulk for the given customer\nby id.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -155,7 +155,7 @@ var v1BetaCustomersEntitiesUnarchive = cli.Command{
 
 var v1BetaCustomersEntitiesUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
-	Usage:   "Creates or updates entities in bulk for the given customer. Existing entities\nmatched by id are updated; new ids are created. An upsert of an archived entity\nrestores it. An entity on an archived entity type fails with 400.",
+	Usage:   "Creates or updates entities in bulk for the given customer. Existing entities\nmatched by id are updated; new ids are created. An upsert of an archived entity\nrestores it. An entity on an archived entity type fails with 400. Deprecated:\nuse `PUT /api/v1/customers/{id}/entities`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{

@@ -16,7 +16,7 @@ import (
 
 var v1BetaCustomersAssignmentsList = cli.Command{
 	Name:    "list",
-	Usage:   "Returns a cursor-paginated list of capability assignments for the given\ncustomer. An assignment ties an entity to a capability with a usage limit and\nreset cadence.",
+	Usage:   "Returns a cursor-paginated list of capability assignments for the given\ncustomer. An assignment ties an entity to a capability with a usage limit and\nreset cadence. Deprecated: use\n`GET /api/v1/customers/{id}/entities/entitlements`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -74,7 +74,7 @@ var v1BetaCustomersAssignmentsList = cli.Command{
 
 var v1BetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
 	Name:    "upsert",
-	Usage:   "Batched create-or-update of capability assignments. Existing assignments matched\nby (entityId, capabilityId) are updated; new pairs are created. On update,\nomitted fields (usageLimit, cadence) are preserved; on create both are required\nby the governance service.",
+	Usage:   "Batched create-or-update of capability assignments. Existing assignments matched\nby (entityId, capabilityId) are updated; new pairs are created. On update,\nomitted fields (usageLimit, cadence) are preserved; on create both are required\nby the governance service. Deprecated: use\n`PUT /api/v1/customers/{id}/entities/entitlements` with the body key\n`entityEntitlements`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
