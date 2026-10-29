@@ -128,6 +128,7 @@ var v1BetaCustomersAssignmentsUpsert = requestflag.WithInnerFlags(cli.Command{
 		},
 		&requestflag.InnerFlag[[]string]{
 			Name:       "assignment.scope-entity-ids",
+			Usage:      "Dimension-scoped sub-budget: the set of entity IDs this budget applies to (order-insensitive, unique, at most 5). Omit or leave empty for the node-wide budget.",
 			InnerField: "scopeEntityIds",
 		},
 		&requestflag.InnerFlag[*float64]{
