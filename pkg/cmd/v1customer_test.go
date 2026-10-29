@@ -40,6 +40,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--name", "name",
 			"--passthrough", "{stripe: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}, zuora: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}}",
+			"--salesforce-id", "salesforceId",
 			"--timezone", "timezone",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
@@ -68,6 +69,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"--name", "name",
 			"--passthrough.stripe", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}",
 			"--passthrough.zuora", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}",
+			"--salesforce-id", "salesforceId",
 			"--timezone", "timezone",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
@@ -126,6 +128,7 @@ func TestV1CustomersUpdate(t *testing.T) {
 			"    metadata:\n" +
 			"      foo: string\n" +
 			"    paymentMethodId: paymentMethodId\n" +
+			"salesforceId: salesforceId\n" +
 			"timezone: timezone\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,
@@ -355,6 +358,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--metadata", "{foo: string}",
 			"--name", "name",
 			"--passthrough", "{stripe: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}, zuora: {billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}}",
+			"--salesforce-id", "salesforceId",
 			"--timezone", "timezone",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
@@ -388,6 +392,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			"--name", "name",
 			"--passthrough.stripe", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, customerName: customerName, invoiceCustomFields: {foo: string}, metadata: {foo: string}, paymentMethodId: paymentMethodId, shippingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, taxIds: [{type: type, value: value}]}",
 			"--passthrough.zuora", "{billingAddress: {city: city, country: country, line1: line1, line2: line2, postalCode: postalCode, state: state}, currency: usd, metadata: {foo: string}, paymentMethodId: paymentMethodId}",
+			"--salesforce-id", "salesforceId",
 			"--timezone", "timezone",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
@@ -453,6 +458,7 @@ func TestV1CustomersProvision(t *testing.T) {
 			"    metadata:\n" +
 			"      foo: string\n" +
 			"    paymentMethodId: paymentMethodId\n" +
+			"salesforceId: salesforceId\n" +
 			"timezone: timezone\n")
 		mocktest.TestRunMockTestWithPipeAndFlags(
 			t, pipeData,

@@ -93,6 +93,11 @@ var v1CustomersUpdate = requestflag.WithInnerFlags(cli.Command{
 			BodyPath: "passthrough",
 		},
 		&requestflag.Flag[*string]{
+			Name:     "salesforce-id",
+			Usage:    "The unique identifier for the customer in Salesforce integration",
+			BodyPath: "salesforceId",
+		},
+		&requestflag.Flag[*string]{
 			Name:     "timezone",
 			Usage:    "Timezone to use for this customer",
 			BodyPath: "timezone",
@@ -583,6 +588,11 @@ var v1CustomersProvision = requestflag.WithInnerFlags(cli.Command{
 			Name:     "passthrough",
 			Usage:    "Vendor-specific billing passthrough fields.",
 			BodyPath: "passthrough",
+		},
+		&requestflag.Flag[*string]{
+			Name:     "salesforce-id",
+			Usage:    "The unique identifier for the customer in Salesforce integration",
+			BodyPath: "salesforceId",
 		},
 		&requestflag.Flag[*string]{
 			Name:     "timezone",
