@@ -246,7 +246,7 @@ var v1CustomersArchive = cli.Command{
 
 var v1CustomersCheckEntitlement = cli.Command{
 	Name:    "check-entitlement",
-	Usage:   "Checks a single entitlement (feature or credit) for a customer or resource.\nSupports `requestedUsage` and `requestedValues` to evaluate against limits or\nenum values. Each call reaches the Stigg API directly, so latency reflects a\nnetwork round trip. For entitlement checks on a hot path (e.g. gating a request\nin real time), the Stigg Node Server SDK (with its built-in cache) or the\nSidecar will typically respond faster and keep working through brief Stigg\noutages; reach for this endpoint when a live HTTP call is the natural fit, such\nas from a non-Node backend or a server-side job.",
+	Usage:   "Checks a single entitlement (feature or credit) for a customer or resource.\nSupports `requestedUsage` and `requestedValues` to evaluate against limits or\nenum values. Pass `dimensions` to also check the governance budgets of the\nentities the usage is attributed to; the response then includes `chains`. Each\ncall reaches the Stigg API directly, so latency reflects a network round trip.\nFor entitlement checks on a hot path (e.g. gating a request in real time), the\nStigg Node Server SDK (with its built-in cache) or the Sidecar will typically\nrespond faster and keep working through brief Stigg outages; reach for this\nendpoint when a live HTTP call is the natural fit, such as from a non-Node\nbackend or a server-side job.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -258,6 +258,11 @@ var v1CustomersCheckEntitlement = cli.Command{
 			Name:      "currency-id",
 			Usage:     "Currency ID (refId) to check for credit entitlements. Mutually exclusive with `featureId`.",
 			QueryPath: "currencyId",
+		},
+		&requestflag.Flag[map[string]any]{
+			Name:      "dimensions",
+			Usage:     "Attribution map of the entities the usage is attributed to (e.g. `dimensions[userId]=u1`). When provided, their governance budgets are checked too and the response includes `chains`.",
+			QueryPath: "dimensions",
 		},
 		&requestflag.Flag[string]{
 			Name:      "feature-id",
@@ -296,7 +301,7 @@ var v1CustomersCheckEntitlement = cli.Command{
 		},
 		&requestflag.Flag[float64]{
 			Name:      "reserve-amount",
-			Usage:     "Credits to reserve (credit entitlements only). The check is decided and the credits held atomically; `requestedUsage` is ignored.",
+			Usage:     "Credits to reserve (credit entitlements only). The check is decided and the credits held atomically; `requestedUsage` is ignored. Not supported with `dimensions`.",
 			QueryPath: "reserveAmount",
 		},
 		&requestflag.Flag[string]{

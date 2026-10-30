@@ -208,6 +208,7 @@ func TestV1CustomersCheckEntitlement(t *testing.T) {
 			"v1:customers", "check-entitlement",
 			"--id", "x",
 			"--currency-id", "x",
+			"--dimensions", "{foo: string}",
 			"--feature-id", "x",
 			"--requested-usage", "0",
 			"--requested-value", "string",

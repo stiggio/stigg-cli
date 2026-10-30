@@ -16,7 +16,7 @@ import (
 
 var v1BetaCustomersEntitlementsCheck = cli.Command{
 	Name:    "check",
-	Usage:   "Experimental — request and response shapes may change without notice. Same\nsemantics as `Check entitlement`, plus an optional `dimensions` query param that\nresolves to per-entity governance limits surfaced as `chains` on the response.",
+	Usage:   "Experimental — request and response shapes may change without notice. Same\nsemantics as `Check entitlement`, plus an optional `dimensions` query param that\nresolves to per-entity governance limits surfaced as `chains` on the response.\nDeprecated: use `GET /api/v1/customers/{id}/entitlements/check`.",
 	Suggest: true,
 	Flags: []cli.Flag{
 		&requestflag.Flag[string]{
@@ -31,7 +31,7 @@ var v1BetaCustomersEntitlementsCheck = cli.Command{
 		},
 		&requestflag.Flag[map[string]any]{
 			Name:      "dimensions",
-			Usage:     "Optional attribution map (e.g. `dimensions[userId]=u1`). When provided, the response includes a `chains` array with per-entity governance limits.",
+			Usage:     "Attribution map of the entities the usage is attributed to (e.g. `dimensions[userId]=u1`). When provided, their governance budgets are checked too and the response includes `chains`.",
 			QueryPath: "dimensions",
 		},
 		&requestflag.Flag[string]{
