@@ -135,6 +135,26 @@ func init() {
 				},
 			},
 			{
+				Name:     "v1:customers:entities",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CustomersEntitiesRetrieve,
+					&v1CustomersEntitiesList,
+					&v1CustomersEntitiesArchive,
+					&v1CustomersEntitiesUpsert,
+				},
+			},
+			{
+				Name:     "v1:customers:entities:entitlements",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1CustomersEntitiesEntitlementsList,
+					&v1CustomersEntitiesEntitlementsUpsert,
+				},
+			},
+			{
 				Name:     "v1:subscriptions",
 				Category: "API RESOURCE",
 				Suggest:  true,
@@ -376,6 +396,17 @@ func init() {
 					&v1ContractsUpdate,
 					&v1ContractsList,
 					&v1ContractsDelete,
+				},
+			},
+			{
+				Name:     "v1:entity-types",
+				Category: "API RESOURCE",
+				Suggest:  true,
+				Commands: []*cli.Command{
+					&v1EntityTypesList,
+					&v1EntityTypesArchive,
+					&v1EntityTypesCheckActiveEntities,
+					&v1EntityTypesUpsert,
 				},
 			},
 			{

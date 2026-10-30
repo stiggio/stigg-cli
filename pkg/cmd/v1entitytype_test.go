@@ -1,0 +1,132 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+package cmd
+
+import (
+	"testing"
+
+	"github.com/stiggio/stigg-cli/internal/mocktest"
+	"github.com/stiggio/stigg-cli/internal/requestflag"
+)
+
+func TestV1EntityTypesList(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:entity-types", "list",
+			"--max-items", "10",
+			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--include-archived", "true",
+			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1EntityTypesArchive(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:entity-types", "archive",
+			"--id", "team",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"ids:\n" +
+			"  - team\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:entity-types", "archive",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1EntityTypesCheckActiveEntities(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:entity-types", "check-active-entities",
+			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1EntityTypesUpsert(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:entity-types", "upsert",
+			"--type", "{id: org, attributionKeys: [organizationId], displayName: Organization, description: 'A customer organization — the top of the hierarchy, holding the account-wide budget.'}",
+			"--type", "{id: team, attributionKeys: [teamId], displayName: Team, description: description}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("inner flags", func(t *testing.T) {
+		// Check that inner flags have been set up correctly
+		requestflag.CheckInnerFlags(v1EntityTypesUpsert)
+
+		// Alternative argument passing style using inner flags
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:entity-types", "upsert",
+			"--type.id", "org",
+			"--type.attribution-keys", "[organizationId]",
+			"--type.display-name", "Organization",
+			"--type.description", "A customer organization — the top of the hierarchy, holding the account-wide budget.",
+			"--type.id", "team",
+			"--type.attribution-keys", "[teamId]",
+			"--type.display-name", "Team",
+			"--type.description", "description",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"types:\n" +
+			"  - id: org\n" +
+			"    attributionKeys:\n" +
+			"      - organizationId\n" +
+			"    displayName: Organization\n" +
+			"    description: >-\n" +
+			"      A customer organization — the top of the hierarchy, holding the\n" +
+			"      account-wide budget.\n" +
+			"  - id: team\n" +
+			"    attributionKeys:\n" +
+			"      - teamId\n" +
+			"    displayName: Team\n" +
+			"    description: description\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:entity-types", "upsert",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}

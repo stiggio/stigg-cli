@@ -1,0 +1,141 @@
+// File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+package cmd
+
+import (
+	"testing"
+
+	"github.com/stiggio/stigg-cli/internal/mocktest"
+	"github.com/stiggio/stigg-cli/internal/requestflag"
+)
+
+func TestV1CustomersEntitiesRetrieve(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers:entities", "retrieve",
+			"--id", "id",
+			"--entity-id", "x",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1CustomersEntitiesList(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers:entities", "list",
+			"--max-items", "10",
+			"--id", "id",
+			"--after", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--before", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+			"--entity-type-id", "entityTypeId",
+			"--include-archived", "true",
+			"--limit", "1",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1CustomersEntitiesArchive(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers:entities", "archive",
+			"--id", "id",
+			"--id", "user-7f3a0c1d",
+			"--id", "user-c4d1b2e9",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"ids:\n" +
+			"  - user-7f3a0c1d\n" +
+			"  - user-c4d1b2e9\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:customers:entities", "archive",
+			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
+
+func TestV1CustomersEntitiesUpsert(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	t.Run("regular flags", func(t *testing.T) {
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers:entities", "upsert",
+			"--id", "id",
+			"--entity", "{id: user-7f3a0c1d, displayName: Jane Doe, entityTypeId: user, metadata: {email: jane@acme.com, role: admin}}",
+			"--entity", "{id: user-c4d1b2e9, displayName: John Roe, entityTypeId: user, metadata: {email: john@acme.com}}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("inner flags", func(t *testing.T) {
+		// Check that inner flags have been set up correctly
+		requestflag.CheckInnerFlags(v1CustomersEntitiesUpsert)
+
+		// Alternative argument passing style using inner flags
+		mocktest.TestRunMockTestWithFlags(
+			t,
+			"--api-key", "string",
+			"v1:customers:entities", "upsert",
+			"--id", "id",
+			"--entity.id", "user-7f3a0c1d",
+			"--entity.display-name", "Jane Doe",
+			"--entity.entity-type-id", "user",
+			"--entity.metadata", "{email: jane@acme.com, role: admin}",
+			"--entity.id", "user-c4d1b2e9",
+			"--entity.display-name", "John Roe",
+			"--entity.entity-type-id", "user",
+			"--entity.metadata", "{email: john@acme.com}",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+
+	t.Run("piping data", func(t *testing.T) {
+		// Test piping YAML data over stdin
+		pipeData := []byte("" +
+			"entities:\n" +
+			"  - id: user-7f3a0c1d\n" +
+			"    displayName: Jane Doe\n" +
+			"    entityTypeId: user\n" +
+			"    metadata:\n" +
+			"      email: jane@acme.com\n" +
+			"      role: admin\n" +
+			"  - id: user-c4d1b2e9\n" +
+			"    displayName: John Roe\n" +
+			"    entityTypeId: user\n" +
+			"    metadata:\n" +
+			"      email: john@acme.com\n")
+		mocktest.TestRunMockTestWithPipeAndFlags(
+			t, pipeData,
+			"--api-key", "string",
+			"v1:customers:entities", "upsert",
+			"--id", "id",
+			"--x-account-id", "X-ACCOUNT-ID",
+			"--x-environment-id", "X-ENVIRONMENT-ID",
+		)
+	})
+}
