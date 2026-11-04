@@ -58,10 +58,12 @@ func TestV1CreditsListLedger(t *testing.T) {
 			"--after", "after",
 			"--before", "before",
 			"--currency-id", "currencyId",
+			"--end-date", "'2019-12-27T18:11:19.117Z'",
 			"--event-type", "eventType",
 			"--limit", "1",
 			"--reservation-id", "x",
 			"--resource-id", "resourceId",
+			"--start-date", "'2019-12-27T18:11:19.117Z'",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)

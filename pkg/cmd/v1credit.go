@@ -140,6 +140,11 @@ var v1CreditsListLedger = cli.Command{
 			Usage:     "Filter by currency ID",
 			QueryPath: "currencyId",
 		},
+		&requestflag.Flag[any]{
+			Name:      "end-date",
+			Usage:     "Filter to events with a timestamp on or before this date, inclusive (ISO 8601)",
+			QueryPath: "endDate",
+		},
 		&requestflag.Flag[string]{
 			Name:      "event-type",
 			Usage:     "Filter by event type(s), comma-separated",
@@ -160,6 +165,11 @@ var v1CreditsListLedger = cli.Command{
 			Name:      "resource-id",
 			Usage:     "Filter by resource ID",
 			QueryPath: "resourceId",
+		},
+		&requestflag.Flag[any]{
+			Name:      "start-date",
+			Usage:     "Filter to events with a timestamp on or after this date, inclusive (ISO 8601)",
+			QueryPath: "startDate",
 		},
 		&requestflag.Flag[string]{
 			Name:       "x-account-id",
