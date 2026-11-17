@@ -16,7 +16,7 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:credits:grants", "create",
-			"--amount", "0",
+			"--amount", "9007199254",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
 			"--display-name", "displayName",
@@ -45,7 +45,7 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 			t,
 			"--api-key", "string",
 			"v1:credits:grants", "create",
-			"--amount", "0",
+			"--amount", "9007199254",
 			"--currency-id", "currencyId",
 			"--customer-id", "customerId",
 			"--display-name", "displayName",
@@ -71,7 +71,7 @@ func TestV1CreditsGrantsCreate(t *testing.T) {
 	t.Run("piping data", func(t *testing.T) {
 		// Test piping YAML data over stdin
 		pipeData := []byte("" +
-			"amount: 0\n" +
+			"amount: 9007199254\n" +
 			"currencyId: currencyId\n" +
 			"customerId: customerId\n" +
 			"displayName: displayName\n" +
