@@ -121,6 +121,11 @@ var v1CustomersEntitiesEntitlementsUpsert = requestflag.WithInnerFlags(cli.Comma
 			Usage:      "Feature ID this entity entitlement grants. Mutually exclusive with `currencyId`.",
 			InnerField: "featureId",
 		},
+		&requestflag.InnerFlag[bool]{
+			Name:       "entity-entitlement.has-soft-limit",
+			Usage:      "Allow usage past `usageLimit` and keep counting it, instead of blocking. Defaults to `false` on create; omit on update to keep the current value.",
+			InnerField: "hasSoftLimit",
+		},
 		&requestflag.InnerFlag[*string]{
 			Name:       "entity-entitlement.parent-id",
 			Usage:      "Parent entity ID in the hierarchy. Omit to leave the current parent untouched (a new node defaults to a root); `null` detaches to a root; an ID sets or changes the parent. Reparenting or detaching an existing node is leaf-only; place a parent before its children, or in the same batch.",

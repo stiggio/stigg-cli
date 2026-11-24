@@ -38,8 +38,8 @@ func TestV1CustomersEntitiesEntitlementsUpsert(t *testing.T) {
 			"--api-key", "string",
 			"v1:customers:entities:entitlements", "upsert",
 			"--id", "id",
-			"--entity-entitlement", "{entityId: workspace-001, cadence: P1M, currencyId: currencyId, featureId: compute-minutes, parentId: parentId, scopeEntityIds: [NxI], usageLimit: 1000}",
-			"--entity-entitlement", "{entityId: workspace-002, cadence: P1M, currencyId: cred-type-tokens, featureId: featureId, parentId: workspace-001, scopeEntityIds: [user-1], usageLimit: 2000}",
+			"--entity-entitlement", "{entityId: workspace-001, cadence: P1M, currencyId: currencyId, featureId: compute-minutes, hasSoftLimit: true, parentId: parentId, scopeEntityIds: [NxI], usageLimit: 1000}",
+			"--entity-entitlement", "{entityId: workspace-002, cadence: P1M, currencyId: cred-type-tokens, featureId: featureId, hasSoftLimit: true, parentId: workspace-001, scopeEntityIds: [user-1], usageLimit: 2000}",
 			"--x-account-id", "X-ACCOUNT-ID",
 			"--x-environment-id", "X-ENVIRONMENT-ID",
 		)
@@ -59,6 +59,7 @@ func TestV1CustomersEntitiesEntitlementsUpsert(t *testing.T) {
 			"--entity-entitlement.cadence", "P1M",
 			"--entity-entitlement.currency-id", "currencyId",
 			"--entity-entitlement.feature-id", "compute-minutes",
+			"--entity-entitlement.has-soft-limit=true",
 			"--entity-entitlement.parent-id", "parentId",
 			"--entity-entitlement.scope-entity-ids", "[NxI]",
 			"--entity-entitlement.usage-limit", "1000",
@@ -66,6 +67,7 @@ func TestV1CustomersEntitiesEntitlementsUpsert(t *testing.T) {
 			"--entity-entitlement.cadence", "P1M",
 			"--entity-entitlement.currency-id", "cred-type-tokens",
 			"--entity-entitlement.feature-id", "featureId",
+			"--entity-entitlement.has-soft-limit=true",
 			"--entity-entitlement.parent-id", "workspace-001",
 			"--entity-entitlement.scope-entity-ids", "[user-1]",
 			"--entity-entitlement.usage-limit", "2000",
@@ -82,6 +84,7 @@ func TestV1CustomersEntitiesEntitlementsUpsert(t *testing.T) {
 			"    cadence: P1M\n" +
 			"    currencyId: currencyId\n" +
 			"    featureId: compute-minutes\n" +
+			"    hasSoftLimit: true\n" +
 			"    parentId: parentId\n" +
 			"    scopeEntityIds:\n" +
 			"      - NxI\n" +
@@ -90,6 +93,7 @@ func TestV1CustomersEntitiesEntitlementsUpsert(t *testing.T) {
 			"    cadence: P1M\n" +
 			"    currencyId: cred-type-tokens\n" +
 			"    featureId: featureId\n" +
+			"    hasSoftLimit: true\n" +
 			"    parentId: workspace-001\n" +
 			"    scopeEntityIds:\n" +
 			"      - user-1\n" +
