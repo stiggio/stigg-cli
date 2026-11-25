@@ -210,7 +210,7 @@ func TestV1CustomersCheckEntitlement(t *testing.T) {
 			"--currency-id", "x",
 			"--dimensions", "{foo: string}",
 			"--feature-id", "x",
-			"--requested-usage", "0",
+			"--requested-usage", "-9007199254740991",
 			"--requested-value", "string",
 			"--reservation-expires-at", "'2019-12-27T18:11:19.117Z'",
 			"--reservation-id", "x",

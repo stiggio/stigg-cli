@@ -39,9 +39,9 @@ var v1BetaCustomersEntitlementsCheck = cli.Command{
 			Usage:     "Feature ID (refId) to check. Mutually exclusive with `currencyId`.",
 			QueryPath: "featureId",
 		},
-		&requestflag.Flag[int64]{
+		&requestflag.Flag[float64]{
 			Name:      "requested-usage",
-			Usage:     "Requested usage amount to evaluate against the entitlement limit (numeric features only)",
+			Usage:     "Requested usage amount to evaluate against the entitlement limit (numeric features only); negative for usage given back",
 			QueryPath: "requestedUsage",
 		},
 		&requestflag.Flag[[]string]{

@@ -19,7 +19,7 @@ func TestV1BetaCustomersEntitlementsCheck(t *testing.T) {
 			"--currency-id", "x",
 			"--dimensions", "{foo: string}",
 			"--feature-id", "x",
-			"--requested-usage", "0",
+			"--requested-usage", "-9007199254740991",
 			"--requested-value", "string",
 			"--resource-id", "x",
 			"--x-account-id", "X-ACCOUNT-ID",
